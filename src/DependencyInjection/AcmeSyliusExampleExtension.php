@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\SyliusExamplePlugin\DependencyInjection;
+namespace BitBag\SyliusErgonodePlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
@@ -35,7 +35,7 @@ final class AcmeSyliusExampleExtension extends AbstractResourceExtension impleme
 
     protected function getMigrationsDirectory(): string
     {
-        return '@AcmeSyliusExamplePlugin/src/Migrations';
+        return '@BitBagSyliusErgonodePlugin/src/Migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array

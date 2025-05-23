@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Behat;
+namespace BitBag\SyliusErgonodePlugin\Tests\Behat;
 
 use Behat\Behat\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
