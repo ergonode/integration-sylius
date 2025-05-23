@@ -38,6 +38,7 @@ final class BitBagSyliusErgonodePlugin extends AbstractResourceExtension impleme
         return '@BitBagSyliusErgonodePlugin/src/Migrations';
     }
 
+    /**@return array<string> */
     protected function getNamespacesOfMigrationsExecutedBefore(): array
     {
         return [
