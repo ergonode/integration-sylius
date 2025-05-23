@@ -5,12 +5,5 @@
         <defaults public="true" />
         <!-- Put your Behat services here -->
 
-        <service id="tests.bit_bag.sylius_ergonode_plugin.behat.context.ui.shop.welcome_context" class="Tests\BitBag\SyliusErgonodePlugin\Behat\Context\Ui\Shop\WelcomeContext">
-            <argument type="service" id="tests.bit_bag.sylius_ergonode_plugin.behat.page.shop.static_welcome_page" />
-            <argument type="service" id="tests.bit_bag.sylius_ergonode_plugin.behat.page.shop.dynamic_welcome_page" />
-        </service>
-
-        <service id="tests.bit_bag.sylius_ergonode_plugin.behat.page.shop.static_welcome_page" class="Tests\BitBag\SyliusErgonodePlugin\Behat\Page\Shop\StaticWelcomePage" parent="sylius.behat.symfony_page" public="false" />
-        <service id="tests.bit_bag.sylius_ergonode_plugin.behat.page.shop.dynamic_welcome_page" class="Tests\BitBag\SyliusErgonodePlugin\Behat\Page\Shop\DynamicWelcomePage" parent="sylius.behat.symfony_page" public="false" />
     </services>
 </container>

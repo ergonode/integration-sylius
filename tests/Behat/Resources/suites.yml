@@ -2,9 +2,6 @@
 
 default:
     suites:
-        greeting_customer:
-            contexts:
-                - tests.bit_bag.sylius_ergonode_plugin.behat.context.ui.shop.welcome_context
 
             filters:
                 tags: "@greeting_customer"
