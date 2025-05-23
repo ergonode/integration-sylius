@@ -54,6 +54,7 @@ default:
             bootstrap: tests/Application/config/bootstrap.php
             kernel:
                 class: Tests\BitBag\SyliusErgonodePlugin\Application\Kernel
+                environment: test
 
         FriendsOfBehat\VariadicExtension: ~
 
