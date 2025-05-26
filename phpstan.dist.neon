@@ -1,6 +1,9 @@
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
+    includes:
+        - vendor/bitbag/coding-standard/phpstan.neon
+
     paths:
         - bin/
         - config/
