@@ -1,1 +1,8 @@
-# Define your own admin routes here
+bitbag_ergonode_integration:
+    resource: |
+        alias: bitbag_ergonode.integration
+        section: admin
+        templates: "@SyliusAdmin\\shared\\crud"
+        redirect: index
+        grid: bitbag_ergonode_admin_integration
+    type: sylius.resource

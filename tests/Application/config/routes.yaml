@@ -1,9 +1,9 @@
-acme_sylius_example_shop:
+bitbag_ergonode_shop:
     resource: "@BitBagSyliusErgonodePlugin/config/shop_routing.yaml"
     prefix: /{_locale}
     requirements:
         _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
 
-acme_sylius_example_admin:
+bitbag_ergonode_admin:
     resource: "@BitBagSyliusErgonodePlugin/config/admin_routing.yaml"
     prefix: /admin

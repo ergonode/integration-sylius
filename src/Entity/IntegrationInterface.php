@@ -13,15 +13,15 @@ namespace BitBag\SyliusErgonodePlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface ConfigurationInterface extends ResourceInterface
+interface IntegrationInterface extends ResourceInterface
 {
     public function getId(): ?int;
 
     public function setId(?int $id): void;
 
-    public function getName(): string;
+    public function getName(): ?string;
 
-    public function setName(string $name): void;
+    public function setName(?string $name): void;
 
     public function getApiKey(): ?string;
 

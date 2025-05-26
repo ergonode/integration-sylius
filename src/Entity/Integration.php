@@ -15,31 +15,31 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'bitbag_sylius_ergonode_plugin_configuration')]
-class Configuration implements ConfigurationInterface
+#[ORM\Table(name: 'bitbag_ergonode_integration')]
+class Integration implements IntegrationInterface
 {
     use ToggleableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    protected string $name;
+    protected ?string $name = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $apiKey;
+    protected ?string $apiKey = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $apiUrl;
+    protected ?string $apiUrl = null;
 
     /** @var bool $enabled */
     #[ORM\Column(type: 'boolean', nullable: false)]
     protected $enabled = true;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $categoryTreeCode;
+    protected ?string $categoryTreeCode = null;
 
     public function getId(): ?int
     {
@@ -51,12 +51,12 @@ class Configuration implements ConfigurationInterface
         $this->id = $id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
