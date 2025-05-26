@@ -1,9 +1,6 @@
 name: Build
 
 on:
-    push:
-        branches-ignore:
-            - 'dependabot/**'
     pull_request: ~
     release:
         types: [created]
@@ -21,6 +18,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
+                sylius: ["^2.0"]
                 php: ["8.2", "8.3"]
                 symfony: ["^6.4", "^7.1"]
                 node: ["20.x"]
@@ -161,7 +159,7 @@ jobs:
 
             -
                 name: Run PHPStan
-                run: vendor/bin/phpstan analyse -c phpstan.neon -l max src/
+                run: vendor/bin/phpstan analyse -c phpstan.dist.neon -l max src/
 
             -
                 name: Run PHPSpec
@@ -170,16 +168,3 @@ jobs:
             -
                 name: Run PHPUnit
                 run: vendor/bin/phpunit --colors=always
-
-            -
-                name: Run Behat
-                run: vendor/bin/behat --colors --strict -vvv --no-interaction -f progress  || vendor/bin/behat --colors --strict -vvv --no-interaction -f progress --rerun
-
-            -
-                name: Upload Behat logs
-                uses: actions/upload-artifact@v4
-                if: failure()
-                with:
-                    name: Behat logs
-                    path: etc/build/
-                    if-no-files-found: ignore

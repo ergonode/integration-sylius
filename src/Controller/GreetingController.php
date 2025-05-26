@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
-namespace Acme\SyliusExamplePlugin\Controller;
+namespace BitBag\SyliusErgonodePlugin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +19,7 @@ final class GreetingController extends AbstractController
     public function staticallyGreetAction(?string $name): Response
     {
         return $this->render(
-            '@AcmeSyliusExamplePlugin/shop/greeting/static.html.twig',
+            '@BitBagSyliusErgonodePlugin/shop/greeting/static.html.twig',
             ['greeting' => $this->getGreeting($name)],
         );
     }
@@ -20,7 +27,7 @@ final class GreetingController extends AbstractController
     public function dynamicallyGreetAction(?string $name): Response
     {
         return $this->render(
-            '@AcmeSyliusExamplePlugin/shop/greeting/dynamic.html.twig',
+            '@BitBagSyliusErgonodePlugin/shop/greeting/dynamic.html.twig',
             ['greeting' => $this->getGreeting($name)],
         );
     }

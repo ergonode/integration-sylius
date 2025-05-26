@@ -12,4 +12,4 @@ sylius_resource:
     resources:
         #app.book:
             #classes:
-                #model: App\Entity\Book
+                #model: BitBag\SyliusErgonodePlugin\Entity\Book

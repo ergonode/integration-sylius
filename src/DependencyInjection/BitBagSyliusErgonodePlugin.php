@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
-namespace Acme\SyliusExamplePlugin\DependencyInjection;
+namespace BitBag\SyliusErgonodePlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
@@ -11,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class AcmeSyliusExampleExtension extends AbstractResourceExtension implements PrependExtensionInterface
+final class BitBagSyliusErgonodePlugin extends AbstractResourceExtension implements PrependExtensionInterface
 {
     use PrependDoctrineMigrationsTrait;
 
@@ -35,9 +42,10 @@ final class AcmeSyliusExampleExtension extends AbstractResourceExtension impleme
 
     protected function getMigrationsDirectory(): string
     {
-        return '@AcmeSyliusExamplePlugin/src/Migrations';
+        return '@BitBagSyliusErgonodePlugin/src/Migrations';
     }
 
+    /**@return array<string> */
     protected function getNamespacesOfMigrationsExecutedBefore(): array
     {
         return [
