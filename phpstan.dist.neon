@@ -1,11 +1,11 @@
+includes:
+    - vendor/bitbag/coding-standard/phpstan.neon
+
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
-    includes:
-        - vendor/bitbag/coding-standard/phpstan.neon
 
     paths:
-        - bin/
         - config/
         - public/
         - src/
