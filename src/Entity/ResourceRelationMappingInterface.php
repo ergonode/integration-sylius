@@ -35,4 +35,8 @@ interface ResourceRelationMappingInterface extends ResourceInterface
     public function isImportOnce(): bool;
 
     public function setImportOnce(bool $importOnce): void;
+
+    public function getIntegration(): ?IntegrationInterface;
+
+    public function setIntegration(?IntegrationInterface $integration): void;
 }
