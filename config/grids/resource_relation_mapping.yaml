@@ -1,0 +1,41 @@
+sylius_grid:
+    grids:
+        bitbag_ergonode_admin_resource_relation_mapping:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%bitbag_ergonode.model.resource_relation_mapping.class%"
+            limits: [10, 25, 50]
+            fields:
+                relation_type:
+                    type: twig
+                    label: bitbag_sylius_ergonode.ui.relation_type
+                    sortable: ~
+                    options:
+                        template: "@BitBagSyliusErgonodePlugin/shared/grid/field/name.html.twig"
+                ergonode_value:
+                    type: string
+                    label: bitbag_sylius_ergonode.ui.ergonode_value
+                sylius_value:
+                    type: string
+                    label: bitbag_sylius_ergonode.ui.ergonode_value
+            filters:
+                search:
+                    type: string
+                    label: sylius.ui.search
+                    options:
+                        fields: [ergonode_value, sylius_value]
+                enabled:
+                    type: boolean
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
+                bulk:
+                    delete:
+                        type: delete

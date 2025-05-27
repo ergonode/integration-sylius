@@ -37,7 +37,7 @@ final class BitBagSyliusErgonodePlugin extends AbstractResourceExtension impleme
 
     protected function getMigrationsNamespace(): string
     {
-        return 'DoctrineMigrations';
+        return 'BitBag\SyliusErgonodePlugin\Migrations';
     }
 
     protected function getMigrationsDirectory(): string

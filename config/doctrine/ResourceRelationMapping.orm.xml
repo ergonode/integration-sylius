@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMapping" table="bitbag_ergonode_resource_relation_mapping">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="relationType" column="relation_type" type="string" nullable="false" />
+        <field name="ergonodeValue" column="ergonode_value" type="string" nullable="false" />
+        <field name="syliusValue" column="sylius_value" type="string" nullable="false" />
+        <field name="importOnce" column="import_once" type="boolean" nullable="false"/>
+    </entity>
+</doctrine-mapping>

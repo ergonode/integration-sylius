@@ -1,0 +1,8 @@
+bitbag_ergonode:
+    ui:
+        resource_relation_mapping: Resource relation mapping
+        resource_relation_mappings: Resource relation mappings
+        relation_type: Relation type
+        ergonode_value: Ergonode value
+        sylius_value: Sylius value
+        import_once: Import once
