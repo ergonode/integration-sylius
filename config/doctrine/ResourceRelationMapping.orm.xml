@@ -9,9 +9,12 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="relationType" column="relation_type" type="string" nullable="false" />
+        <field name="relationType" column="relation_type" enum-type="BitBag\SyliusErgonodePlugin\Enum\RelationType" nullable="false" />
         <field name="ergonodeValue" column="ergonode_value" type="string" nullable="false" />
         <field name="syliusValue" column="sylius_value" type="string" nullable="false" />
         <field name="importOnce" column="import_once" type="boolean" nullable="false"/>
+        <many-to-one field="integration" target-entity="BitBag\SyliusErgonodePlugin\Entity\Integration">
+            <join-column name="integration_id" referenced-column-name="id" on-delete="CASCADE"/>
+        </many-to-one>
     </entity>
 </doctrine-mapping>

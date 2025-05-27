@@ -9,10 +9,10 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="name" type="string" nullable="false" />
-        <field name="apiKey" type="string" nullable="false" />
-        <field name="apiUrl" type="string" nullable="false" />
-        <field name="categoryTreeCode" type="string" nullable="false" />
-        <field name="enabled" type="boolean" />
+        <field name="name" column="name" type="string" nullable="false" />
+        <field name="apiKey" column="api_key" type="string" nullable="false" />
+        <field name="apiUrl" column="api_url" type="string" nullable="false" />
+        <field name="categoryTreeCode" column="category_tree_code" type="string" nullable="false" />
+        <field name="enabled" column="enabled" type="boolean" />
     </entity>
 </doctrine-mapping>

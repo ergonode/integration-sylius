@@ -35,6 +35,10 @@ class ResourceRelationMapping implements ResourceRelationMappingInterface
     #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $importOnce = false;
 
+    #[ORM\ManyToOne(targetEntity: Integration::class)]
+    #[ORM\JoinColumn(name: 'integration_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private ?IntegrationInterface $integration = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,5 +87,15 @@ class ResourceRelationMapping implements ResourceRelationMappingInterface
     public function setImportOnce(bool $importOnce): void
     {
         $this->importOnce = $importOnce;
+    }
+
+    public function getIntegration(): ?IntegrationInterface
+    {
+        return $this->integration;
+    }
+
+    public function setIntegration(?IntegrationInterface $integration): void
+    {
+        $this->integration = $integration;
     }
 }

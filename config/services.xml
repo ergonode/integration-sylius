@@ -8,9 +8,4 @@
     <imports>
         <import resource="services/**" />
     </imports>
-
-    <services>
-        <service id="BitBag\SyliusErgonodePlugin\Controller\GreetingController" autowire="true" autoconfigure="true" public="true" />
-        <!-- Put your services here -->
-    </services>
 </container>
