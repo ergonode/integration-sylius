@@ -11,6 +11,8 @@
         "php": "^8.2",
         "bitbag/coding-standard": "^3.0",
         "sylius/sylius": "~2.0.0",
+        "symfony/cache": "^6.4",
+        "symfony/doctrine-bridge": "^6.4",
         "symfony/runtime": "^6.4"
     },
     "require-dev": {
