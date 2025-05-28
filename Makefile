@@ -68,3 +68,15 @@ phpunit:
 
 behat:
 	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/behat
+
+generate-migration:
+	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm -it php sh -c "\
+		cd ./tests/Application; \
+		php bin/console doctrine:database:drop --force --if-exists --env=test;\
+		 php bin/console doctrine:database:create --env=test; \
+		 php bin/console doctrine:migrations:migrate --no-interaction --env=test; \
+		 php bin/console doctrine:migrations:diff --no-interaction --env=test || exit 1;\
+		 php bin/console doctrine:migrations:migrate --no-interaction --env=test; \
+		 php bin/console doctrine:schema:update --dump-sql --env=test; \
+		 php bin/console doctrine:schema:validate --env=test\
+	";
