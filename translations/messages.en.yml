@@ -18,3 +18,10 @@ bitbag_ergonode:
         import_once: Import once
         integrations: Integrations
         integration: Integration
+        integration_name: Integration name
+        general: General
+        configuration: Configuration
+        api_key: API key
+        api_url: API url
+        category_tree_code: Category Tree Code
+        mapping: Mapping

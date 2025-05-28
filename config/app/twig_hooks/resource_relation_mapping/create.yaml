@@ -1,0 +1,31 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.resource_relation_mapping.create.content.form.sections':
+            general:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/general.html.twig'
+                priority: 1000
+            mapping:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping.html.twig'
+                priority: 500
+        
+        'sylius_admin.resource_relation_mapping.create.content.form.sections.general':
+            default:
+                enabled: false
+            relation_type:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/general/relation_type.html.twig'
+                priority: 1500
+            integration:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/general/integration.html.twig'
+                priority: 1000
+            import_once:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/general/import_once.html.twig'
+                priority: 500
+        
+        'sylius_admin.resource_relation_mapping.create.content.form.sections.mapping':
+            ergonode_value:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/ergonode_value.html.twig'
+                priority: 1500
+            sylius_value:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/sylius_value.html.twig'
+                priority: 1000
+            

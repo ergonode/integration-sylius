@@ -1,0 +1,30 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.integration.create.content.form.sections':
+            general:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general.html.twig'
+                priority: 1000
+            configuration:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/configuration.html.twig'
+                priority: 500
+        
+        'sylius_admin.integration.create.content.form.sections.general':
+            default:
+                enabled: false
+            name:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/name.html.twig'
+                priority: 1000
+            enabled:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/enabled.html.twig'
+                priority: 500
+        
+        'sylius_admin.integration.create.content.form.sections.configuration':
+            api_url:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/configuration/api_url.html.twig'
+                priority: 1500
+            api_key:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/configuration/api_key.html.twig'
+                priority: 1000
+            category_tree_code:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/configuration/category_tree_code.html.twig'
+                priority: 500

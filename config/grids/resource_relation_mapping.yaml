@@ -31,9 +31,21 @@ sylius_grid:
                     label: sylius.ui.search
                     options:
                         fields: [ergonode_value, sylius_value]
-                enabled:
-                    type: boolean
-                    label: sylius.ui.enabled
+                relationType:
+                    type: select
+                    label: bitbag_ergonode.ui.relation_type
+                    form_options:
+                        choices:
+                            'bitbag_ergonode.ui.relation_types.attribute_property': 'attribute_property'
+                            'bitbag_ergonode.ui.relation_types.category_property': 'category_property'
+                            'bitbag_ergonode.ui.relation_types.variant_property': 'variant_property'
+                            'bitbag_ergonode.ui.relation_types.product_property': 'product_property'
+                            'bitbag_ergonode.ui.relation_types.attribute_external_identifier': 'attribute_external_identifier'
+                            'bitbag_ergonode.ui.relation_types.category_external_identifier': 'category_external_identifier'
+                            'bitbag_ergonode.ui.relation_types.variant_external_identifier': 'variant_external_identifier'
+                            'bitbag_ergonode.ui.relation_types.product_external_identifier': 'product_external_identifier'
+                            'bitbag_ergonode.ui.relation_types.locale_external_identifier': 'locale_external_identifier'
+
                 integration:
                     type: entity
                     label: bitbag_ergonode.ui.integration
