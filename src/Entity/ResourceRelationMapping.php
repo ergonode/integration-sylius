@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Entity;
 
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use Doctrine\ORM\Mapping as ORM;
 
 class ResourceRelationMapping implements ResourceRelationMappingInterface
 {

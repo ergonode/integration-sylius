@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 
 class Integration implements IntegrationInterface
