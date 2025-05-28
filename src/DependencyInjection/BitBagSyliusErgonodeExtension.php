@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class BitBagSyliusErgonodePlugin extends AbstractResourceExtension implements PrependExtensionInterface
+final class BitBagSyliusErgonodeExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
     use PrependDoctrineMigrationsTrait;
 
@@ -37,7 +37,7 @@ final class BitBagSyliusErgonodePlugin extends AbstractResourceExtension impleme
 
     protected function getMigrationsNamespace(): string
     {
-        return 'DoctrineMigrations';
+        return 'BitBag\SyliusErgonodePlugin\Migrations';
     }
 
     protected function getMigrationsDirectory(): string

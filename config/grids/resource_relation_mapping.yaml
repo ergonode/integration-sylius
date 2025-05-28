@@ -1,0 +1,54 @@
+sylius_grid:
+    grids:
+        bitbag_ergonode_admin_resource_relation_mapping:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%bitbag_ergonode.model.resource_relation_mapping.class%"
+            limits: [10, 25, 50]
+            fields:
+                relation_type:
+                    type: twig
+                    label: bitbag_ergonode.ui.relation_type
+                    sortable: ~
+                    options:
+                        template: "@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/grid/field/type.html.twig"
+                ergonode_value:
+                    type: string
+                    label: bitbag_ergonode.ui.ergonode_value
+                sylius_value:
+                    type: string
+                    label: bitbag_ergonode.ui.sylius_value
+                integration:
+                    type: twig
+                    label: bitbag_ergonode.ui.integration
+                    sortable: ~
+                    options:
+                        template: "@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/grid/field/integration.html.twig"
+            filters:
+                search:
+                    type: string
+                    label: sylius.ui.search
+                    options:
+                        fields: [ergonode_value, sylius_value]
+                enabled:
+                    type: boolean
+                    label: sylius.ui.enabled
+                integration:
+                    type: entity
+                    label: bitbag_ergonode.ui.integration
+                    form_options:
+                        class: "%bitbag_ergonode.model.integration.class%"
+                        choice_label: 'name'
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
+                bulk:
+                    delete:
+                        type: delete

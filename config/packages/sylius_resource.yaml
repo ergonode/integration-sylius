@@ -10,6 +10,9 @@ sylius_resource:
 
     # Configure your resources
     resources:
-        #app.book:
-            #classes:
-                #model: BitBag\SyliusErgonodePlugin\Entity\Book
+        bitbag_ergonode.integration:
+            classes:
+                model: BitBag\SyliusErgonodePlugin\Entity\Integration
+        bitbag_ergonode.resource_relation_mapping:
+            classes:
+                model: BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMapping

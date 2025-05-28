@@ -1,0 +1,20 @@
+bitbag_ergonode:
+    ui:
+        resource_relation_mapping: Resource relation mapping
+        resource_relation_mappings: Resource relation mappings
+        relation_type: Relation type
+        relation_types:
+            attribute_property: Attribute property
+            category_property: Category property
+            variant_property: Variant property
+            product_property: Product property
+            attribute_external_identifier: Attribute external identifier
+            category_external_identifier: Category external identifier
+            variant_external_identifier: Variant external identifier
+            product_external_identifier: Product external identifier
+            locale_external_identifier: Locale external identifier
+        ergonode_value: Ergonode value
+        sylius_value: Sylius value
+        import_once: Import once
+        integrations: Integrations
+        integration: Integration

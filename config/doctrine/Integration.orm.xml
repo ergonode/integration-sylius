@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="BitBag\SyliusErgonodePlugin\Entity\Integration" table="bitbag_ergonode_integration">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="name" column="name" type="string" nullable="false" />
+        <field name="apiKey" column="api_key" type="string" nullable="false" />
+        <field name="apiUrl" column="api_url" type="string" nullable="false" />
+        <field name="categoryTreeCode" column="category_tree_code" type="string" nullable="false" />
+        <field name="enabled" column="enabled" type="boolean" />
+    </entity>
+</doctrine-mapping>
