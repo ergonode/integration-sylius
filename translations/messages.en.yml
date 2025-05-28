@@ -25,3 +25,4 @@ bitbag_ergonode:
         api_url: API url
         category_tree_code: Category Tree Code
         mapping: Mapping
+        ergonode: Ergonode
