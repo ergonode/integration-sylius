@@ -14,31 +14,18 @@ namespace BitBag\SyliusErgonodePlugin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'bitbag_ergonode_integration')]
 class Integration implements IntegrationInterface
 {
     use ToggleableTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $name = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $apiKey = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $apiUrl = null;
 
-    /** @var bool $enabled */
-    #[ORM\Column(type: 'boolean', nullable: false)]
-    protected $enabled = true;
-
-    #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $categoryTreeCode = null;
 
     public function getId(): ?int

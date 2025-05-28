@@ -11,7 +11,7 @@ final class Version20250527084913 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create integration and resource relation mapping tables';
     }
 
     public function up(Schema $schema): void

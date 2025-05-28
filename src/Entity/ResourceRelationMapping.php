@@ -14,29 +14,18 @@ namespace BitBag\SyliusErgonodePlugin\Entity;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'bitbag_ergonode_resource_relation_mapping')]
 class ResourceRelationMapping implements ResourceRelationMappingInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: false)]
     private ?RelationType $relationType = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
     private ?string $ergonodeValue = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
     private ?string $syliusValue = null;
 
-    #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $importOnce = false;
 
-    #[ORM\ManyToOne(targetEntity: Integration::class)]
-    #[ORM\JoinColumn(name: 'integration_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?IntegrationInterface $integration = null;
 
     public function getId(): ?int
