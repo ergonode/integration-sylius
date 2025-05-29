@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Encryptor;
@@ -25,14 +32,18 @@ final class Encryptor implements EncryptorInterface
     public function encrypt(string $data): string
     {
         try {
-            return Crypto::encrypt(new HiddenString($data), $this->getKey()).self::ENCRYPTION_SUFFIX;
+            return Crypto::encrypt(new HiddenString($data), $this->getKey()) . self::ENCRYPTION_SUFFIX;
         } catch (HaliteAlert|\SodiumException|\TypeError $exception) {
             throw EncryptionException::cannotEncrypt($exception);
         }
     }
 
-    public function decrypt(string $data): string
+    public function decrypt(?string $data): string
     {
+        if (null === $data) {
+            throw EncryptionException::dataIsNull();
+        }
+
         if (!str_ends_with($data, self::ENCRYPTION_SUFFIX)) {
             return $data;
         }

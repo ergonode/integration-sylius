@@ -45,8 +45,8 @@ final class IntegrationType extends AbstractResourceType
             ->add('apiKey', PasswordType::class, [
                 'required' => true,
                 'label' => 'bitbag_ergonode.ui.api_key',
-                'mapped' => 'false',
-                'help' => 'bitbag_ergonode.ui.api_key_empty_field_help'
+                'mapped' => false,
+                'help' => 'bitbag_ergonode.ui.api_key_empty_field_help',
             ])
             ->add('categoryTreeCode', TextType::class, [
                 'required' => true,
@@ -57,7 +57,6 @@ final class IntegrationType extends AbstractResourceType
                 $form = $event->getForm();
 
                 $apiKey = $form->get('apiKey')->getData();
-
                 if (
                     null !== $apiKey &&
                     is_string($apiKey) &&

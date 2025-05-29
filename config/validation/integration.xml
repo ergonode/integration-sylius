@@ -14,6 +14,11 @@
             </option>
             <option name="message">bitbag_ergonode.integration.duplicated_for_url_and_category_tree</option>
         </constraint>
+        <constraint name="BitBag\SyliusErgonodePlugin\Validator\Constraint\ErgonodeIntegrationConstraint">
+            <option name="groups">
+                <value>sylius</value>
+            </option>
+        </constraint>
 
         <property name="name">
             <constraint name="NotBlank">

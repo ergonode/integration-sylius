@@ -3,3 +3,7 @@ bitbag_ergonode:
         duplicated_for_integration_and_type_and_ergonode_value: Resource relation mapping with provided integration, type and Ergonode value already exists.
     integration:
         duplicated_for_url_and_category_tree: Integration with provided URL and category tree already exists.
+        ergonode_error_occurred: Ergonode error occurred.
+        unrecognized_error_occurred: Unrecognized error occurred.
+        authorization_exception: Authorization failed using provided credentials.
+        missing_api_key: API Key is required.
