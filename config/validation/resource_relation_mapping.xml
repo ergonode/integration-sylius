@@ -1,0 +1,60 @@
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+    http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMapping">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">
+                <value>integration</value>
+                <value>relationType</value>
+                <value>ergonodeValue</value>
+            </option>
+            <option name="groups">
+                <value>sylius</value>
+            </option>
+            <option name="message">bitbag_ergonode.resource_relation_mapping.duplicated_for_integration_and_type_and_ergonode_value</option>
+        </constraint>
+
+        <property name="relationType">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="ergonodeValue">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="syliusValue">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="importOnce">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="integration">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+            <constraint name="Valid">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>
