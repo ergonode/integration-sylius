@@ -26,6 +26,7 @@
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.form.type.integration_type" class="BitBag\SyliusErgonodePlugin\Form\Type\IntegrationType">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument>%bitbag_ergonode.model.integration.class%</argument>
             <argument>%bitbag.sylius_ergonode_plugin.form.type.integration_type.validation_groups%</argument>
             <tag name="form.type" />

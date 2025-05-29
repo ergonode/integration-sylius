@@ -11,14 +11,23 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Form\Type;
 
+use BitBag\SyliusErgonodePlugin\Encryptor\Encryptor;
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 
 final class IntegrationType extends AbstractResourceType
 {
+    public function __construct(private readonly Encryptor $encryptor, string $dataClass, array $validationGroups = [])
+    {
+        parent::__construct($dataClass, $validationGroups);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -36,11 +45,28 @@ final class IntegrationType extends AbstractResourceType
             ->add('apiKey', PasswordType::class, [
                 'required' => true,
                 'label' => 'bitbag_ergonode.ui.api_key',
+                'mapped' => 'false',
+                'help' => 'bitbag_ergonode.ui.api_key_empty_field_help'
             ])
             ->add('categoryTreeCode', TextType::class, [
                 'required' => true,
                 'label' => 'bitbag_ergonode.ui.category_tree_code',
             ])
+            ->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) {
+                $data = $event->getData();
+                $form = $event->getForm();
+
+                $apiKey = $form->get('apiKey')->getData();
+
+                if (
+                    null !== $apiKey &&
+                    is_string($apiKey) &&
+                    $data instanceof IntegrationInterface
+                ) {
+                    $encryptedToken = $this->encryptor->encrypt($apiKey);
+                    $data->setApiKey($encryptedToken);
+                }
+            })
         ;
     }
 }
