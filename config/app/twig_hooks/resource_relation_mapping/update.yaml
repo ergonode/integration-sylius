@@ -22,10 +22,9 @@ sylius_twig_hooks:
                 priority: 500
         
         'sylius_admin.resource_relation_mapping.update.content.form.sections.mapping':
-            sylius_value:
-                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/sylius_value.html.twig'
-                priority: 1500
             ergonode_value:
                 template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/ergonode_value.html.twig'
+                priority: 1500
+            sylius_value:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/sylius_value.html.twig'
                 priority: 1000
-            
