@@ -1,0 +1,5 @@
+bitbag_ergonode:
+    resource_relation_mapping:
+        duplicated_for_integration_and_type_and_ergonode_value: Resource relation mapping with provided integration, type and Ergonode value already exists.
+    integration:
+        duplicated_for_url_and_category_tree: Integration with provided URL and category tree already exists.
