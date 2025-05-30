@@ -28,7 +28,6 @@ final class ErgonodeIntegrationConstraint extends Constraint
         return 'bitbag_ergonode_integration_validator';
     }
 
-
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
