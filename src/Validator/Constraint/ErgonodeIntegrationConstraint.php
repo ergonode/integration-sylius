@@ -29,10 +29,7 @@ final class ErgonodeIntegrationConstraint extends Constraint
     }
 
 
-    /**
-     * @return string|array<string>
-     */
-    public function getTargets(): string|array
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
