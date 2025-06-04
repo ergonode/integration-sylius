@@ -28,4 +28,7 @@ sylius_twig_hooks:
             sylius_value:
                 template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/sylius_value.html.twig'
                 priority: 1000
+            channel_code:
+                template: '@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/form/sections/mapping/channel_code.html.twig'
+                priority: 500
             

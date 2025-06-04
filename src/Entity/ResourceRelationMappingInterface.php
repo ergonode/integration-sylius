@@ -39,4 +39,8 @@ interface ResourceRelationMappingInterface extends ResourceInterface
     public function getIntegration(): ?IntegrationInterface;
 
     public function setIntegration(?IntegrationInterface $integration): void;
+
+    public function getChannelCode(): ?string;
+
+    public function setChannelCode(?string $channelCode): void;
 }

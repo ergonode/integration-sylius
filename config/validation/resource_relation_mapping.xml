@@ -37,13 +37,6 @@
                 </option>
             </constraint>
         </property>
-        <property name="importOnce">
-            <constraint name="NotBlank">
-                <option name="groups">
-                    <value>sylius</value>
-                </option>
-            </constraint>
-        </property>
         <property name="integration">
             <constraint name="NotBlank">
                 <option name="groups">

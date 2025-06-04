@@ -29,3 +29,73 @@ bitbag_ergonode:
         api_key_is_not_set: Ergonode API Key is not set.
         api_key_is_set_but_hidden: Ergonode API Key is set.
         api_key_empty_field_help: While updating, leaving this field empty will not alter already stored value.
+        property:
+            attribute:
+                name: Name
+                code: Code
+                product_type: Product type
+                enabled: Enabled
+                position: Position
+                min_length: Min length
+                max_length: Max length
+                datetime_format: Datetime format
+                date_format: Date format
+                min_entries: Min entries
+                max_entries: Max entries
+                multiple: Multiple
+            category:
+                name: Name
+                code: Code
+                parent: Parent
+                enabled: Enabled
+                description: Description
+                slug: Slug
+                media: Media
+            product_variant:
+                name: Name
+                code: Code
+                enabled: Enabled
+                shipping_required: Shipping required
+                price: Price
+                original_price: Original price
+                minimum_price: Minimum price
+                tax_category: Tax category
+                shipping_category: Shipping category
+                width: Width
+                height: Height
+                length: Length
+                current_stock: Current stock
+                tracked: Tracked
+                main_taxon: Main taxon
+                taxons: Taxons
+                media: Media
+                variant_selection_method: Variant selection method
+            product:
+                name: Name
+                code: Code
+                enabled: Enabled
+                shipping_required: Shipping required
+                channels: Channels
+                product_type: Product type
+                price: Price
+                original_price: Original price
+                minimum_price: Minimum price
+                tax_category: Tax category
+                shipping_category: Shipping category
+                width: Width
+                height: Height
+                length: Length
+                current_stock: Current stock
+                tracked: Tracked
+                description: Description
+                slug: Slug
+                meta_keywords: Meta keywords
+                meta_description: Meta description
+                short_description: Short description
+                main_taxon: Main taxon
+                taxons: Taxons
+                media: Media
+                variant_selection_method: Variant selection method
+
+
+

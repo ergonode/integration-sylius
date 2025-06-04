@@ -18,3 +18,4 @@ sylius_resource:
             classes:
                 model: BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMapping
                 form: BitBag\SyliusErgonodePlugin\Form\Type\ResourceRelationMappingType
+                factory: BitBag\SyliusErgonodePlugin\Factory\ResourceRelationMappingFactory
