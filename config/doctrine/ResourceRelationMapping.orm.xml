@@ -13,6 +13,7 @@
         <field name="ergonodeValue" column="ergonode_value" type="string" nullable="false" />
         <field name="syliusValue" column="sylius_value" type="string" nullable="false" />
         <field name="importOnce" column="import_once" type="boolean" nullable="false"/>
+        <field name="channelCode" column="channel_code" type="string" nullable="true"/>
         <many-to-one field="integration" target-entity="BitBag\SyliusErgonodePlugin\Entity\Integration">
             <join-column name="integration_id" referenced-column-name="id" on-delete="CASCADE"/>
         </many-to-one>

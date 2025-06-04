@@ -12,6 +12,28 @@ bitbag_ergonode_resource_relation_mapping:
         alias: bitbag_ergonode.resource_relation_mapping
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
+        except: ['create']
         redirect: index
         grid: bitbag_ergonode_admin_resource_relation_mapping
     type: sylius.resource
+
+bitbag_ergonode_admin_resource_relation_mapping_create:
+    path: /resource-relation-mapping/{type}/new
+    methods: [GET, POST]
+    defaults:
+        _controller: bitbag_ergonode.controller.resource_relation_mapping::createAction
+        _sylius:
+            section: admin
+            factory:
+                method: createTyped
+                arguments:
+                    type: $type
+            form:
+                type: BitBag\SyliusErgonodePlugin\Form\Type\ResourceRelationMappingType
+            template: "@SyliusAdmin/shared/crud/create.html.twig"
+            redirect: bitbag_ergonode_admin_resource_relation_mapping_index
+            permission: true
+            vars:
+                route:
+                    parameters:
+                        type: $type

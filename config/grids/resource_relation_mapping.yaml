@@ -1,4 +1,7 @@
 sylius_grid:
+    templates:
+        action:
+            create_resource_relation_mapping: "@BitBagSyliusErgonodePlugin/admin/resource_relation_mapping/grid/action/create.html.twig"
     grids:
         bitbag_ergonode_admin_resource_relation_mapping:
             driver:
@@ -55,7 +58,7 @@ sylius_grid:
             actions:
                 main:
                     create:
-                        type: create
+                        type: create_resource_relation_mapping
                 item:
                     update:
                         type: update

@@ -1,0 +1,5 @@
+{% if hookable_metadata.context.form.channelCode is defined %}
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
+        {{ form_row(hookable_metadata.context.form.channelCode, sylius_test_form_attribute('channel_code')) }}
+    </div>
+{% endif %}

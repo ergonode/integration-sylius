@@ -27,6 +27,8 @@ class ResourceRelationMapping implements ResourceRelationMappingInterface
 
     private ?IntegrationInterface $integration = null;
 
+    private ?string $channelCode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,5 +87,15 @@ class ResourceRelationMapping implements ResourceRelationMappingInterface
     public function setIntegration(?IntegrationInterface $integration): void
     {
         $this->integration = $integration;
+    }
+
+    public function getChannelCode(): ?string
+    {
+        return $this->channelCode;
+    }
+
+    public function setChannelCode(?string $channelCode): void
+    {
+        $this->channelCode = $channelCode;
     }
 }
