@@ -13,6 +13,9 @@ sylius_twig_hooks:
                 enabled: false
             name:
                 template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/name.html.twig'
+                priority: 1500
+            category_tree_code:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/category_tree_code.html.twig'
                 priority: 1000
             enabled:
                 template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/enabled.html.twig'
@@ -25,6 +28,3 @@ sylius_twig_hooks:
             api_key:
                 template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/configuration/api_key.html.twig'
                 priority: 1000
-            category_tree_code:
-                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/configuration/category_tree_code.html.twig'
-                priority: 500

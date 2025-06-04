@@ -1,1 +1,17 @@
-{{ form_row(hookable_metadata.context.form.apiKey, sylius_test_form_attribute('api_key')) }}
+<div class="col-12 col-md-6 mb-3 mb-md-0">
+    {% set form = hookable_metadata.context.form%}
+
+    {{ form_row(form.apiKey, sylius_test_form_attribute('api_key')) }}
+
+    {% if form.vars.value.id is not null %}
+        {% if form.vars.value and form.vars.value.apiKey is not empty %}
+            <div class="badge badge-outline bg-green text-white">
+                {{ 'bitbag_ergonode.ui.api_key_is_set_but_hidden'|trans }}
+            </div>
+        {% else %}
+            <div class="badge badge-outline bg-red text-white">
+                {{ 'bitbag_ergonode.ui.api_key_is_not_set'|trans }}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
