@@ -37,7 +37,7 @@ abstract class AbstractErgonodeClient
             $apiUrl = $this->getApiUrl($integration);
             $apiKey = $this->encryptor->decrypt($integration->getApiKey());
         } catch (\Throwable $exception) {
-            $this->logger->error(sprintf('[BitBag/SyliusErgonodePlugin] Error during api credentials retrieval: %s', $exception->getMessage()), [
+            $this->logger->error(sprintf('Error during api credentials retrieval: %s', $exception->getMessage()), [
                 'query' => $model->getRequestBody(),
                 'variables' => $model->getRequestPayload(),
             ]);
@@ -54,7 +54,7 @@ abstract class AbstractErgonodeClient
                 'headers' => ['X-API-KEY' => $apiKey],
             ]);
         } catch (\Throwable $exception) {
-            $this->logger->error(sprintf('[BitBag/SyliusErgonodePlugin] Something went wrong while trying to fetch query: %s', $exception->getMessage()), [
+            $this->logger->error(sprintf('Something went wrong while trying to fetch query: %s', $exception->getMessage()), [
                 'query' => $model->getRequestBody(),
                 'variables' => $model->getRequestPayload(),
             ]);
@@ -75,7 +75,7 @@ abstract class AbstractErgonodeClient
         } catch (\Exception $exception) {
             $this->logger->error(
                 sprintf(
-                    '[BitBag/SyliusErgonodePlugin] Error decoding response from Ergonode: %s',
+                    'Error decoding response from Ergonode: %s',
                     $exception->getMessage(),
                 ),
             );
