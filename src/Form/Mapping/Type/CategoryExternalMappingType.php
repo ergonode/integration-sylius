@@ -22,9 +22,7 @@ use Symfony\Component\Form\ReversedTransformer;
 
 final class CategoryExternalMappingType extends AbstractType
 {
-    /**
-     * @param TaxonRepositoryInterface<TaxonInterface> $taxonRepository
-     */
+    /** @param TaxonRepositoryInterface<TaxonInterface> $taxonRepository */
     public function __construct(
         private readonly TaxonRepositoryInterface $taxonRepository,
     ) {

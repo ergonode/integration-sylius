@@ -22,9 +22,7 @@ use Symfony\Component\Form\ReversedTransformer;
 
 final class AttributeExternalMappingType extends AbstractType
 {
-    /**
-     * @param ProductAttributeRepositoryInterface<ProductAttributeInterface> $productAttributeRepository
-     */
+    /** @param ProductAttributeRepositoryInterface<ProductAttributeInterface> $productAttributeRepository */
     public function __construct(
         private readonly ProductAttributeRepositoryInterface $productAttributeRepository,
     ) {

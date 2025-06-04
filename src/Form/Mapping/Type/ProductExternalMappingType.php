@@ -22,9 +22,7 @@ use Symfony\Component\Form\ReversedTransformer;
 
 final class ProductExternalMappingType extends AbstractType
 {
-    /**
-     * @param ProductRepositoryInterface<ProductInterface> $productRepository
-     */
+    /**@param ProductRepositoryInterface<ProductInterface> $productRepository */
     public function __construct(
         private readonly ProductRepositoryInterface $productRepository,
     ) {
