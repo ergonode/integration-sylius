@@ -58,7 +58,6 @@ abstract class AbstractErgonodeClient
                 'query' => $model->getRequestBody(),
                 'variables' => $model->getRequestPayload(),
             ]);
-
             throw ErgonodeException::requestFailed($exception);
         }
 
@@ -79,8 +78,7 @@ abstract class AbstractErgonodeClient
                     $exception->getMessage(),
                 ),
             );
-
-            return [];
+            throw ErgonodeException::requestFailed($exception);
         }
     }
 

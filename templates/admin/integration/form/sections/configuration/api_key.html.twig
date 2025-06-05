@@ -1,7 +1,7 @@
 <div class="col-12 col-md-6 mb-3 mb-md-0">
     {% set form = hookable_metadata.context.form%}
 
-    {{ form_row(form.apiKey, sylius_test_form_attribute('api_key')) }}
+    {{ form_row(form.apiKey, sylius_test_form_attribute('api-key')) }}
 
     {% if form.vars.value.id is not null %}
         {% if form.vars.value and form.vars.value.apiKey is not empty %}

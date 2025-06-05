@@ -56,7 +56,9 @@
     },
     "extra": {
         "symfony": {
-            "require": "^6.4"
+            "require": "^6.4",
+            "allow-contrib": true,
+            "docker": true
         }
     },
     "autoload": {
