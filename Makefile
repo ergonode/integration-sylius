@@ -43,8 +43,8 @@ docker-compose-check:
 	@echo "Current version is \"$$($(DOCKER_COMPOSE) version)\""
 
 database-init:
-	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php tests/Application/bin/console doctrine:database:create -n --if-not-exists --env=test
-	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php tests/Application/bin/console doctrine:migrations:migrate -n --env=test
+	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php tests/Application/bin/console doctrine:database:create -n --if-not-exists
+	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php tests/Application/bin/console doctrine:migrations:migrate -n
 
 database-reset:
 	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php tests/Application/bin/console doctrine:database:drop -n --force --if-exists
