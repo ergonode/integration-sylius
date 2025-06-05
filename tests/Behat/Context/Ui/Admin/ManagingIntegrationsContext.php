@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Behat\Context\Ui\Admin;
@@ -45,9 +52,6 @@ final class ManagingIntegrationsContext implements Context
     {
         $this->updatePage->open(['id' => $this->sharedStorage->get('integration')->getId()]);
     }
-
-
-
 
     #[When('I update it')]
     public function iUpdateIt(): void
@@ -110,14 +114,14 @@ final class ManagingIntegrationsContext implements Context
         $this->createPage->open();
     }
     #[When('I change category tree code to :code')]
-    public function iChangeCategoryTreeCodeTo($code): void
+    public function iChangeCategoryTreeCodeTo(string $code): void
     {
         $this->updatePage->specifyCategoryTreeCode($code);
     }
 
 
     #[When('I set category tree code to :code')]
-    public function iSetCategoryTreeCodeTo($code): void
+    public function iSetCategoryTreeCodeTo(string $code): void
     {
         $this->createPage->specifyCategoryTreeCode($code);
     }

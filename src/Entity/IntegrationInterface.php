@@ -12,8 +12,9 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Resource\Model\ToggleableInterface;
 
-interface IntegrationInterface extends ResourceInterface
+interface IntegrationInterface extends ResourceInterface, ToggleableInterface
 {
     public function getId(): ?int;
 
