@@ -35,4 +35,6 @@ interface IntegrationInterface extends ResourceInterface, ToggleableInterface
     public function getCategoryTreeCode(): ?string;
 
     public function setCategoryTreeCode(?string $categoryTreeCode): void;
+
+    public function isEnabled(): bool;
 }
