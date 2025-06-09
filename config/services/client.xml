@@ -9,7 +9,7 @@
         <service id="bitbag.sylius_ergonode_plugin.api.client.validation_api_client" class="BitBag\SyliusErgonodePlugin\API\Client\ValidationApiClient">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument type="service" id="http_client"/>
-            <argument type="service" id="monolog.logger"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
     </services>
 </container>
