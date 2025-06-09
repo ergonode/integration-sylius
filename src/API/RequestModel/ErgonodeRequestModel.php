@@ -13,8 +13,6 @@ namespace BitBag\SyliusErgonodePlugin\API\RequestModel;
 
 abstract class ErgonodeRequestModel
 {
-    protected array $payload = [];
-
     abstract public function getRequestBody(): string;
 
     abstract public function getRequestPayload(): array;
