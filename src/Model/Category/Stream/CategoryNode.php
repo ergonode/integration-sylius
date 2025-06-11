@@ -13,26 +13,51 @@ namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
 
 final class CategoryNode
 {
-    public function __construct(
-        private readonly string $code,
-        /** @var array<LocalizedText> */
-        private readonly array $name,
-        private readonly AttributeList $attributeList,
-    ) {
-    }
+    private string $code;
 
-    public function getCode(): string|float|bool|null
+    /** @var array<LocalizedText> */
+    private array $name;
+
+    private AttributeList $attributeList;
+
+    public function getCode(): string
     {
         return $this->code;
     }
 
+    public function setCode(string $code): void
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return array<LocalizedText>
+     */
     public function getName(): array
     {
         return $this->name;
     }
 
+    /**
+     * @param array<LocalizedText> $name
+     */
+    public function setName(array $name): void
+    {
+        $this->name = $name;
+    }
+
     public function getAttributeList(): AttributeList
     {
         return $this->attributeList;
+    }
+
+    public function setAttributeList(AttributeList $attributeList): void
+    {
+        $this->attributeList = $attributeList;
+    }
+
+    public function getAttributeListNodes(): array
+    {
+        return $this->attributeList->getEdges();
     }
 }

@@ -13,19 +13,27 @@ namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
 
 final class LocalizedText
 {
-    public function __construct(
-        private readonly string $value,
-        private readonly string $language,
-    ) {
-    }
+    private ?string $value;
 
-    public function getValue(): string
+    private string $language;
+
+    public function getValue(): ?string
     {
         return $this->value;
+    }
+
+    public function setValue(?string $value): void
+    {
+        $this->value = $value;
     }
 
     public function getLanguage(): string
     {
         return $this->language;
+    }
+
+    public function setLanguage(string $language): void
+    {
+        $this->language = $language;
     }
 }

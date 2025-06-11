@@ -53,4 +53,8 @@ interface IntegrationInterface extends ResourceInterface, ToggleableInterface
     public function getCategoryTreeDeletedStreamCursorEnd(): ?string;
 
     public function setCategoryTreeDeletedStreamCursorEnd(?string $categoryTreeDeletedStreamCursorEnd): void;
+
+    public function getMainLanguageCode(): ?string;
+
+    public function setMainLanguageCode(?string $mainLanguageCode): void;
 }

@@ -25,6 +25,8 @@ class Integration implements IntegrationInterface
 
     protected ?string $apiUrl = null;
 
+    protected ?string $mainLanguageCode = null;
+
     protected ?string $categoryTreeCode = null;
 
     protected ?string $categoryStreamCursorEnd = null;
@@ -123,5 +125,15 @@ class Integration implements IntegrationInterface
     public function setCategoryTreeDeletedStreamCursorEnd(?string $categoryTreeDeletedStreamCursorEnd): void
     {
         $this->categoryTreeDeletedStreamCursorEnd = $categoryTreeDeletedStreamCursorEnd;
+    }
+
+    public function getMainLanguageCode(): ?string
+    {
+        return $this->mainLanguageCode;
+    }
+
+    public function setMainLanguageCode(?string $mainLanguageCode): void
+    {
+        $this->mainLanguageCode = $mainLanguageCode;
     }
 }

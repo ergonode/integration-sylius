@@ -51,6 +51,7 @@ final class CategoryStream extends ErgonodeRequestModel
             }
 
             fragment AttributeValueFields on AttributeValue {
+              typename: __typename
               attribute {
                 code
                 name {
@@ -65,6 +66,22 @@ final class CategoryStream extends ErgonodeRequestModel
                   value
                 }
               }
+               ... on SelectAttributeValue {
+                selectTranslations: translations {
+                 language
+                 value {
+                   code
+                   name {
+                     language
+                     value
+                   }
+                 }
+                 translatedValue {
+                   code
+                   name
+                 }
+               }
+             }
               ... on TextareaAttributeValue {
                 textareaTranslations: translations {
                   language
@@ -122,27 +139,27 @@ final class CategoryStream extends ErgonodeRequestModel
                   }
                 }
               }
-              ... on MultiSelectAttributeValue {
+            ... on MultiSelectAttributeValue {
                 multiSelectTranslations: translations {
-                  language
-                  value {
+                    language
+                    value {
                     code
-                    name {
+                      name {
                       language
-                      value
+                        value
                     }
-                  }
+                    }
+                    translatedValue {
+                    code
+                    name
                 }
               }
+            }
               ... on ProductRelationAttributeValue {
                 relationTranslations: translations {
                   language
                   value {
                     sku
-                    name {
-                      language
-                      value
-                    }
                   }
                 }
               }

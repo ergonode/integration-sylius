@@ -13,14 +13,15 @@ namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
 
 final class AttributeList
 {
-    public function __construct(
-        /** @var array<AttributeEdge> */
-        private readonly array $edges,
-    ) {
-    }
+    private array $edges;
 
     public function getEdges(): array
     {
         return $this->edges;
+    }
+
+    public function setEdges(array $edges): void
+    {
+        $this->edges = $edges;
     }
 }

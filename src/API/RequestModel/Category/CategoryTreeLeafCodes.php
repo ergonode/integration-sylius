@@ -23,27 +23,27 @@ final class CategoryTreeLeafCodes extends ErgonodeRequestModel
     public function getRequestBody(): string
     {
         return <<<'GRAPHQL'
-            query CategoryTreeLeafCodes($categoryTreeCode: CategoryTreeCode!)
-                    categoryTree(code: $categoryTreeCode) {
+        query GetCategoryTreeLeafCodes($treeCode: CategoryTreeCode!) {
+          categoryTree(code: $treeCode) {
+            code
+            categoryTreeLeafList {
+              edges {
+                node {
+                  category {
                     code
-                categoryTreeLeafList {
-                        edges {
-                            node {
-                                category {
-                                    code
-                      }
-                    }
                   }
                 }
               }
             }
+          }
+        }
         GRAPHQL;
     }
 
     public function getRequestPayload(): array
     {
         return [
-            'categoryTreeCode' => $this->categoryTreeCode,
+            'treeCode' => $this->categoryTreeCode,
         ];
     }
 }

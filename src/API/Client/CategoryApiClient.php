@@ -16,8 +16,9 @@ use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryTreeDeletedStr
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryTreeLeafCodes;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryTreeStream;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 
-final class CategoryApiClient extends AbstractErgonodeClient
+final class CategoryApiClient extends AbstractErgonodeClient implements CategoryApiClientInterface
 {
     private const LIMIT = 40;
 
@@ -31,8 +32,12 @@ final class CategoryApiClient extends AbstractErgonodeClient
 
     public function getCategoryTreeLeafCodes(IntegrationInterface $integration): array
     {
+        if (null === $categoryTreeCode = $integration->getCategoryTreeCode()) {
+            throw SynchronizationException::missingCategoryTreeCode($integration);
+        }
+
         return $this->query(new CategoryTreeLeafCodes(
-            $integration->getCategoryTreeCode(),
+            $categoryTreeCode,
         ), $integration);
     }
 
