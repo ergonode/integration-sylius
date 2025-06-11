@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.controller.synchronization_action" class="BitBag\SyliusErgonodePlugin\Controller\SynchronizationAction">
+            <argument type="service" id="bitbag_ergonode.repository.integration"/>
+            <argument type="service" id="messenger.default_bus" />
+            <argument type="service" id="router.default"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+    </services>
+</container>

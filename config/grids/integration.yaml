@@ -1,4 +1,8 @@
 sylius_grid:
+    templates:
+        action:
+            synchronization: "@BitBagSyliusErgonodePlugin/admin/integration/grid/action/synchronization.html.twig"
+            full_synchronization: "@BitBagSyliusErgonodePlugin/admin/integration/grid/action/full_synchronization.html.twig"
     grids:
         bitbag_ergonode_admin_integration:
             driver:
@@ -34,6 +38,10 @@ sylius_grid:
                     create:
                         type: create
                 item:
+                    synchronization:
+                        type: synchronization
+                    full_synchronization:
+                        type: full_synchronization
                     update:
                         type: update
                     delete:

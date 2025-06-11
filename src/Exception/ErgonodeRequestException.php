@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Exception;
 
-final class ErgonodeException extends \Exception
+final class ErgonodeRequestException extends \Exception
 {
     public static function requestFailed(\Throwable $previousException): self
     {
