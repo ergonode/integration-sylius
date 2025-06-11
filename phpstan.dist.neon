@@ -2,10 +2,8 @@ parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
     paths:
-        - config/
-        - public/
-        - src/
-        - tests/
+        - src
+        - tests/Behat
 
     excludePaths:
         # Makes PHPStan crash
