@@ -19,7 +19,10 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 final class ResourceRelationMappingRepository extends EntityRepository implements ResourceRelationMappingRepositoryInterface
 {
-    public function createIntegrationAndTypeQueryBuilder(IntegrationInterface $integration, RelationType $type): QueryBuilder
+    public function createIntegrationAndTypeQueryBuilder(
+        IntegrationInterface $integration,
+        RelationType $type
+    ): QueryBuilder
     {
         return $this->createQueryBuilder('rrm')
             ->andWhere('rrm.relationType = :type')
@@ -29,8 +32,12 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
         ;
     }
 
-    public function findOneByIntegrationAndTypeAndSyliusValue(IntegrationInterface $integration, RelationType $type, string $syliusValue): ?ResourceRelationMappingInterface
-    {
+    /** @return ?ResourceRelationMappingInterface */
+    public function findOneByIntegrationAndTypeAndSyliusValue(
+        IntegrationInterface $integration,
+        RelationType $type,
+        string $syliusValue
+    ): ?ResourceRelationMappingInterface {
         return $this->createIntegrationAndTypeQueryBuilder($integration, $type)
             ->andWhere('rrm.syliusValue = :syliusValue')
             ->setParameter('syliusValue', $syliusValue)
@@ -39,7 +46,12 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
         ;
     }
 
-    public function findOneByIntegrationAndTypeAndErgonodeValue(IntegrationInterface $integration, RelationType $type, string $ergonodeValue): ?ResourceRelationMappingInterface
+    /** @return ?ResourceRelationMappingInterface */
+    public function findOneByIntegrationAndTypeAndErgonodeValue(
+        IntegrationInterface $integration,
+        RelationType $type,
+        string $ergonodeValue
+    ): ?ResourceRelationMappingInterface
     {
         return $this->createIntegrationAndTypeQueryBuilder($integration, $type)
             ->andWhere('rrm.ergonodeValue = :ergonodeValue')
