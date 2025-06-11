@@ -9,10 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
+namespace BitBag\SyliusErgonodePlugin\Factory;
 
-final class NumberAttributeValue extends AttributeValue
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+
+interface DenormalizerFactoryInterface
 {
-    /** @var NumberTranslation[] */
-    public array $numberTranslations;
+    public function create(): DenormalizerInterface;
 }

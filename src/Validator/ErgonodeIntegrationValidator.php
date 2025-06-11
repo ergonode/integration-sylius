@@ -15,7 +15,7 @@ use BitBag\SyliusErgonodePlugin\API\Client\AbstractErgonodeClient;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\ValidationRequestModel;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\ErgonodeAuthorizationException;
-use BitBag\SyliusErgonodePlugin\Exception\ErgonodeException;
+use BitBag\SyliusErgonodePlugin\Exception\ErgonodeRequestException;
 use BitBag\SyliusErgonodePlugin\Validator\Constraint\ErgonodeIntegrationConstraint;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Constraint;
@@ -56,7 +56,7 @@ final class ErgonodeIntegrationValidator extends ConstraintValidator
             $this->ergonodeClient->query(new ValidationRequestModel(), $value);
         } catch (ErgonodeAuthorizationException) {
             $this->context->addViolation($constraint->authorizationException);
-        } catch (ErgonodeException $e) {
+        } catch (ErgonodeRequestException $e) {
             $this->context->addViolation($constraint->ergonodeErrorOccurred);
             $this->logger->warning(sprintf('[BitBag/SyliusErgonodePlugin] Ergonode error during validation: %s', $e->getMessage()));
         } catch (\Throwable $e) {

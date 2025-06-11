@@ -9,9 +9,8 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
+namespace BitBag\SyliusErgonodePlugin\Retriever;
 
-abstract class AttributeValue
+final class CategoriesRetriever
 {
-    public Attribute $attribute;
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.synchronizer.category_synchronizer" class="BitBag\SyliusErgonodePlugin\Synchronizer\CategorySynchronizer">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.category_api_client"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.provider.category_tree_leafs_codes_provider"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.provider.taxon_provider"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.taxon_values_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.factory.serializer_factory"/>
+            <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="1000"/>
+        </service>
+    </services>
+</container>
