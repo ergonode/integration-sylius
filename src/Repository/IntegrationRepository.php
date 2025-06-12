@@ -25,7 +25,6 @@ final class IntegrationRepository extends EntityRepository implements Integratio
         ;
     }
 
-    /** @return ?IntegrationInterface */
     public function findOneEnabledById(int $id): ?IntegrationInterface
     {
         return $this->createEnabledQueryBuilder()
