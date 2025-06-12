@@ -15,7 +15,11 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-/** @extends RepositoryInterface<IntegrationInterface> */
+/**
+ * @template T of IntegrationInterface
+ *
+ * @extends RepositoryInterface<T>
+ */
 interface IntegrationRepositoryInterface extends RepositoryInterface
 {
     public function createEnabledQueryBuilder(): QueryBuilder;
