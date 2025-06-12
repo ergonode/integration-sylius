@@ -14,12 +14,21 @@ namespace BitBag\SyliusErgonodePlugin\Form\Mapping\Type;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Form\Type\PropertyEnumType;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductPropertyMappingType extends AbstractType
 {
+    /** @param ChannelRepositoryInterface<ChannelInterface> $channelRepository */
+    public function __construct(
+        private readonly ChannelRepositoryInterface $channelRepository,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
         $builder
@@ -34,7 +43,22 @@ final class ProductPropertyMappingType extends AbstractType
             ->add('channelCode', ChannelChoiceType::class, [
                 'label' => 'sylius.ui.channel',
                 'required' => false,
-            ])
-        ;
+                'auto_initialize' => false,
+            ]);
+
+        $builder->get('channelCode')->addModelTransformer(
+            new CallbackTransformer(
+                function (?string $code) {
+                    if (null === $code) {
+                        return null;
+                    }
+
+                    return $this->channelRepository->findOneBy(['code' => $code]);
+                },
+                function (?ChannelInterface $channel): ?string {
+                    return $channel?->getCode();
+                },
+            ),
+        );
     }
 }

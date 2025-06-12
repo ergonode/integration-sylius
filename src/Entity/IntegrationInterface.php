@@ -20,6 +20,10 @@ interface IntegrationInterface extends ResourceInterface, ToggleableInterface
 
     public function setId(?int $id): void;
 
+    public function getCode(): ?string;
+
+    public function setCode(?string $code): void;
+
     public function getName(): ?string;
 
     public function setName(?string $name): void;

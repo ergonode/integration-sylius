@@ -27,9 +27,9 @@ final class SynchronizationException extends \Exception
     {
         return new self(
             sprintf(
-            'No main language mapping found for integration with id `%s`.',
-            $integration->getId(),
-        ),
+                'No main language mapping found for integration with id `%s`.',
+                $integration->getId(),
+            ),
         );
     }
 }

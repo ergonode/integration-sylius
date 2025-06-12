@@ -33,7 +33,7 @@ sylius_grid:
                     type: string
                     label: sylius.ui.search
                     options:
-                        fields: [ergonode_value, sylius_value]
+                        fields: [ergonodeValue, syliusValue]
                 relationType:
                     type: select
                     label: bitbag_ergonode.ui.relation_type

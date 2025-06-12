@@ -43,11 +43,6 @@
                     <value>sylius</value>
                 </option>
             </constraint>
-            <constraint name="Valid">
-                <option name="groups">
-                    <value>sylius</value>
-                </option>
-            </constraint>
         </property>
     </class>
 </constraint-mapping>

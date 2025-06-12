@@ -1,0 +1,27 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                locale_mapping:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -
+                                type: 'locale_external_identifier'
+                                integration: 'ergonode_integration' 
+                                sylius_value: 'pl_PL'
+                                ergonode_value: 'pl_SY'
+                                
+                            -   
+                                type: 'locale_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'en_US'
+                                ergonode_value: 'en_SY'
+                                
+                            -   
+                                type: 'locale_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'de_DE'
+                                ergonode_value: '_SY'

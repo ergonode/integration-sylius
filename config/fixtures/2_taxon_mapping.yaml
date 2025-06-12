@@ -1,0 +1,75 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                taxon_mapping:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'MENU_CATEGORY'
+                                ergonode_value: 'menu-category'
+                                
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 't_shirts'
+                                ergonode_value: 't-shirts'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'mens_t_shirts'
+                                ergonode_value: 'mens-t-shirts'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'womens_t_shirts'
+                                ergonode_value: 'womens-t-shirts'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'caps'
+                                ergonode_value: 'caps'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'simple_caps'
+                                ergonode_value: 'simple-caps'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'caps_with_pompons'
+                                ergonode_value: 'caps-with-pompons'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'dresses'
+                                ergonode_value: 'dresses'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'jeans'
+                                ergonode_value: 'jeans'
+
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'mens_jeans'
+                                ergonode_value: 'mens-jeans'
+                            
+                            -   
+                                type: 'category_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'womens_jeans'
+                                ergonode_value: 'womens-jeans'

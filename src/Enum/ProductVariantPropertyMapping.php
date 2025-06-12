@@ -13,7 +13,6 @@ namespace BitBag\SyliusErgonodePlugin\Enum;
 
 enum ProductVariantPropertyMapping: string
 {
-    case CODE = 'code';
     case ENABLED = 'enabled';
     case SHIPPING_REQUIRED = 'shipping_required';
     case PRICE = 'price';

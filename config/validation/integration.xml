@@ -53,5 +53,12 @@
                 </option>
             </constraint>
         </property>
+        <property name="mainLanguageCode">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
     </class>
 </constraint-mapping>

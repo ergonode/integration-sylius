@@ -1,0 +1,15 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                ergonode_integration:
+                    options:
+                        custom:
+                            main:
+                                code: 'ergonode_integration'
+                                name: "Ergonode Integration"
+                                enabled: true
+                                category_tree_code: "default"
+                                main_language_code: "pl_PL"

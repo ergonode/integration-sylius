@@ -51,11 +51,11 @@ final readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAss
         if (null === $propertyMapping) {
             $this->logger->warning(
                 sprintf(
-                self::MISSING_PROPERTY_LOG_FORMAT,
-                $integration->getId(),
-                $ergonodeAttributeCode,
-                RelationType::ATTRIBUTE_PROPERTY->value,
-            ),
+                    self::MISSING_PROPERTY_LOG_FORMAT,
+                    $integration->getId(),
+                    $ergonodeAttributeCode,
+                    RelationType::ATTRIBUTE_PROPERTY->value,
+                ),
             );
 
             return;
@@ -68,10 +68,5 @@ final readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAss
             $typename,
             $ergonodeValue,
         );
-
-        switch ($propertyMapping->getSyliusValue()) {
-            case CategoryPropertyMapping::CODE->value:
-                break;
-        }
     }
 }
