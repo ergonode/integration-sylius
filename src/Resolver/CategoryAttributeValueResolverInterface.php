@@ -17,6 +17,7 @@ interface CategoryAttributeValueResolverInterface
 {
     public function resolve(
         ResourceRelationMappingInterface $mainLanguageMapping,
+        ResourceRelationMappingInterface $propertyMapping,
         string $typename,
         array $categoryAttributeValue,
     ): array;

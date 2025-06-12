@@ -83,7 +83,7 @@ final class ResourceRelationMappingType extends AbstractResourceType
             if ($event->getForm()->has('channelCode')) {
                 $value = $event->getForm()->get('channelCode')->getData();
                 Assert::string($value);
-                $mapping->setChannelCode($value);;
+                $mapping->setChannelCode($value);
             }
 
             if (!$event->getForm()->has('syliusValue')) {

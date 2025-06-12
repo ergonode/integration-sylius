@@ -18,7 +18,9 @@ final class SimpleValueResolver implements ValueResolverInterface
 {
     public function resolve(array $attributeValue, ResourceRelationMappingInterface $languageExternalId): array
     {
-        return [];
+        return array_merge(...array_map(function ($localizedValue) {
+            return [$localizedValue['language'] => $localizedValue['value']];
+        }, $attributeValue));
     }
 
     public function supports(array $attributeValue, ResourceRelationMappingInterface $languageExternalId): bool
@@ -28,6 +30,7 @@ final class SimpleValueResolver implements ValueResolverInterface
             AttributeType::TEXTAREA,
             AttributeType::DATE,
             AttributeType::NUMBER,
+            AttributeType::PRICE
         ], true);
     }
 }

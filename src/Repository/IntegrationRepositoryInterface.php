@@ -17,7 +17,6 @@ use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
 /**
  * @template T of IntegrationInterface
- *
  * @extends RepositoryInterface<T>
  */
 interface IntegrationRepositoryInterface extends RepositoryInterface

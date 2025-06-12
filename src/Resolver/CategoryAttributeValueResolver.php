@@ -11,30 +11,40 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Resolver;
 
+use BitBag\SyliusErgonodePlugin\Checker\Category\CategoryTranslatablePropertyCheckerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
+use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
 
 final class CategoryAttributeValueResolver implements CategoryAttributeValueResolverInterface
 {
     public function __construct(
-        private readonly iterable $resolvers,
+        private readonly CategoryTranslatablePropertyCheckerInterface $categoryTranslatablePropertyChecker,
     ) {
     }
-
     public function resolve(
         ResourceRelationMappingInterface $mainLanguageMapping,
+        ResourceRelationMappingInterface $propertyMapping,
         string $typename,
         array $categoryAttributeValue,
     ): array {
-        //dd($typename, $categoryAttributeValue, $mainLanguageMapping);
-        foreach ($this->resolvers as $resolver) {
-            if (!$resolver->supports($mainLanguageMapping, $typename, $categoryAttributeValue)) {
-                continue;
-            }
+        $values = $this->getFlattenValues($categoryAttributeValue);
+        $categoryProperty = $propertyMapping->getSyliusValue();
+        $propertyEnum = CategoryPropertyMapping::tryFrom($categoryProperty);
 
-            return $resolver->resolve($mainLanguageMapping, $categoryAttributeValue);
+        if ($this->categoryTranslatablePropertyChecker->check($propertyEnum)) {
+            return $values;
         }
 
-        throw CategorySynchronizationException::unsupportedCategoryAttributeValue($typename, $categoryAttributeValue);
+        return array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)
+            ? $values[$mainLanguageMapping->getErgonodeValue()]
+            : []
+        ;
+    }
+
+    private function getFlattenValues(array $attributeValue): array
+    {
+        return array_merge(...array_map(function ($localizedValue) {
+            return [$localizedValue['language'] => $localizedValue['value']];
+        }, $attributeValue));
     }
 }
