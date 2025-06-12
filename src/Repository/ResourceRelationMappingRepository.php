@@ -32,7 +32,6 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
         ;
     }
 
-    /** @return ?ResourceRelationMappingInterface */
     public function findOneByIntegrationAndTypeAndSyliusValue(
         IntegrationInterface $integration,
         RelationType $type,
@@ -46,7 +45,6 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
         ;
     }
 
-    /** @return ?ResourceRelationMappingInterface */
     public function findOneByIntegrationAndTypeAndErgonodeValue(
         IntegrationInterface $integration,
         RelationType $type,

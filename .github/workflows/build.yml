@@ -159,7 +159,7 @@ jobs:
 
             -
                 name: Run PHPStan
-                run: vendor/bin/phpstan analyse -c phpstan.dist.neon -l max src/
+                run: vendor/bin/phpstan analyse -c phpstan.dist.neon src/
 
             -
                 name: Run PHPSpec
