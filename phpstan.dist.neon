@@ -15,6 +15,7 @@ parameters:
 
     ignoreErrors:
         - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given\./'
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface#'
         - '/Return type \(string\) of method BitBag\\SyliusErgonodePlugin\\.*::getTargets\(\) should be covariant with return type \(.*\) of method Symfony\\Component\\Validator\\Constraint::getTargets\(\)/'
         -
             identifier: missingType.iterableValue
