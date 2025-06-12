@@ -17,7 +17,6 @@ use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-/** @extends EntityRepository<ResourceRelationMappingInterface> */
 final class ResourceRelationMappingRepository extends EntityRepository implements ResourceRelationMappingRepositoryInterface
 {
     public function createIntegrationAndTypeQueryBuilder(

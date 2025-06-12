@@ -15,7 +15,6 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-/** @extends EntityRepository<IntegrationInterface> */
 final class IntegrationRepository extends EntityRepository implements IntegrationRepositoryInterface
 {
     public function createEnabledQueryBuilder(): QueryBuilder
@@ -26,7 +25,6 @@ final class IntegrationRepository extends EntityRepository implements Integratio
         ;
     }
 
-    /** @return ?IntegrationInterface */
     public function findOneEnabledById(int $id): ?IntegrationInterface
     {
         return $this->createEnabledQueryBuilder()
