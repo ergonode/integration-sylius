@@ -35,6 +35,10 @@ final class ErgonodeIntegrationValidator extends ConstraintValidator
         Assert::isInstanceOf($constraint, ErgonodeIntegrationConstraint::class);
         Assert::isInstanceOf($value, IntegrationInterface::class);
 
+        if (false === $value->isEnabled()) {
+            return;
+        }
+
         if (null === $value->getApiKey()) {
             $this->context->buildViolation($constraint->missingApiKey)
                 ->atPath('apiKey')

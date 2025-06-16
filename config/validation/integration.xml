@@ -40,6 +40,11 @@
                     <value>sylius</value>
                 </option>
             </constraint>
+            <constraint name="Url">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
         </property>
         <property name="categoryTreeCode">
             <constraint name="NotBlank">

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true" />
+        <service id="tests.bitbag.sylius_ergonode_plugin.behat.context.ui.admin.managing_integrations_context" class="Tests\BitBag\SyliusErgonodePlugin\Behat\Context\Ui\Admin\ManagingIntegrationsContext">
+            <argument type="service" id="sylius.behat.shared_storage"/>
+            <argument type="service" id="tests.bitbag.sylius_ergonode_plugin.behat.page.admin.integration.index_page"/>
+            <argument type="service" id="tests.bitbag.sylius_ergonode_plugin.behat.page.admin.integration.update_page"/>
+            <argument type="service" id="sylius.behat.notification_checker.admin"/>
+            <argument type="service" id="tests.bitbag.sylius_ergonode_plugin.behat.page.admin.integration.create_page"/>
+        </service>
+        <service id="tests.bitbag.sylius_ergonode_plugin.behat.context.setup.integration_context" class="Tests\BitBag\SyliusErgonodePlugin\Behat\Context\Setup\IntegrationContext">
+            <argument type="service" id="tests.bitbag.sylius_ergonode_plugin.behat.factory.integration_factory"/>
+            <argument type="service" id="sylius.behat.shared_storage"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+    </services>
+</container>

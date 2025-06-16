@@ -80,7 +80,7 @@ abstract class AbstractErgonodeClient
                 ),
             );
 
-            return [];
+            throw ErgonodeException::requestFailed($exception);
         }
     }
 

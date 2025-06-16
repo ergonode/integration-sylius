@@ -2,6 +2,12 @@
 
 default:
     suites:
-
+        ui_admin_managing_integrations:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+                - tests.bitbag.sylius_ergonode_plugin.behat.context.ui.admin.managing_integrations_context
+                - tests.bitbag.sylius_ergonode_plugin.behat.context.setup.integration_context
             filters:
-                tags: "@greeting_customer"
+                tags: "@managing_integrations&&@ui"
