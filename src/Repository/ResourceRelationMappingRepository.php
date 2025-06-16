@@ -21,9 +21,8 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
 {
     public function createIntegrationAndTypeQueryBuilder(
         IntegrationInterface $integration,
-        RelationType $type
-    ): QueryBuilder
-    {
+        RelationType $type,
+    ): QueryBuilder {
         return $this->createQueryBuilder('rrm')
             ->andWhere('rrm.relationType = :type')
             ->andWhere('rrm.integration = :integration')
@@ -35,7 +34,7 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
     public function findOneByIntegrationAndTypeAndSyliusValue(
         IntegrationInterface $integration,
         RelationType $type,
-        string $syliusValue
+        string $syliusValue,
     ): ?ResourceRelationMappingInterface {
         return $this->createIntegrationAndTypeQueryBuilder($integration, $type)
             ->andWhere('rrm.syliusValue = :syliusValue')
@@ -48,9 +47,8 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
     public function findOneByIntegrationAndTypeAndErgonodeValue(
         IntegrationInterface $integration,
         RelationType $type,
-        string $ergonodeValue
-    ): ?ResourceRelationMappingInterface
-    {
+        string $ergonodeValue,
+    ): ?ResourceRelationMappingInterface {
         return $this->createIntegrationAndTypeQueryBuilder($integration, $type)
             ->andWhere('rrm.ergonodeValue = :ergonodeValue')
             ->setParameter('ergonodeValue', $ergonodeValue)

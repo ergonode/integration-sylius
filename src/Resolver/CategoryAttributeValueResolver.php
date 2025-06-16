@@ -26,7 +26,6 @@ final class CategoryAttributeValueResolver implements CategoryAttributeValueReso
         string $typename,
         array $categoryAttributeValue,
     ): array {
-        //dd($typename, $categoryAttributeValue, $mainLanguageMapping);
         foreach ($this->resolvers as $resolver) {
             if (!$resolver->supports($mainLanguageMapping, $typename, $categoryAttributeValue)) {
                 continue;

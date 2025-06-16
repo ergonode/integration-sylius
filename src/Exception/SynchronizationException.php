@@ -13,7 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Exception;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
-final class SynchronizationException extends \Exception
+class SynchronizationException extends \Exception
 {
     public static function missingCategoryTreeCode(IntegrationInterface $integration): self
     {
@@ -27,9 +27,18 @@ final class SynchronizationException extends \Exception
     {
         return new self(
             sprintf(
-            'No main language mapping found for integration with id `%s`.',
-            $integration->getId(),
-        ),
+                'No main language mapping found for integration with id `%s`.',
+                $integration->getId(),
+            ),
         );
+    }
+
+    public static function invalidArrayStructure(array $data, string $missingKey): self
+    {
+        return new self(sprintf(
+            'Invalid array structure, expected key `%s`. Encoded value: `%s`.',
+            $missingKey,
+            json_encode($data, \JSON_THROW_ON_ERROR),
+        ));
     }
 }

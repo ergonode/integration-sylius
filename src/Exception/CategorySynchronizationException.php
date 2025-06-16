@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Exception;
 
-final class CategorySynchronizationException extends \Exception
+final class CategorySynchronizationException extends SynchronizationException
 {
     public static function invalidCategoryTreeFound(?string $expectedCode, string $actualCode): self
     {

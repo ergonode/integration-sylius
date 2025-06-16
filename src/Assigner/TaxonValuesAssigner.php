@@ -13,6 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Assigner;
 
 use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonPropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
 use Sylius\Component\Core\Model\TaxonInterface;
 
@@ -31,6 +32,10 @@ final class TaxonValuesAssigner implements TaxonValuesAssignerInterface
         $attributeListNodes = $categoryNode->getAttributeListNodes();
 
         foreach ($attributeListNodes as $attributeListNode) {
+            if (!array_key_exists('node', $attributeListNode)) {
+                throw CategorySynchronizationException::invalidArrayStructure($attributeListNode, 'node');
+            }
+
             $attributeNode = $attributeListNode['node'];
 
             $this->taxonPropertyValueAssigner->assign($integration, $taxon, $attributeNode);
