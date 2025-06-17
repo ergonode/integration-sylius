@@ -6,6 +6,6 @@
 >
 
     <services>
-        <service id="bitbag.sylius_ergonode_plugin.factory.serializer_factory" class="DenormalizerFactory"/>
+        <service id="bitbag.sylius_ergonode_plugin.factory.serializer_factory" class="BitBag\SyliusErgonodePlugin\Factory\DenormalizerFactory"/>
     </services>
 </container>

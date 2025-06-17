@@ -24,6 +24,10 @@ final class CategoryProductRelationContext implements CategoryProductRelationCon
 
     public function getForTaxon(TaxonInterface $taxon): array
     {
+        if (null === $taxon->getCode() || !array_key_exists($taxon->getCode(), $this->context)) {
+            return [];
+        }
+
         return $this->context[$taxon->getCode()];
     }
 
