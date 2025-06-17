@@ -24,7 +24,7 @@ final class CategoryTreeStream extends ErgonodeRequestModel
     public function getRequestBody(): string
     {
         return <<<'GRAPHQL'
-            query CategoryTreeStream($previousCursorEnd: String, $limit: int) {
+            query CategoryTreeStream($previousCursorEnd: String, $limit: Int) {
               categoryTreeStream(first: $limit, after: $previousCursorEnd) {
                 pageInfo {
                   endCursor

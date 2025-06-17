@@ -15,6 +15,6 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
 interface CategoryTreeLeafsCodesProviderInterface
 {
-    /** @return array<string> */
+    /** @return array<array> */
     public function provide(IntegrationInterface $integration): array;
 }

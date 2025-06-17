@@ -18,16 +18,16 @@ use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
-final class TaxonProvider implements TaxonProviderInterface
+final readonly class TaxonProvider implements TaxonProviderInterface
 {
     /**
      * @param TaxonRepositoryInterface<TaxonInterface> $taxonRepository
      * @param TaxonFactoryInterface<TaxonInterface> $taxonFactory
      */
     public function __construct(
-        private readonly TaxonRepositoryInterface $taxonRepository,
-        private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
-        private readonly TaxonFactoryInterface $taxonFactory,
+        private TaxonRepositoryInterface $taxonRepository,
+        private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
+        private TaxonFactoryInterface $taxonFactory,
     ) {
     }
 
@@ -44,13 +44,19 @@ final class TaxonProvider implements TaxonProviderInterface
         );
 
         if (null === $mapping) {
-            return $this->taxonFactory->createNew();
+            $taxon = $this->taxonFactory->createNew();
+            $taxon->setCode($ergonodeCategoryCode);
+
+            return $taxon;
         }
 
         if (null !== $taxon = $this->taxonRepository->findOneBy(['code' => $mapping->getSyliusValue()])) {
             return $taxon;
         }
 
-        return $this->taxonFactory->createNew();
+        $taxon = $this->taxonFactory->createNew();
+        $taxon->setCode($ergonodeCategoryCode);
+
+        return $taxon;
     }
 }

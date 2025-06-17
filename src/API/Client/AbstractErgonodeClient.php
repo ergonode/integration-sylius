@@ -20,14 +20,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-abstract class AbstractErgonodeClient
+abstract readonly class AbstractErgonodeClient
 {
     private const ERGONODE_GRAPHQL_API_ENDPOINT = 'api/graphql/';
 
     public function __construct(
-        private readonly EncryptorInterface $encryptor,
-        private readonly HttpClientInterface $ergonodeClient,
-        private readonly LoggerInterface $logger,
+        private EncryptorInterface $encryptor,
+        private HttpClientInterface $ergonodeClient,
+        private LoggerInterface $logger,
     ) {
     }
 

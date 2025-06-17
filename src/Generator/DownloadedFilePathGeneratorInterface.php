@@ -9,8 +9,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Retriever;
+namespace BitBag\SyliusErgonodePlugin\Generator;
 
-final class CategoriesRetriever
+interface DownloadedFilePathGeneratorInterface
 {
+    public function generate(string $filename): string;
 }

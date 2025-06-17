@@ -9,15 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Context;
+namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
 
 use Sylius\Component\Core\Model\TaxonInterface;
 
-interface CategoryProductRelationContextInterface
+interface TaxonParentAssignerInterface
 {
-    public function add(TaxonInterface $taxon, string $productIdentifier): void;
-
-    public function getForTaxon(TaxonInterface $taxon): array;
-
-    public function getAll(): array;
+    public function assign(TaxonInterface $taxon, string $parentCategoryCode): void;
 }

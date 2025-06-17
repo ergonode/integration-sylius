@@ -13,7 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Logger;
 
 use Psr\Log\LoggerInterface;
 
-final class PrefixedLogger implements LoggerInterface
+final readonly class PrefixedLogger implements LoggerInterface
 {
     private const FORMAT = '[BitBag/SyliusErgonodePlugin] %s';
 

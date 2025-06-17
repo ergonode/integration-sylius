@@ -28,6 +28,7 @@ final readonly class CategoryTreeLeafsCodesProvider implements CategoryTreeLeafs
         $response = $this->categoryApiClient->getCategoryTreeLeafCodes($integration);
         $categoryTree = $response['data']['categoryTree'];
         $categoryTreeCode = $categoryTree['code'];
+
         if ($categoryTreeCode !== $integration->getCategoryTreeCode()) {
             throw CategorySynchronizationException::invalidCategoryTreeFound(
                 $integration->getCategoryTreeCode(),
@@ -36,6 +37,17 @@ final readonly class CategoryTreeLeafsCodesProvider implements CategoryTreeLeafs
         }
         $categoryEdges = $categoryTree['categoryTreeLeafList']['edges'];
 
-        return array_map(fn (array $edge) => $edge['node']['category']['code'], $categoryEdges);
+        return [
+            'codes' => array_merge(
+                ...array_map(fn (array $edge) => [
+                    $edge['node']['category']['code'],
+                ], $categoryEdges),
+            ),
+            'parents' => array_merge(
+                ...array_map(fn (array $edge) => [
+                    $edge['node']['category']['code'] => $edge['node']['parentCategory']['code'],
+                ], array_filter($categoryEdges, fn (array $edge) => null !== $edge['node']['parentCategory'])),
+            ),
+        ];
     }
 }

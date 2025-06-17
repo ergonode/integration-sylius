@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\API\RequestModel\Category;
 
-final class CategoryDeletedStream
+use BitBag\SyliusErgonodePlugin\API\RequestModel\ErgonodeRequestModel;
+
+final class CategoryDeletedStream extends ErgonodeRequestModel
 {
     public function __construct(
         private readonly int $limit,
@@ -22,7 +24,7 @@ final class CategoryDeletedStream
     public function getRequestBody(): string
     {
         return <<<'GRAPHQL'
-            query CategoryDeletedStream($previousCursorEnd: String, $limit: int) {
+            query CategoryDeletedStream($previousCursorEnd: String, $limit: Int) {
               categoryDeletedStream(first: $limit, after: $previousCursorEnd) {
                 pageInfo {
                   endCursor

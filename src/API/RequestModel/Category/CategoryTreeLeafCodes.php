@@ -31,7 +31,10 @@ final class CategoryTreeLeafCodes extends ErgonodeRequestModel
                 node {
                   category {
                     code
-                  }
+                    }
+                    parentCategory {
+                        code
+                    }
                 }
               }
             }

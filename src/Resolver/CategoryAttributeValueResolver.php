@@ -12,39 +12,72 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Resolver;
 
 use BitBag\SyliusErgonodePlugin\Checker\Category\CategoryTranslatablePropertyCheckerInterface;
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
+use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
+use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ValueResolverInterface;
 
-final class CategoryAttributeValueResolver implements CategoryAttributeValueResolverInterface
+final readonly class CategoryAttributeValueResolver implements CategoryAttributeValueResolverInterface
 {
     public function __construct(
-        private readonly CategoryTranslatablePropertyCheckerInterface $categoryTranslatablePropertyChecker,
+        private iterable $valueResolvers,
+        private CategoryTranslatablePropertyCheckerInterface $categoryTranslatablePropertyChecker,
     ) {
     }
+
     public function resolve(
+        IntegrationInterface $integration,
         ResourceRelationMappingInterface $mainLanguageMapping,
         ResourceRelationMappingInterface $propertyMapping,
         string $typename,
+        array $categoryAttribute,
         array $categoryAttributeValue,
     ): array {
-        $values = $this->getFlattenValues($categoryAttributeValue);
-        $categoryProperty = $propertyMapping->getSyliusValue();
-        $propertyEnum = CategoryPropertyMapping::tryFrom($categoryProperty);
+        $values = $this->getValues($integration, $categoryAttribute, $categoryAttributeValue, $typename, $propertyMapping);
 
+        $categoryProperty = $propertyMapping->getSyliusValue();
+        if (null === $categoryProperty) {
+            throw SynchronizationException::missingSyliusValue($propertyMapping);
+        }
+
+        $propertyEnum = CategoryPropertyMapping::tryFrom($categoryProperty);
         if ($this->categoryTranslatablePropertyChecker->check($propertyEnum)) {
             return $values;
         }
 
+        if (null === $mainLanguageMapping->getErgonodeValue()) {
+            throw SynchronizationException::missingErgonodeValue($mainLanguageMapping);
+        }
+
         return array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)
-            ? $values[$mainLanguageMapping->getErgonodeValue()]
+            ? [$mainLanguageMapping->getErgonodeValue() => $values[$mainLanguageMapping->getErgonodeValue()]]
             : []
         ;
     }
 
-    private function getFlattenValues(array $attributeValue): array
-    {
-        return array_merge(...array_map(function ($localizedValue) {
-            return [$localizedValue['language'] => $localizedValue['value']];
-        }, $attributeValue));
+    private function getValues(
+        IntegrationInterface $integration,
+        array $categoryAttribute,
+        array $categoryAttributeValue,
+        string $typename,
+        ResourceRelationMappingInterface $propertyMapping,
+    ): array {
+        /** @var ValueResolverInterface $valueResolver */
+        foreach ($this->valueResolvers as $valueResolver) {
+            if (!$valueResolver->supports($typename, $propertyMapping)) {
+                continue;
+            }
+
+            return $valueResolver->resolve(
+                $integration,
+                $categoryAttribute,
+                $categoryAttributeValue,
+                $propertyMapping,
+            );
+        }
+
+        throw CategorySynchronizationException::unsupportedCategoryAttributeValue($typename, $categoryAttributeValue);
     }
 }

@@ -15,7 +15,7 @@ use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMapping;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
-final class ResourceRelationMappingFactory implements ResourceRelationMappingFactoryInterface
+final readonly class ResourceRelationMappingFactory implements ResourceRelationMappingFactoryInterface
 {
     public function createNew(): ResourceRelationMappingInterface
     {

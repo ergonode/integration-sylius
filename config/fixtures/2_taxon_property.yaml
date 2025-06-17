@@ -11,20 +11,8 @@ sylius_fixtures:
                             -   
                                 type: 'category_property'
                                 integration: 'ergonode_integration'
-                                sylius_value: 'parent'
-                                ergonode_value: 'parent'
-
-                            -   
-                                type: 'category_property'
-                                integration: 'ergonode_integration'
                                 sylius_value: 'enabled'
                                 ergonode_value: 'enabled'
-
-                            -   
-                                type: 'category_property'
-                                integration: 'ergonode_integration'
-                                sylius_value: 'name'
-                                ergonode_value: 'name'
 
                             -   
                                 type: 'category_property'

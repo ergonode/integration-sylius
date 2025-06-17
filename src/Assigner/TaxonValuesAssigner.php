@@ -11,16 +11,29 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner;
 
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonNameAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonPropertyValueAssigner;
+use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
+use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttributeValueResolverInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 
-final class TaxonValuesAssigner implements TaxonValuesAssignerInterface
+final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
 {
+    private const MISSING_PROPERTY_LOG_FORMAT = 'Missing property relation mapping for integration id `%s`, relation type %s and value %s';
+
     public function __construct(
-        private readonly TaxonPropertyValueAssigner $taxonPropertyValueAssigner,
+        private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
+        private TaxonPropertyValueAssigner $taxonPropertyValueAssigner,
+        private TaxonNameAssignerInterface $taxonNameAssigner,
+        private MainLanguageContextInterface $mainLanguageContext,
+        private CategoryAttributeValueResolverInterface $categoryAttributeValueResolver,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -31,14 +44,53 @@ final class TaxonValuesAssigner implements TaxonValuesAssignerInterface
     ): void {
         $attributeListNodes = $categoryNode->getAttributeListNodes();
 
+        $this->taxonNameAssigner->assign($integration, $taxon, $categoryNode);
+
         foreach ($attributeListNodes as $attributeListNode) {
             if (!array_key_exists('node', $attributeListNode)) {
                 throw CategorySynchronizationException::invalidArrayStructure($attributeListNode, 'node');
             }
 
             $attributeNode = $attributeListNode['node'];
+            [$typename, $attribute, $value] = array_values($attributeNode);
+            $ergonodeAttributeCode = $attribute['code'];
 
-            $this->taxonPropertyValueAssigner->assign($integration, $taxon, $attributeNode);
+            $propertyMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
+                $integration,
+                $ergonodeAttributeCode,
+                RelationType::CATEGORY_PROPERTY,
+            );
+
+            if (null === $propertyMapping) {
+                $this->logger->warning(
+                    sprintf(
+                        self::MISSING_PROPERTY_LOG_FORMAT,
+                        $integration->getId(),
+                        $ergonodeAttributeCode,
+                        RelationType::ATTRIBUTE_PROPERTY->value,
+                    ),
+                );
+
+                return;
+            }
+
+            $ergonodeLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
+
+            $attributeValue = $this->categoryAttributeValueResolver->resolve(
+                $integration,
+                $ergonodeLanguageMapping,
+                $propertyMapping,
+                $typename,
+                $attribute,
+                $value,
+            );
+
+            $this->taxonPropertyValueAssigner->assign(
+                $integration,
+                $taxon,
+                $propertyMapping,
+                $attributeValue,
+            );
         }
     }
 }

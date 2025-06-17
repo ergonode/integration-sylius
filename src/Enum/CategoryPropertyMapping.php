@@ -15,7 +15,6 @@ enum CategoryPropertyMapping: string
 {
     case PARENT = 'parent';
     case ENABLED = 'enabled';
-    case NAME = 'name';
     case DESCRIPTION = 'description';
     case SLUG = 'slug';
     case MEDIA = 'media';

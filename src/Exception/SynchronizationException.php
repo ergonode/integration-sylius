@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Exception;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 
 class SynchronizationException extends \Exception
 {
@@ -40,5 +41,25 @@ class SynchronizationException extends \Exception
             $missingKey,
             json_encode($data, \JSON_THROW_ON_ERROR),
         ));
+    }
+
+    public static function missingErgonodeValue(ResourceRelationMappingInterface $mapping): self
+    {
+        return new self(
+            sprintf(
+                'No Ergonode value found found for mapping with id `%s`.',
+                $mapping->getId(),
+            ),
+        );
+    }
+
+    public static function missingSyliusValue(ResourceRelationMappingInterface $mapping): self
+    {
+        return new self(
+            sprintf(
+                'No Sylius value found found for mapping with id `%s`.',
+                $mapping->getId(),
+            ),
+        );
     }
 }

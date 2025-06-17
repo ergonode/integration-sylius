@@ -12,158 +12,118 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
 
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
+use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloader;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
-use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttributeValueResolverInterface;
-use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
-use Psr\Log\LoggerInterface;
+use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
+use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
+use Sylius\Component\Core\Model\TaxonImageInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerInterface
+readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerInterface
 {
-    private const MISSING_PROPERTY_LOG_FORMAT = 'Missing property relation mapping for integration id `%s`, relation type %s and value %s';
-
     public function __construct(
-        private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private MainLanguageContextInterface $mainLanguageContext,
-        private CategoryAttributeValueResolverInterface $categoryAttributeValueResolver,
-        private LoggerInterface $logger,
-        private FactoryInterface $taxonTranslationFactory,
+        private ErgonodeFileDownloader $ergonodeFileDownloader,
+        private FactoryInterface $taxonImageFactory,
+        private TextValueResolverInterface $textValueResolver,
     ) {
     }
 
     public function assign(
         IntegrationInterface $integration,
         TaxonInterface $taxon,
-        array $attributeNode,
+        ResourceRelationMappingInterface $propertyMapping,
+        array $attributeValue,
     ): void {
-        [$typename, $attribute, $value] = $attributeNode;
-        $ergonodeAttributeCode = $attribute['code'];
+        if (null === $propertyMapping->getSyliusValue()) {
+            throw CategorySynchronizationException::missingSyliusValue($propertyMapping);
+        }
 
-        $propertyMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
-            $integration,
-            $ergonodeAttributeCode,
-            RelationType::ATTRIBUTE_PROPERTY,
-        );
+        switch (CategoryPropertyMapping::tryFrom($propertyMapping->getSyliusValue())) {
+            case CategoryPropertyMapping::DESCRIPTION:
+                $this->assignDescription($taxon, $attributeValue);
 
-        if (null === $propertyMapping) {
-            $this->logger->warning(
-                sprintf(
-                    self::MISSING_PROPERTY_LOG_FORMAT,
-                    $integration->getId(),
-                    $ergonodeAttributeCode,
-                    RelationType::ATTRIBUTE_PROPERTY->value,
-                ),
-            );
+                return;
+            case CategoryPropertyMapping::SLUG:
+                $this->assignSlug($taxon, $attributeValue);
 
+                return;
+            case CategoryPropertyMapping::ENABLED:
+                $this->assignEnabled($integration, $attributeValue);
+
+                return;
+            case CategoryPropertyMapping::MEDIA:
+                $this->assignMedia($taxon, $integration, $attributeValue);
+
+                return;
+        }
+    }
+
+    private function assignDescription(TaxonInterface $taxon, array $attributeValue): void
+    {
+        foreach ($attributeValue as $locale => $value) {
+            $value = $this->textValueResolver->resolve($locale, $value);
+            if (null === $value) {
+                continue;
+            }
+
+            $translation = $taxon->getTranslation($locale);
+            if ($locale !== $translation->getLocale()) {
+                continue;
+            }
+
+            $translation->setDescription($value);
+        }
+    }
+
+    private function assignSlug(TaxonInterface $taxon, array $attributeValue): void
+    {
+        foreach ($attributeValue as $locale => $value) {
+            $value = $this->textValueResolver->resolve($locale, $value);
+            if (null === $value) {
+                continue;
+            }
+
+            $translation = $taxon->getTranslation($locale);
+            if ($locale !== $translation->getLocale()) {
+                continue;
+            }
+
+            $translation->setSlug($value);
+        }
+    }
+
+    private function assignEnabled(IntegrationInterface $integration, array $attributeValue): bool
+    {
+        $mainLanguage = $this->mainLanguageContext->getMainLanguageMapping($integration);
+        $mainValue = $attributeValue[$mainLanguage->getErgonodeValue()] ?? null;
+
+        if (is_array($mainValue) && array_key_exists('code', $mainValue)) {
+            return (bool) $mainValue['code'];
+        }
+
+        return (bool) ($mainValue ?? false);
+    }
+
+    private function assignMedia(TaxonInterface $taxon, IntegrationInterface $integration, array $attributeValue): void
+    {
+        $mainLanguage = $this->mainLanguageContext->getMainLanguageMapping($integration);
+        $mainLanguageValue = $attributeValue[$mainLanguage->getSyliusValue()] ?? [];
+
+        if ([] === $mainLanguageValue) {
             return;
         }
 
-        $ergonodeLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
+        /** @var array $value */
+        foreach ($mainLanguageValue as $value) {
+            /** @var TaxonImageInterface $image */
+            $image = $this->taxonImageFactory->createNew();
+            $this->ergonodeFileDownloader->download($value, $image);
 
-        $attributeValue = $this->categoryAttributeValueResolver->resolve(
-            $ergonodeLanguageMapping,
-            $propertyMapping,
-            $typename,
-            $value,
-        );
-
-        switch ($propertyMapping->getSyliusValue()) {
-            case CategoryPropertyMapping::NAME:
-                $this->assignName($integration, $taxon, $attributeValue);
-                return;
-            case CategoryPropertyMapping::DESCRIPTION:
-                $this->assignDescription($integration, $taxon, $attributeValue);
-                return;
+            $taxon->addImage($image);
         }
-    }
-
-    private function assignName(IntegrationInterface $integration, TaxonInterface $taxon, array $attributeValue): void
-    {
-        foreach ($attributeValue as $locale => $value) {
-            $value = $this->resolveTextValue($integration, $taxon, $locale, (string) $value);
-            $taxon->setName($value);
-        }
-    }
-
-    private function assignDescription(IntegrationInterface $integration, TaxonInterface $taxon, array $attributeValue): void
-    {
-        foreach ($attributeValue as $locale => $value) {
-            $value = $this->resolveTextValue($integration, $taxon, $locale, (string) $value);
-            $taxon->setDescription($value);
-        }
-    }
-
-    private function assignSlug(IntegrationInterface $integration, TaxonInterface $taxon, array $attributeValue): void
-    {
-        foreach ($attributeValue as $locale => $value) {
-            $value = $this->resolveTextValue($integration, $taxon, $locale, (string) $value);
-            $taxon->setSlug($value);
-        }
-    }
-
-    private function resolveTextValue(IntegrationInterface $integration, TaxonInterface $taxon, string $locale, mixed $value): ?string
-    {
-        if ($this->isStringable($value)) {
-            $this->logger->warning(sprintf('Value for locale %s is not stringable. Value: %s', $locale,
-                json_encode($value)
-            ));
-
-            return null;
-        }
-
-        if (null === $syliusLocaleMapping = $this->resolveLocaleMapping($integration, $locale)) {
-            return null;
-        }
-
-        if (null === $taxon->getTranslation($syliusLocaleMapping->getSyliusValue())) {
-            $this->createTranslation($syliusLocaleMapping, $taxon);
-        }
-
-        $taxon->setCurrentLocale($syliusLocaleMapping->getSyliusValue());
-
-        return $value;
-    }
-
-    private function resolveLocaleMapping(IntegrationInterface $integration, string $locale): ?ResourceRelationMappingInterface
-    {
-        return $this->resourceRelationMappingResolver->resolveForErgonodeValue(
-            $integration,
-            $locale,
-            RelationType::LANGUAGE_EXTERNAL_ID
-        );
-    }
-
-    public function createTranslation(
-        ResourceRelationMappingInterface $syliusLocaleMapping,
-        TaxonInterface $taxon
-    ): TaxonTranslationInterface {
-        /** @var TaxonTranslationInterface $translation */
-        $translation = $this->taxonTranslationFactory->createNew();
-        $translation->setLocale($syliusLocaleMapping->getSyliusValue());
-        $taxon->addTranslation($translation);
-
-        return $translation;
-    }
-
-    function isStringable(mixed $value): bool
-    {
-        if (is_null($value) || is_scalar($value)) {
-            return true;
-        }
-
-        if ($value instanceof \Stringable) {
-            return true;
-        }
-
-        if (is_object($value) && method_exists($value, '__toString')) {
-            return true;
-        }
-
-        return false;
     }
 }

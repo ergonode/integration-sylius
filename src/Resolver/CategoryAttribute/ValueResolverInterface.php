@@ -11,11 +11,17 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute;
 
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 
 interface ValueResolverInterface
 {
-    public function resolve(array $attributeValue, ResourceRelationMappingInterface $languageExternalId): array;
+    public function resolve(
+        IntegrationInterface $integration,
+        array $attribute,
+        array $attributeValue,
+        ResourceRelationMappingInterface $languageExternalId,
+    ): array;
 
-    public function supports(array $attributeValue, ResourceRelationMappingInterface $languageExternalId): bool;
+    public function supports(string $typename, ResourceRelationMappingInterface $languageExternalId): bool;
 }
