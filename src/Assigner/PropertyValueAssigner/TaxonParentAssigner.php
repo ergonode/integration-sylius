@@ -24,7 +24,7 @@ final readonly class TaxonParentAssigner implements TaxonParentAssignerInterface
     public function assign(TaxonInterface $taxon, string $parentCategoryCode): void
     {
         $parentCategory = $this->taxonRepository->findOneBy(['code' => $parentCategoryCode]);
-        if (null === $parentCategory) {
+        if (!$parentCategory instanceof TaxonInterface) {
             return;
         }
 
