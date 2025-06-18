@@ -53,4 +53,12 @@ interface IntegrationInterface extends ResourceInterface, ToggleableInterface
     public function getMainLanguageCode(): ?string;
 
     public function setMainLanguageCode(?string $mainLanguageCode): void;
+
+    public function getAttributeStreamCursorEnd(): ?string;
+
+    public function setAttributeStreamCursorEnd(?string $attributeStreamCursorEnd): void;
+
+    public function getAttributeDeletedStreamCursorEnd(): ?string;
+
+    public function setAttributeDeletedStreamCursorEnd(?string $attributeDeletedStreamCursorEnd): void;
 }
