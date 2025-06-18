@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
 
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
-use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloader;
+use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
@@ -26,7 +26,7 @@ readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerI
 {
     public function __construct(
         private MainLanguageContextInterface $mainLanguageContext,
-        private ErgonodeFileDownloader $ergonodeFileDownloader,
+        private ErgonodeFileDownloaderInterface $ergonodeFileDownloader,
         private FactoryInterface $taxonImageFactory,
         private TextValueResolverInterface $textValueResolver,
     ) {

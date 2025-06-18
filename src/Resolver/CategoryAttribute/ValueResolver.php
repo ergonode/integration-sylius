@@ -22,7 +22,7 @@ abstract readonly class ValueResolver implements ValueResolverInterface
     ) {
     }
 
-    public function getSyliusLocaleCode(IntegrationInterface $integration, string $ergonodeLocaleCode): ?string
+    protected function getSyliusLocaleCode(IntegrationInterface $integration, string $ergonodeLocaleCode): ?string
     {
         $mapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
             $integration,

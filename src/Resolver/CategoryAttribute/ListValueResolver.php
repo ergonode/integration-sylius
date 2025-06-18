@@ -37,7 +37,6 @@ final readonly class ListValueResolver extends ValueResolver
             if (null === $syliusLocaleCode) {
                 continue;
             }
-
             if (array_key_exists('name', $value['translatedValue'])) {
                 $values[$syliusLocaleCode] = [
                     'code' => $value['value']['code'],
@@ -46,12 +45,19 @@ final readonly class ListValueResolver extends ValueResolver
 
                 continue;
             }
+            $code = $value['value']['code'];
+            $translation = array_filter($value['translatedValue'], function ($translatedValue) use ($code) {
+                return $code === $translatedValue['code'];
+            });
+
+            $translatedValue = array_shift($translation);
+            if (null === $translatedValue || !array_key_exists('name', $translatedValue)) {
+                continue;
+            }
 
             $values[$syliusLocaleCode] = [
-                'code' => $code = $value['value']['code'],
-                'name' => array_filter($value['translatedValue'], function ($translatedValue) use ($code) {
-                    return $code === $translatedValue['code'];
-                })['name'],
+                'code' => $code,
+                'name' => $translatedValue['name'],
             ];
         }
 
