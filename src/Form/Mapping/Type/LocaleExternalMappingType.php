@@ -46,7 +46,7 @@ final class LocaleExternalMappingType extends AbstractType
                 return $this->localeRepository->findOneBy(['code' => $code]);
             }, function (LocaleInterface $locale) {
                 return $locale->getCode();
-            })
+            }),
         );
     }
 }
