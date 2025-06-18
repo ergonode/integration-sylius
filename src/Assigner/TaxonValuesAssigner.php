@@ -62,23 +62,14 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
             );
 
             if (null === $propertyMapping) {
-                $this->logger->warning(
-                    sprintf(
-                        self::MISSING_PROPERTY_LOG_FORMAT,
-                        $integration->getId(),
-                        $ergonodeAttributeCode,
-                        RelationType::ATTRIBUTE_PROPERTY->value,
-                    ),
-                );
+                $this->logMissingMapping($integration, $ergonodeAttributeCode);
 
                 return;
             }
 
-            $ergonodeLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
-
             $attributeValue = $this->categoryAttributeValueResolver->resolve(
                 $integration,
-                $ergonodeLanguageMapping,
+                $this->mainLanguageContext->getMainLanguageMapping($integration),
                 $propertyMapping,
                 $typename,
                 $attribute,
@@ -92,5 +83,17 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
                 $attributeValue,
             );
         }
+    }
+
+    public function logMissingMapping(IntegrationInterface $integration, mixed $ergonodeAttributeCode): void
+    {
+        $this->logger->warning(
+            sprintf(
+                self::MISSING_PROPERTY_LOG_FORMAT,
+                $integration->getId(),
+                $ergonodeAttributeCode,
+                RelationType::ATTRIBUTE_PROPERTY->value,
+            ),
+        );
     }
 }

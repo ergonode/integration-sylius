@@ -33,10 +33,6 @@ final readonly class TaxonProvider implements TaxonProviderInterface
 
     public function provide(IntegrationInterface $integration, string $ergonodeCategoryCode): TaxonInterface
     {
-        if (null !== $taxon = $this->taxonRepository->findOneBy(['code' => $ergonodeCategoryCode])) {
-            return $taxon;
-        }
-
         $mapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
             $integration,
             $ergonodeCategoryCode,
@@ -51,6 +47,10 @@ final readonly class TaxonProvider implements TaxonProviderInterface
         }
 
         if (null !== $taxon = $this->taxonRepository->findOneBy(['code' => $mapping->getSyliusValue()])) {
+            return $taxon;
+        }
+
+        if (null !== $taxon = $this->taxonRepository->findOneBy(['code' => $ergonodeCategoryCode])) {
             return $taxon;
         }
 
