@@ -39,15 +39,11 @@ final readonly class TaxonProvider implements TaxonProviderInterface
             RelationType::CATEGORY_EXTERNAL_ID,
         );
 
-        if (null === $mapping) {
-            $taxon = $this->taxonFactory->createNew();
-            $taxon->setCode($ergonodeCategoryCode);
-
-            return $taxon;
-        }
-
-        if (null !== $taxon = $this->taxonRepository->findOneBy(['code' => $mapping->getSyliusValue()])) {
-            return $taxon;
+        if (null !== $mapping) {
+            $taxon = $this->taxonRepository->findOneBy(['code' => $mapping->getSyliusValue()]);
+            if (null !== $taxon) {
+                return $taxon;
+            }
         }
 
         if (null !== $taxon = $this->taxonRepository->findOneBy(['code' => $ergonodeCategoryCode])) {
