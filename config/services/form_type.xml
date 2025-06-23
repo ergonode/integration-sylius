@@ -78,7 +78,7 @@
             />
         </service>
 
-        <service id="bit_bag.sylius_ergonode_plugin.form.mapping.type.product_variant_external_mapping_type" class="BitBag\SyliusErgonodePlugin\Form\Mapping\Type\ProductVariantExternalMappingType">
+        <service id="bitbag.sylius_ergonode_plugin.form.mapping.type.product_variant_external_mapping_type" class="BitBag\SyliusErgonodePlugin\Form\Mapping\Type\ProductVariantExternalMappingType">
             <argument type="service" id="sylius.repository.product_variant" />
             <tag name="form.type" />
             <tag

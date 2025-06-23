@@ -1,0 +1,44 @@
+<?php
+
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
+declare(strict_types=1);
+
+namespace BitBag\SyliusErgonodePlugin\Assigner;
+
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonPropertyValueAssigner;
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
+use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
+use Sylius\Component\Core\Model\TaxonInterface;
+
+final class TaxonValuesAssigner implements TaxonValuesAssignerInterface
+{
+    public function __construct(
+        private readonly TaxonPropertyValueAssigner $taxonPropertyValueAssigner,
+    ) {
+    }
+
+    public function assign(
+        CategoryNode $categoryNode,
+        IntegrationInterface $integration,
+        TaxonInterface $taxon,
+    ): void {
+        $attributeListNodes = $categoryNode->getAttributeListNodes();
+
+        foreach ($attributeListNodes as $attributeListNode) {
+            if (!array_key_exists('node', $attributeListNode)) {
+                throw CategorySynchronizationException::invalidArrayStructure($attributeListNode, 'node');
+            }
+
+            $attributeNode = $attributeListNode['node'];
+
+            $this->taxonPropertyValueAssigner->assign($integration, $taxon, $attributeNode);
+        }
+    }
+}

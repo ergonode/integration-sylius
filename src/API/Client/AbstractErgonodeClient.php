@@ -15,7 +15,7 @@ use BitBag\SyliusErgonodePlugin\API\RequestModel\ErgonodeRequestModel;
 use BitBag\SyliusErgonodePlugin\Encryptor\EncryptorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\ErgonodeAuthorizationException;
-use BitBag\SyliusErgonodePlugin\Exception\ErgonodeException;
+use BitBag\SyliusErgonodePlugin\Exception\ErgonodeRequestException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -59,7 +59,7 @@ abstract class AbstractErgonodeClient
                 'variables' => $model->getRequestPayload(),
             ]);
 
-            throw ErgonodeException::requestFailed($exception);
+            throw ErgonodeRequestException::requestFailed($exception);
         }
 
         try {
@@ -80,7 +80,7 @@ abstract class AbstractErgonodeClient
                 ),
             );
 
-            throw ErgonodeException::requestFailed($exception);
+            throw ErgonodeRequestException::requestFailed($exception);
         }
     }
 

@@ -1,0 +1,37 @@
+<?php
+
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
+declare(strict_types=1);
+
+namespace BitBag\SyliusErgonodePlugin\Repository;
+
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use Doctrine\ORM\QueryBuilder;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+
+final class IntegrationRepository extends EntityRepository implements IntegrationRepositoryInterface
+{
+    public function createEnabledQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.enabled = :enabled')
+            ->setParameter('enabled', true)
+        ;
+    }
+
+    public function findOneEnabledById(int $id): ?IntegrationInterface
+    {
+        return $this->createEnabledQueryBuilder()
+            ->andWhere('i.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+}

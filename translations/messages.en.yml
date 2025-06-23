@@ -1,6 +1,8 @@
 bitbag_ergonode:
     ui:
         resource_relation_mapping: Resource relation mapping
+        sync: Sync
+        full_sync: Full sync
         resource_relation_mappings: Resource relation mappings
         relation_type: Relation type
         relation_types:

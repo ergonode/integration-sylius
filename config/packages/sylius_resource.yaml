@@ -13,9 +13,13 @@ sylius_resource:
         bitbag_ergonode.integration:
             classes:
                 model: BitBag\SyliusErgonodePlugin\Entity\Integration
+                interface: BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface
                 form: BitBag\SyliusErgonodePlugin\Form\Type\IntegrationType
+                repository: BitBag\SyliusErgonodePlugin\Repository\IntegrationRepository
         bitbag_ergonode.resource_relation_mapping:
             classes:
                 model: BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMapping
+                interface: BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface
                 form: BitBag\SyliusErgonodePlugin\Form\Type\ResourceRelationMappingType
                 factory: BitBag\SyliusErgonodePlugin\Factory\ResourceRelationMappingFactory
+                repository: BitBag\SyliusErgonodePlugin\Repository\ResourceRelationMappingRepository

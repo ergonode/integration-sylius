@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolver">
+            <argument type="service" id="bitbag_ergonode.repository.resource_relation_mapping"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttributeValueResolver">
+            <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.simple_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\SimpleValueResolver">
+            <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+        </service>
+    </services>
+</container>

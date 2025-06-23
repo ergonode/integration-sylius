@@ -37,3 +37,9 @@ bitbag_ergonode_admin_resource_relation_mapping_create:
                 route:
                     parameters:
                         type: $type
+
+bitbag_ergonode_admin_integration_synchronization:
+    path: /integration/{id}/sychronization
+    methods: [POST]
+    defaults:
+        _controller: bitbag.sylius_ergonode_plugin.controller.synchronization_action

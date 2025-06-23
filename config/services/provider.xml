@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.provider.category_tree_leafs_codes_provider" class="BitBag\SyliusErgonodePlugin\Provider\CategoryTreeLeafsCodesProvider">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.category_api_client"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.provider.taxon_provider" class="BitBag\SyliusErgonodePlugin\Provider\TaxonProvider">
+            <argument type="service" id="sylius.repository.taxon"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="sylius.custom_factory.taxon"/>
+        </service>
+    </services>
+</container>

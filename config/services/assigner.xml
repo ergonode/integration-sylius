@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.assigner.taxon_values_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_property_value_assigner"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonPropertyValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver"/>
+        </service>
+    </services>
+</container>
