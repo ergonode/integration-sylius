@@ -62,21 +62,28 @@ final class ResourceRelationMappingType extends AbstractResourceType
             $configurationFormType = $this->formTypeRegistry->get($type, 'mapping');
 
             Assert::notNull($configurationFormType);
-            $formFactory = $form->getConfig()->getFormFactory();
-            $tempForm = $formFactory->createNamedBuilder('configuration', $configurationFormType);
 
-            foreach ($tempForm->all() as $name => $child) {
-                $innerType = $child->getForm()->getConfig()->getType()->getInnerType();
-
-                $form->add($name, get_class($innerType), [
-                    ...$child->getForm()->getConfig()->getOptions(),
-                ]);
-            }
+            $form->add('configuration', $configurationFormType, [
+                'data' => $mapping,
+                'mapped' => false,
+            ]);
         })
         ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $mapping = $event->getData();
             if (!$mapping instanceof ResourceRelationMappingInterface) {
                 return;
+            }
+
+            if ($event->getForm()->has('ergonodeValue')) {
+                $value = $event->getForm()->get('ergonodeValue')->getData();
+                Assert::string($value);
+                $mapping->setErgonodeValue($value);
+            }
+
+            if ($event->getForm()->has('channelCode')) {
+                $value = $event->getForm()->get('channelCode')->getData();
+                Assert::string($value);
+                $mapping->setChannelCode($value);;
             }
 
             if (!$event->getForm()->has('syliusValue')) {

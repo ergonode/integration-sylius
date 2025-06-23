@@ -1,0 +1,69 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                variant_mapping:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Ethereal_Drift_T_Shirt-variant-2'
+                                ergonode_value: 'ethereal_drift_variant_2'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Quantum_Pulse_T_Shirt-variant-4'
+                                ergonode_value: 'quantum_pulse_variant_4'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Starlight_Whisper_T_Shirt-variant-0'
+                                ergonode_value: 'starlight_whisper_variant_0'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Galactic_Breeze_T_Shirt-variant-3'
+                                ergonode_value: 'galactic_breeze_variant_3'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Print_Screen_T_Shirt-variant-1'
+                                ergonode_value: 'print_screen_variant_1'
+                            
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Apollo_T_Shirt-variant-0'
+                                ergonode_value: 'apollo_variant_0'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Starlight_Echo_T_Shirt-variant-2'
+                                ergonode_value: 'starlight_echo_variant_2'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Sunshine_Strappy_Delight-variant-9'
+                                ergonode_value: 'sunshine_strappy_variant_9'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Boho_Beach_Breeze-variant-3'
+                                ergonode_value: 'boho_beach_variant_3'
+
+                            -
+                                type: 'variant_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Evening_Star_Gown-variant-7'
+                                ergonode_value: 'evening_star_variant_7'

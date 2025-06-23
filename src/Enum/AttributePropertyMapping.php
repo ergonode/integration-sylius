@@ -13,8 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Enum;
 
 enum AttributePropertyMapping: string
 {
-    case CODE = 'code';
-    case PRODUCT_TYPE = 'type';
+    case PRODUCT_TYPE = 'product_type';
     case ENABLED = 'translatable';
     case POSITION = 'position';
     case NAME = 'name';

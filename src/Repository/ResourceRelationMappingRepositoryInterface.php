@@ -15,8 +15,9 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use Doctrine\ORM\QueryBuilder;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-interface ResourceRelationMappingRepositoryInterface
+interface ResourceRelationMappingRepositoryInterface extends RepositoryInterface
 {
     public function createIntegrationAndTypeQueryBuilder(IntegrationInterface $integration, RelationType $type): QueryBuilder;
 

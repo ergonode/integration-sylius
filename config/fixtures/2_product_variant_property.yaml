@@ -1,0 +1,114 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                variant_property:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'enabled'
+                                ergonode_value: 'enabled'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'shipping_required'
+                                ergonode_value: 'shipping-required'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'price'
+                                ergonode_value: 'price'
+                                channel_code: 'FASHION_WEB'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'original_price'
+                                ergonode_value: 'original-price'
+                                channel_code: 'FASHION_WEB'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'minimum_price'
+                                ergonode_value: 'minimum-price'
+                                channel_code: 'FASHION_WEB'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'tax_category'
+                                ergonode_value: 'tax-category'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'shipping_category'
+                                ergonode_value: 'shipping-category'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'width'
+                                ergonode_value: 'width'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'height'
+                                ergonode_value: 'height'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'length'
+                                ergonode_value: 'length'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'current_stock'
+                                ergonode_value: 'current-stock'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'tracked'
+                                ergonode_value: 'tracked'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'name'
+                                ergonode_value: 'name'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'main_taxon'
+                                ergonode_value: 'main-taxon'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'taxons'
+                                ergonode_value: 'taxons'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'media'
+                                ergonode_value: 'media'
+
+                            -   
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'variant_selection_method'
+                                ergonode_value: 'variant-selection-method'

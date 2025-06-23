@@ -19,6 +19,8 @@ class Integration implements IntegrationInterface
 
     protected ?int $id = null;
 
+    protected ?string $code = null;
+
     protected ?string $name = null;
 
     protected ?string $apiKey = null;
@@ -45,6 +47,16 @@ class Integration implements IntegrationInterface
     public function setId(?int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): void
+    {
+        $this->code = $code;
     }
 
     public function getName(): ?string

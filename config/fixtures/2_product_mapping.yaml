@@ -1,0 +1,99 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                product_mapping:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Celestial_Harmony_T_Shirt'
+                                ergonode_value: 'celestial-harmony-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Nebula_Dream_T_Shirt'
+                                ergonode_value: 'nebula-dream-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Swantastic_T_Shirt'
+                                ergonode_value: 'swantastic-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Print_Screen_T_Shirt'
+                                ergonode_value: 'print-screen-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Stellar_Drift_T_Shirt'
+                                ergonode_value: 'stellar-drift-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Apollo_T_Shirt'
+                                ergonode_value: 'apollo-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Starlight_Echo_T_Shirt'
+                                ergonode_value: 'starlight-echo-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Cosmic_Drift_T_Shirt'
+                                ergonode_value: 'cosmic-drift-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Aurora_Surge_T_Shirt'
+                                ergonode_value: 'aurora-surge-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Meteor_Echo_T_Shirt'
+                                ergonode_value: 'meteor-echo-t-shirt'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Radiant_Rays_Cap'
+                                ergonode_value: 'radiant-rays-cap'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Elegant_Escape_Cap'
+                                ergonode_value: 'elegant-escape-cap'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Dynamic_Dawn_Cap'
+                                ergonode_value: 'dynamic-dawn-cap'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Sophisticated_Sunset_Cap'
+                                ergonode_value: 'sophisticated-sunset-cap'
+
+                            -   
+                                type: 'product_external_identifier'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'Palm_Tree_Paradise'
+                                ergonode_value: 'palm-tree-paradise'

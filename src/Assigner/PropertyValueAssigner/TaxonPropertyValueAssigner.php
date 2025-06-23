@@ -68,10 +68,5 @@ final readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAss
             $typename,
             $ergonodeValue,
         );
-
-        switch ($propertyMapping->getSyliusValue()) {
-            case CategoryPropertyMapping::CODE->value:
-                break;
-        }
     }
 }

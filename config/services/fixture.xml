@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.fixture.integration_fixture" class="BitBag\SyliusErgonodePlugin\Fixture\IntegrationFixture">
+            <argument type="service" id="bitbag_ergonode.manager.integration" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.fixture.factory.integration_example_factory" />
+            <tag name="sylius_fixtures.fixture" />
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.fixture.factory.integration_example_factory" class="BitBag\SyliusErgonodePlugin\Fixture\Factory\IntegrationExampleFactory">
+            <argument type="service" id="bitbag_ergonode.factory.integration" />
+            <argument type="service" id="bitbag_ergonode.repository.integration" />
+            <argument type="service" id="sylius.repository.locale" />
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.fixture.resource_relation_mapping_fixture" class="BitBag\SyliusErgonodePlugin\Fixture\ResourceRelationMappingFixture">
+            <argument type="service" id="bitbag_ergonode.manager.resource_relation_mapping" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.fixture.factory.resource_relation_mapping_example_factory" />
+            <tag name="sylius_fixtures.fixture" />
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.fixture.factory.resource_relation_mapping_example_factory" class="BitBag\SyliusErgonodePlugin\Fixture\Factory\ResourceRelationMappingExampleFactory">
+            <argument type="service" id="bitbag_ergonode.factory.resource_relation_mapping" />
+            <argument type="service" id="bitbag_ergonode.repository.integration" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,156 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                product_property:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'enabled'
+                                ergonode_value: 'enabled'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'shipping_required'
+                                ergonode_value: 'shipping-required'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'channels'
+                                ergonode_value: 'channels'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'product_type'
+                                ergonode_value: 'product-type'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'price'
+                                ergonode_value: 'price'
+                                channel_code: 'FASHION_WEB'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'original_price'
+                                ergonode_value: 'original-price'
+                                channel_code: 'FASHION_WEB'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'minimum_price'
+                                ergonode_value: 'minimum-price'
+                                channel_code: 'FASHION_WEB'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'tax_category'
+                                ergonode_value: 'tax-category'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'shipping_category'
+                                ergonode_value: 'shipping-category'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'width'
+                                ergonode_value: 'width'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'height'
+                                ergonode_value: 'height'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'length'
+                                ergonode_value: 'length'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'current_stock'
+                                ergonode_value: 'current-stock'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'tracked'
+                                ergonode_value: 'tracked'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'name'
+                                ergonode_value: 'name'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'description'
+                                ergonode_value: 'description'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'slug'
+                                ergonode_value: 'slug'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'meta_keywords'
+                                ergonode_value: 'meta-keywords'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'meta_description'
+                                ergonode_value: 'meta-description'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'short_description'
+                                ergonode_value: 'short-description'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'main_taxon'
+                                ergonode_value: 'main-taxon'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'taxons'
+                                ergonode_value: 'taxons'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'media'
+                                ergonode_value: 'media'
+
+                            -   
+                                type: 'product_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'variant_selection_method'
+                                ergonode_value: 'variant-selection-method'

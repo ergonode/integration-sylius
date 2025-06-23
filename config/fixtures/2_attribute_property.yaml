@@ -1,0 +1,73 @@
+sylius_fixtures:
+    suites:
+        ergonode:
+            listeners:
+                logger: ~
+            fixtures:
+                attribute_property:
+                    name: ergonode_resource_relation_mapping
+                    options:
+                        custom:
+                            -   type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'product_type'
+                                ergonode_value: 'type'
+                                
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'translatable'
+                                ergonode_value: 'enabled'
+                                
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'position'
+                                ergonode_value: 'position'
+
+                            -   type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'name'
+                                ergonode_value: 'name'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'min_length'
+                                ergonode_value: 'min-length'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'max_length'
+                                ergonode_value: 'max-length'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'datetime_format'
+                                ergonode_value: 'datetime-format'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'date_format'
+                                ergonode_value: 'date-format'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'min_entries'
+                                ergonode_value: 'min-entries'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'max_entries'
+                                ergonode_value: 'max-entries'
+
+                            -   
+                                type: 'attribute_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'multiple'
+                                ergonode_value: 'multiple'
