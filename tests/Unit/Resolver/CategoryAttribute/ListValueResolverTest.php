@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Resolver\CategoryAttribute;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ListValueResolver;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
@@ -109,11 +109,11 @@ final class ListValueResolverTest extends TestCase
         $resolver = new ListValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);
 
-        $this->assertTrue($resolver->supports(AttributeType::SELECT->value, $mapping));
-        $this->assertTrue($resolver->supports(AttributeType::MULTISELECT->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeType::TEXTAREA->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeType::UNIT->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeType::DATE->value, $mapping));
+        $this->assertTrue($resolver->supports(AttributeValueType::SELECT->value, $mapping));
+        $this->assertTrue($resolver->supports(AttributeValueType::MULTISELECT->value, $mapping));
+        $this->assertFalse($resolver->supports(AttributeValueType::TEXTAREA->value, $mapping));
+        $this->assertFalse($resolver->supports(AttributeValueType::UNIT->value, $mapping));
+        $this->assertFalse($resolver->supports(AttributeValueType::DATE->value, $mapping));
         $this->assertFalse($resolver->supports('undefined', $mapping));
     }
 }

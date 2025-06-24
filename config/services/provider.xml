@@ -14,5 +14,11 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="sylius.custom_factory.taxon"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.provider.attribute_provider" class="BitBag\SyliusErgonodePlugin\Provider\AttributeProvider">
+            <argument type="service" id="sylius.repository.product_attribute"/>
+            <argument type="service" id="sylius.factory.product_attribute"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+        </service>
     </services>
 </container>

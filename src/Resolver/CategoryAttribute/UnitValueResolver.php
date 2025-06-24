@@ -13,7 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 
 final readonly class UnitValueResolver extends ValueResolver
 {
@@ -39,6 +39,6 @@ final readonly class UnitValueResolver extends ValueResolver
 
     public function supports(string $typename, ResourceRelationMappingInterface $languageExternalId): bool
     {
-        return AttributeType::UNIT === AttributeType::tryFrom($typename);
+        return AttributeValueType::UNIT === AttributeValueType::tryFrom($typename);
     }
 }

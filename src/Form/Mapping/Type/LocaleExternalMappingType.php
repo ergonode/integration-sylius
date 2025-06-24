@@ -42,7 +42,11 @@ final class LocaleExternalMappingType extends AbstractType
         ;
 
         $builder->get('syliusValue')->addModelTransformer(
-            new CallbackTransformer(function (string $code) {
+            new CallbackTransformer(function (?string $code) {
+                if (null === $code) {
+                    return null;
+                }
+
                 return $this->localeRepository->findOneBy(['code' => $code]);
             }, function (LocaleInterface $locale) {
                 return $locale->getCode();

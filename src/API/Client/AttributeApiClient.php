@@ -18,7 +18,7 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
 final readonly class AttributeApiClient extends AbstractErgonodeClient implements AttributeApiClientInterface
 {
-    private const LIMIT = 40;
+    private const LIMIT = 15;
 
     public function getAttributes(IntegrationInterface $integration): array
     {
@@ -36,12 +36,12 @@ final readonly class AttributeApiClient extends AbstractErgonodeClient implement
         ), $integration);
     }
 
-    public function getSelectAttributeOptions(IntegrationInterface $integration, string $attributeCode): array
+    public function getSelectAttributeOptions(IntegrationInterface $integration, string $attributeCode, ?string $previousCursorEnd): array
     {
         return $this->query(new SelectAttributeOptions(
             $attributeCode,
             self::LIMIT,
-            $integration->getAttributeStreamCursorEnd(),
+            $previousCursorEnd,
         ), $integration);
     }
 }

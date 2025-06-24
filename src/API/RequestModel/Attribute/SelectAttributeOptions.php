@@ -25,10 +25,10 @@ final class SelectAttributeOptions extends ErgonodeRequestModel
     public function getRequestBody(): string
     {
         return <<<'GRAPHQL'
-        query SelectAttributeOptions($attributeCode: AttributeCode!, $after: String) {
+        query SelectAttributeOptions($attributeCode: AttributeCode!, $previousCursorEnd: String) {
           attribute(code: $attributeCode) {
             ... on MultiSelectAttribute {
-              optionList(first: 200, after: $after) {
+              optionList(first: 200, after: $previousCursorEnd) {
                 edges {
                   node {
                     code

@@ -13,14 +13,11 @@ namespace BitBag\SyliusErgonodePlugin\Enum;
 
 enum AttributePropertyMapping: string
 {
-    case PRODUCT_TYPE = 'product_type';
-    case ENABLED = 'translatable';
+    case TYPE = 'type';
+    case TRANSLATABLE = 'translatable';
     case POSITION = 'position';
-    case NAME = 'name';
     case MIN_LENGTH = 'min_length';
     case MAX_LENGTH = 'max_length';
-    case DATETIME_FORMAT = 'datetime_format';
-    case DATE_FORMAT = 'date_format';
     case MIN_ENTRIES = 'min_entries';
     case MAX_ENTRIES = 'max_entries';
     case MULTIPLE = 'multiple';

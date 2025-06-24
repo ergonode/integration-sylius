@@ -27,9 +27,7 @@ final class DeletedAttributeStream extends ErgonodeRequestModel
             query GetDeletedAttributes($after: String, $first: Int = 200) {
               attributeDeletedStream(after: $after, first: $first) {
                 edges {
-                  node {
-                    code
-                  }
+                  node
                   cursor
                 }
                 pageInfo {

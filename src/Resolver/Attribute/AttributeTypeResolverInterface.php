@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
+namespace BitBag\SyliusErgonodePlugin\Resolver\Attribute;
 
-use Sylius\Component\Core\Model\TaxonInterface;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
 
-interface TaxonParentAssignerInterface
+interface AttributeTypeResolverInterface
 {
-    public function assign(TaxonInterface $taxon, string $parentCategoryCode): void;
+    public function resolveType(AttributeType $type): string;
 }

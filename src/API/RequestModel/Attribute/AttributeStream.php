@@ -24,11 +24,11 @@ final class AttributeStream extends ErgonodeRequestModel
     public function getRequestBody(): string
     {
         return <<<'GRAPHQL'
-            query AttributeStream($after: String, $first: Int = 200) {
-              attributeStream(after: $after, first: $first) {
+            query AttributeStream($previousCursorEnd: String, $first: Int = 40) {
+              attributeStream(after: $previousCursorEnd, first: $first) {
                 edges {
                   node {
-                    __typename
+                    typename: __typename
                     code
                     name {
                       language

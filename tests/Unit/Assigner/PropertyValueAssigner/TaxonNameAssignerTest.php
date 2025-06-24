@@ -11,13 +11,13 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonNameAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\AttributeNameAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\LocalizedText;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
-use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
@@ -48,7 +48,7 @@ final class TaxonNameAssignerTest extends TestCase
         $taxon->method('getTranslation')->with('en_US')->willReturn($translation);
         $translation->expects(self::once())->method('setName')->with('Laptops');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new AttributeNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -70,7 +70,7 @@ final class TaxonNameAssignerTest extends TestCase
 
         $taxon->expects(self::never())->method('getTranslation');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new AttributeNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -114,7 +114,7 @@ final class TaxonNameAssignerTest extends TestCase
         $translationEn->expects(self::once())->method('setName')->with('Laptops');
         $translationPl->expects(self::once())->method('setName')->with('Laptopy');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new AttributeNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -129,7 +129,7 @@ final class TaxonNameAssignerTest extends TestCase
 
         $taxon->expects(self::never())->method('getTranslation');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new AttributeNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 }

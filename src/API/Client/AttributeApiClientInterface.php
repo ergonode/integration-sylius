@@ -19,5 +19,9 @@ interface AttributeApiClientInterface
 
     public function getDeletedAttributes(IntegrationInterface $integration): array;
 
-    public function getSelectAttributeOptions(IntegrationInterface $integration, string $attributeCode): array;
+    public function getSelectAttributeOptions(
+        IntegrationInterface $integration,
+        string $attributeCode,
+        ?string $previousCursorEnd,
+    ): array;
 }

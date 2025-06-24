@@ -13,7 +13,7 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Resolver;
 use BitBag\SyliusErgonodePlugin\Checker\Category\CategoryTranslatablePropertyCheckerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
@@ -86,7 +86,7 @@ final class CategoryAttributeValueResolverTest extends TestCase
             $integration,
             $mainLanguageMapping,
             $propertyMapping,
-            AttributeType::TEXT->value,
+            AttributeValueType::TEXT->value,
             ['code' => 'enabled'],
             [['language' => 'en', 'value' => 'true'], ['language' => 'pl', 'value' => 'false']],
         );
@@ -126,7 +126,7 @@ final class CategoryAttributeValueResolverTest extends TestCase
         $valueResolver->method('resolve')->willReturn([]);
 
         $resolver = new CategoryAttributeValueResolver([$valueResolver], $this->createMock(CategoryTranslatablePropertyCheckerInterface::class));
-        $resolver->resolve($integration, $mainLanguageMapping, $propertyMapping, AttributeType::TEXT->value, [], []);
+        $resolver->resolve($integration, $mainLanguageMapping, $propertyMapping, AttributeValueType::TEXT->value, [], []);
     }
 
     public function test_throws_if_main_language_has_no_ergonode_value(): void
@@ -149,6 +149,6 @@ final class CategoryAttributeValueResolverTest extends TestCase
         $translatableChecker->method('check')->willReturn(false);
 
         $resolver = new CategoryAttributeValueResolver([$valueResolver], $translatableChecker);
-        $resolver->resolve($integration, $mainLanguageMapping, $propertyMapping, AttributeType::TEXT->value, [], []);
+        $resolver->resolve($integration, $mainLanguageMapping, $propertyMapping, AttributeValueType::TEXT->value, [], []);
     }
 }

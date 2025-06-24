@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClientInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonParentAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonParentAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Factory\DenormalizerFactoryInterface;
@@ -80,7 +80,12 @@ final class CategorySynchronizer implements SynchronizerInterface
         }
 
         $endCursor = $pageInfo['endCursor'];
-        $integration->setCategoryStreamCursorEnd($endCursor);
+        if (null !== $endCursor) {
+            $integration->setCategoryStreamCursorEnd($endCursor);
+        }
+
+        $this->entityManager->persist($integration);
+        $this->entityManager->flush();
 
         if ($pageInfo['hasNextPage']) {
             $this->synchronize($integration);
@@ -89,9 +94,6 @@ final class CategorySynchronizer implements SynchronizerInterface
         }
 
         $this->synchronizeDeletedCategories($integration);
-
-        $this->entityManager->persist($integration);
-        $this->entityManager->flush();
     }
 
     private function retrieveCategoryCodesFromResponse(array $stream): array
@@ -110,7 +112,13 @@ final class CategorySynchronizer implements SynchronizerInterface
             $this->entityManager->remove($category);
         }
 
-        $integration->setCategoryDeletedStreamCursorEnd($stream['pageInfo']['endCursor']);
+        if (null !== $stream['pageInfo']['endCursor']) {
+            $integration->setCategoryDeletedStreamCursorEnd($stream['pageInfo']['endCursor']);
+        }
+
+        $this->entityManager->persist($integration);
+        $this->entityManager->flush();
+
         if ($stream['pageInfo']['hasNextPage']) {
             $this->synchronizeDeletedCategories($integration);
         }
