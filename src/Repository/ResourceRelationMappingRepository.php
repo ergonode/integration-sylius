@@ -56,4 +56,12 @@ final class ResourceRelationMappingRepository extends EntityRepository implement
             ->getOneOrNullResult()
         ;
     }
+
+    public function findAllByIntegrationAndType(IntegrationInterface $integration, RelationType $type): array
+    {
+        return $this->createIntegrationAndTypeQueryBuilder($integration, $type)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

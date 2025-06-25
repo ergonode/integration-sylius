@@ -6,6 +6,11 @@
 >
     <services>
         <service id="bitbag.sylius_ergonode_plugin.form_registry.resource_relation_mapping_types" class="Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry"/>
+        <service
+            id="bitbag.ergonode_plugin.resource_relation_mapping_storage_registry"
+            class="BitBag\SyliusErgonodePlugin\DependencyInjection\Registry\ResourceRelationMappingStorageRegistry"
+            public="true"
+        />
 
         <service id="bitbag.sylius_ergonode_plugin.resource_relation_mapping.registry" class="Sylius\Component\Registry\ServiceRegistry">
             <argument>%bitbag_ergonode.model.resource_relation_mapping.class%</argument>

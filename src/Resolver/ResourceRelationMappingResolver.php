@@ -11,57 +11,39 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Resolver;
 
+use BitBag\SyliusErgonodePlugin\DependencyInjection\Registry\ResourceRelationMappingStorageRegistryInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Repository\ResourceRelationMappingRepositoryInterface;
 
 final class ResourceRelationMappingResolver implements ResourceRelationMappingResolverInterface
 {
-    private array $resolvedIdentifiers = [];
-
     public function __construct(
-        private readonly ResourceRelationMappingRepositoryInterface $resourceRelationMappingRepository,
+        private readonly ResourceRelationMappingStorageRegistryInterface $registry,
     ) {
     }
 
-    public function resolveForSyliusValue(IntegrationInterface $integration, string $syliusValue, RelationType $relationType): ?ResourceRelationMappingInterface
-    {
-        $identifier = sprintf(
-            '%s-%s-sylius-%s',
-            $integration->getId(),
-            $relationType->value,
-            $syliusValue,
-        );
-
-        if (!array_key_exists($identifier, $this->resolvedIdentifiers)) {
-            $this->resolvedIdentifiers[$identifier] = $this->resourceRelationMappingRepository->findOneByIntegrationAndTypeAndSyliusValue(
-                $integration,
-                $relationType,
-                $syliusValue,
-            );
+    public function resolveForSyliusValue(
+        IntegrationInterface $integration,
+        string $syliusValue,
+        RelationType $relationType,
+    ): ?ResourceRelationMappingInterface {
+        if (!$this->registry->hasStorage($relationType)) {
+            return null;
         }
 
-        return $this->resolvedIdentifiers[$identifier];
+        return $this->registry->getStorage($relationType)->resolveForSyliusValue($integration, $syliusValue);
     }
 
-    public function resolveForErgonodeValue(IntegrationInterface $integration, string $ergonodeValue, RelationType $relationType): ?ResourceRelationMappingInterface
-    {
-        $identifier = sprintf(
-            '%s-%s-ergonode-%s',
-            $integration->getId(),
-            $relationType->value,
-            $ergonodeValue,
-        );
-
-        if (!array_key_exists($identifier, $this->resolvedIdentifiers)) {
-            $this->resolvedIdentifiers[$identifier] = $this->resourceRelationMappingRepository->findOneByIntegrationAndTypeAndErgonodeValue(
-                $integration,
-                $relationType,
-                $ergonodeValue,
-            );
+    public function resolveForErgonodeValue(
+        IntegrationInterface $integration,
+        string $ergonodeValue,
+        RelationType $relationType,
+    ): ?ResourceRelationMappingInterface {
+        if (!$this->registry->hasStorage($relationType)) {
+            return null;
         }
 
-        return $this->resolvedIdentifiers[$identifier];
+        return $this->registry->getStorage($relationType)->resolveForErgonodeValue($integration, $ergonodeValue);
     }
 }
