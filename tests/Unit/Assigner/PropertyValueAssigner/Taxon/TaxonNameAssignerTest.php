@@ -9,9 +9,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner;
+namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\AttributeNameAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
@@ -48,7 +48,7 @@ final class TaxonNameAssignerTest extends TestCase
         $taxon->method('getTranslation')->with('en_US')->willReturn($translation);
         $translation->expects(self::once())->method('setName')->with('Laptops');
 
-        $assigner = new AttributeNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
