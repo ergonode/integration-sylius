@@ -64,7 +64,7 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
             if (null === $propertyMapping) {
                 $this->logMissingMapping($integration, $ergonodeAttributeCode);
 
-                return;
+                continue;
             }
 
             $attributeValue = $this->categoryAttributeValueResolver->resolve(
@@ -92,7 +92,7 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
                 self::MISSING_PROPERTY_LOG_FORMAT,
                 $integration->getId(),
                 $ergonodeAttributeCode,
-                RelationType::ATTRIBUTE_PROPERTY->value,
+                RelationType::CATEGORY_PROPERTY->value,
             ),
         );
     }

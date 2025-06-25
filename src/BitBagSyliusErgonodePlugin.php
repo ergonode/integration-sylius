@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin;
 
 use BitBag\SyliusErgonodePlugin\DependencyInjection\RegisterResourceRelationMappingTypesPass;
+use BitBag\SyliusErgonodePlugin\DependencyInjection\ResourceRelationMappingStoragePass;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -28,6 +29,7 @@ final class BitBagSyliusErgonodePlugin extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new RegisterResourceRelationMappingTypesPass());
+        $container->addCompilerPass(new ResourceRelationMappingStoragePass());
 
         parent::build($container);
     }

@@ -116,7 +116,7 @@ final class TaxonValuesAssignerTest extends TestCase
                 'Missing property relation mapping for integration id `%s`, relation type %s and value %s',
                 456,
                 'missing_attribute',
-                RelationType::ATTRIBUTE_PROPERTY->value,
+                RelationType::CATEGORY_PROPERTY->value,
             ));
 
         $assigner = new TaxonValuesAssigner(

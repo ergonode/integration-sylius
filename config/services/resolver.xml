@@ -6,7 +6,7 @@
 >
     <services>
         <service id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolver">
-            <argument type="service" id="bitbag_ergonode.repository.resource_relation_mapping"/>
+            <argument type="service" id="bitbag.ergonode_plugin.resource_relation_mapping_storage_registry"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttributeValueResolver">
