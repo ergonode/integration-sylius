@@ -70,7 +70,7 @@ final class TaxonNameAssignerTest extends TestCase
 
         $taxon->expects(self::never())->method('getTranslation');
 
-        $assigner = new AttributeNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -114,7 +114,7 @@ final class TaxonNameAssignerTest extends TestCase
         $translationEn->expects(self::once())->method('setName')->with('Laptops');
         $translationPl->expects(self::once())->method('setName')->with('Laptopy');
 
-        $assigner = new AttributeNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -129,7 +129,7 @@ final class TaxonNameAssignerTest extends TestCase
 
         $taxon->expects(self::never())->method('getTranslation');
 
-        $assigner = new AttributeNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 }
