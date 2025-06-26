@@ -11,74 +11,96 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Resolver;
 
+use BitBag\SyliusErgonodePlugin\DependencyInjection\Registry\ResourceRelationMappingStorageRegistryInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Repository\ResourceRelationMappingRepositoryInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolver;
+use BitBag\SyliusErgonodePlugin\Storage\ResourceRelationMappingStorageInterface;
 use PHPUnit\Framework\TestCase;
 
 final class ResourceRelationMappingResolverTest extends TestCase
 {
-    public function test_resolves_by_sylius_value_and_caches(): void
+    public function test_returns_null_if_storage_not_found(): void
     {
-        $integration = $this->createConfiguredMock(IntegrationInterface::class, [
-            'getId' => 1,
-        ]);
+        $registry = $this->createMock(ResourceRelationMappingStorageRegistryInterface::class);
+        $integration = $this->createMock(IntegrationInterface::class);
 
-        $mapping = $this->createMock(ResourceRelationMappingInterface::class);
+        $relationType = RelationType::ATTRIBUTE_PROPERTY;
 
-        $repository = $this->createMock(ResourceRelationMappingRepositoryInterface::class);
-        $repository->expects(self::once())
-        ->method('findOneByIntegrationAndTypeAndSyliusValue')
-            ->with($integration, RelationType::LANGUAGE_EXTERNAL_ID, 'en_US')
-            ->willReturn($mapping);
+        $registry
+            ->expects($this->exactly(2))
+            ->method('hasStorage')
+            ->with($relationType)
+            ->willReturn(false);
 
-        $resolver = new ResourceRelationMappingResolver($repository);
+        $resolver = new ResourceRelationMappingResolver($registry);
 
-        $result1 = $resolver->resolveForSyliusValue($integration, 'en_US', RelationType::LANGUAGE_EXTERNAL_ID);
-        $result2 = $resolver->resolveForSyliusValue($integration, 'en_US', RelationType::LANGUAGE_EXTERNAL_ID);
-
-        $this->assertSame($mapping, $result1);
-        $this->assertSame($result1, $result2);
+        $this->assertNull($resolver->resolveForSyliusValue($integration, 'color', $relationType));
+        $this->assertNull($resolver->resolveForErgonodeValue($integration, 'color', $relationType));
     }
 
-    public function test_resolves_by_ergonode_value_and_caches(): void
+    public function test_resolves_sylius_value(): void
     {
-        $integration = $this->createConfiguredMock(IntegrationInterface::class, [
-            'getId' => 42,
-        ]);
-
+        $registry = $this->createMock(ResourceRelationMappingStorageRegistryInterface::class);
+        $storage = $this->createMock(ResourceRelationMappingStorageInterface::class);
+        $integration = $this->createMock(IntegrationInterface::class);
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);
+        $relationType = RelationType::CATEGORY_PROPERTY;
 
-        $repository = $this->createMock(ResourceRelationMappingRepositoryInterface::class);
-        $repository->expects(self::once())
-        ->method('findOneByIntegrationAndTypeAndErgonodeValue')
-            ->with($integration, RelationType::CATEGORY_PROPERTY, 'description')
+        $registry
+            ->expects($this->once())
+            ->method('hasStorage')
+            ->with($relationType)
+            ->willReturn(true);
+
+        $registry
+            ->expects($this->once())
+            ->method('getStorage')
+            ->with($relationType)
+            ->willReturn($storage);
+
+        $storage
+            ->expects($this->once())
+            ->method('resolveForSyliusValue')
+            ->with($integration, 'color')
             ->willReturn($mapping);
 
-        $resolver = new ResourceRelationMappingResolver($repository);
+        $resolver = new ResourceRelationMappingResolver($registry);
 
-        $result1 = $resolver->resolveForErgonodeValue($integration, 'description', RelationType::CATEGORY_PROPERTY);
-        $result2 = $resolver->resolveForErgonodeValue($integration, 'description', RelationType::CATEGORY_PROPERTY);
-
-        $this->assertSame($mapping, $result1);
-        $this->assertSame($result2, $result1);
+        $result = $resolver->resolveForSyliusValue($integration, 'color', $relationType);
+        $this->assertSame($mapping, $result);
     }
 
-    public function test_returns_null_if_mapping_not_found(): void
+    public function test_resolves_ergonode_value(): void
     {
-        $integration = $this->createConfiguredMock(IntegrationInterface::class, [
-            'getId' => 5,
-        ]);
+        $registry = $this->createMock(ResourceRelationMappingStorageRegistryInterface::class);
+        $storage = $this->createMock(ResourceRelationMappingStorageInterface::class);
+        $integration = $this->createMock(IntegrationInterface::class);
+        $mapping = $this->createMock(ResourceRelationMappingInterface::class);
+        $relationType = RelationType::CATEGORY_EXTERNAL_ID;
 
-        $repository = $this->createMock(ResourceRelationMappingRepositoryInterface::class);
-        $repository->method('findOneByIntegrationAndTypeAndSyliusValue')->willReturn(null);
+        $registry
+            ->expects($this->once())
+            ->method('hasStorage')
+            ->with($relationType)
+            ->willReturn(true);
 
-        $resolver = new ResourceRelationMappingResolver($repository);
+        $registry
+            ->expects($this->once())
+            ->method('getStorage')
+            ->with($relationType)
+            ->willReturn($storage);
 
-        $result = $resolver->resolveForSyliusValue($integration, 'missing-code', RelationType::CATEGORY_EXTERNAL_ID);
+        $storage
+            ->expects($this->once())
+            ->method('resolveForErgonodeValue')
+            ->with($integration, 'category-123')
+            ->willReturn($mapping);
 
-        $this->assertNull($result);
+        $resolver = new ResourceRelationMappingResolver($registry);
+
+        $result = $resolver->resolveForErgonodeValue($integration, 'category-123', $relationType);
+        $this->assertSame($mapping, $result);
     }
 }
