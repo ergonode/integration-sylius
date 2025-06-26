@@ -5,8 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="bitbag.sylius_ergonode_plugin.context.category_product_relation_context" class="BitBag\SyliusErgonodePlugin\Context\CategoryProductRelationContext"/>
-
         <service id="bitbag.sylius_ergonode_plugin.context.main_language_context" class="BitBag\SyliusErgonodePlugin\Context\MainLanguageContext">
             <argument type="service" id="bitbag_ergonode.repository.resource_relation_mapping"/>
         </service>

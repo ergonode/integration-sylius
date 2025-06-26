@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-final class DenormalizerFactory implements DenormalizerFactoryInterface
+final readonly class DenormalizerFactory implements DenormalizerFactoryInterface
 {
     public function create(): DenormalizerInterface
     {

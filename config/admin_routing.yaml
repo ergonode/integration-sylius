@@ -4,6 +4,7 @@ bitbag_ergonode_integration:
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
         redirect: index
+        except: ['show']
         grid: bitbag_ergonode_admin_integration
     type: sylius.resource
 
@@ -12,7 +13,7 @@ bitbag_ergonode_resource_relation_mapping:
         alias: bitbag_ergonode.resource_relation_mapping
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
-        except: ['create']
+        except: ['create', 'show']
         redirect: index
         grid: bitbag_ergonode_admin_resource_relation_mapping
     type: sylius.resource

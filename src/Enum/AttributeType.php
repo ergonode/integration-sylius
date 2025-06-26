@@ -20,6 +20,7 @@ enum AttributeType: string
     case SELECT = 'SelectAttributeValue';
     case MULTISELECT = 'MultiSelectAttributeValue';
     case UNIT = 'UnitAttributeValue';
+    case PRICE = 'PriceAttributeValue';
     case IMAGE = 'ImageAttributeValue';
     case GALLERY = 'GalleryAttributeValue';
     case FILE = 'FileAttributeValue';

@@ -6,15 +6,32 @@
 >
     <services>
         <service id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolver">
-            <argument type="service" id="bitbag_ergonode.repository.resource_relation_mapping"/>
+            <argument type="service" id="bitbag.ergonode_plugin.resource_relation_mapping_storage_registry"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttributeValueResolver">
             <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.category.category_translatable_property_checker"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.simple_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\SimpleValueResolver">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.list_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ListValueResolver">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.unit_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\UnitValueResolver">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolver">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.stringable_checker"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
     </services>
 </container>

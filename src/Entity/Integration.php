@@ -35,10 +35,6 @@ class Integration implements IntegrationInterface
 
     protected ?string $categoryDeletedStreamCursorEnd = null;
 
-    protected ?string $categoryTreeStreamCursorEnd = null;
-
-    protected ?string $categoryTreeDeletedStreamCursorEnd = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -117,26 +113,6 @@ class Integration implements IntegrationInterface
     public function setCategoryDeletedStreamCursorEnd(?string $categoryDeletedStreamCursorEnd): void
     {
         $this->categoryDeletedStreamCursorEnd = $categoryDeletedStreamCursorEnd;
-    }
-
-    public function getCategoryTreeStreamCursorEnd(): ?string
-    {
-        return $this->categoryTreeStreamCursorEnd;
-    }
-
-    public function setCategoryTreeStreamCursorEnd(?string $categoryTreeStreamCursorEnd): void
-    {
-        $this->categoryTreeStreamCursorEnd = $categoryTreeStreamCursorEnd;
-    }
-
-    public function getCategoryTreeDeletedStreamCursorEnd(): ?string
-    {
-        return $this->categoryTreeDeletedStreamCursorEnd;
-    }
-
-    public function setCategoryTreeDeletedStreamCursorEnd(?string $categoryTreeDeletedStreamCursorEnd): void
-    {
-        $this->categoryTreeDeletedStreamCursorEnd = $categoryTreeDeletedStreamCursorEnd;
     }
 
     public function getMainLanguageCode(): ?string

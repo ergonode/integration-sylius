@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\ReversedTransformer;
 
@@ -43,6 +44,7 @@ final class IntegrationType extends AbstractResourceType
                 'required' => true,
                 'label' => 'bitbag_ergonode.ui.integration_name',
             ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, $this->addCodeField(...))
             ->add('enabled', CheckboxType::class, [
                 'label' => 'sylius.ui.enabled',
             ])
@@ -85,5 +87,19 @@ final class IntegrationType extends AbstractResourceType
                 new ReversedTransformer(new ResourceToIdentifierTransformer($this->localeRepository, 'code')),
             )
         ;
+    }
+
+    private function addCodeField(FormEvent $event): void
+    {
+        $integration = $event->getData();
+
+        if (null === $integration) {
+            return;
+        }
+
+        $event->getForm()->add('code', TextType::class, [
+            'label' => 'sylius.ui.code',
+            'disabled' => null !== $integration->getId(),
+        ]);
     }
 }

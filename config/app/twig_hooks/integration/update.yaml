@@ -11,6 +11,9 @@ sylius_twig_hooks:
         'sylius_admin.integration.update.content.form.sections.general':
             default:
                 enabled: false
+            code:
+                template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/code.html.twig'
+                priority: 2500
             name:
                 template: '@BitBagSyliusErgonodePlugin/admin/integration/form/sections/general/name.html.twig'
                 priority: 2000

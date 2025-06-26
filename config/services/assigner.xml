@@ -6,13 +6,27 @@
 >
     <services>
         <service id="bitbag.sylius_ergonode_plugin.assigner.taxon_values_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_property_value_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_name_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonPropertyValueAssigner">
-            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
-            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.downloader.ergonode_file_downloader" />
+            <argument type="service" id="sylius.factory.taxon_image" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonNameAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonParentAssigner">
+            <argument type="service" id="sylius.repository.taxon"/>
         </service>
     </services>
 </container>

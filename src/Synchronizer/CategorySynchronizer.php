@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClientInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonParentAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Factory\DenormalizerFactoryInterface;
@@ -19,22 +20,30 @@ use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
 use BitBag\SyliusErgonodePlugin\Provider\CategoryTreeLeafsCodesProviderInterface;
 use BitBag\SyliusErgonodePlugin\Provider\TaxonProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final readonly class CategorySynchronizer implements SynchronizerInterface
+final class CategorySynchronizer implements SynchronizerInterface
 {
+    private array $taxons = [];
+
     public function __construct(
-        private CategoryApiClientInterface $categoryApiClient,
-        private CategoryTreeLeafsCodesProviderInterface $categoryTreeLeafsCodesProvider,
-        private EntityManagerInterface $entityManager,
-        private TaxonProviderInterface $taxonProvider,
-        private TaxonValuesAssignerInterface $taxonValuesAssigner,
-        private DenormalizerFactoryInterface $denormalizerFactory,
+        private readonly CategoryApiClientInterface $categoryApiClient,
+        private readonly CategoryTreeLeafsCodesProviderInterface $categoryTreeLeafsCodesProvider,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TaxonProviderInterface $taxonProvider,
+        private readonly TaxonValuesAssignerInterface $taxonValuesAssigner,
+        private readonly DenormalizerFactoryInterface $denormalizerFactory,
+        private readonly RepositoryInterface $taxonRepository,
+        private readonly TaxonParentAssignerInterface $taxonParentAssigner,
     ) {
     }
 
     public function synchronize(IntegrationInterface $integration): void
     {
-        $categoryTreeLeafsCodes = $this->categoryTreeLeafsCodesProvider->provide($integration);
+        $categoryTree = $this->categoryTreeLeafsCodesProvider->provide($integration);
+        $categoryTreeLeafsCodes = $categoryTree['codes'];
+        $parentCodes = $categoryTree['parents'];
+
         $response = $this->categoryApiClient->getCategories($integration);
 
         $categoryStream = $response['data']['categoryStream'];
@@ -53,8 +62,23 @@ final readonly class CategorySynchronizer implements SynchronizerInterface
             $taxon = $this->taxonProvider->provide($integration, $categoryNode->getCode());
 
             $this->taxonValuesAssigner->assign($categoryNode, $integration, $taxon);
+            $this->taxons[$categoryNode->getCode()] = $taxon;
+
             $this->entityManager->persist($taxon);
         }
+
+        foreach ($this->taxons as $taxonCode => $taxon) {
+            if (!array_key_exists($taxonCode, $parentCodes) || !is_string($parentCodes[$taxonCode])) {
+                continue;
+            }
+
+            if (array_key_exists($parentCodes[$taxonCode], $this->taxons)) {
+                $taxon->setParent($this->taxons[$parentCodes[$taxonCode]]);
+            }
+
+            $this->taxonParentAssigner->assign($taxon, $parentCodes[$taxonCode]);
+        }
+
         $endCursor = $pageInfo['endCursor'];
         $integration->setCategoryStreamCursorEnd($endCursor);
 
@@ -64,6 +88,31 @@ final readonly class CategorySynchronizer implements SynchronizerInterface
             return;
         }
 
+        $this->synchronizeDeletedCategories($integration);
+
+        $this->entityManager->persist($integration);
         $this->entityManager->flush();
+    }
+
+    private function retrieveCategoryCodesFromResponse(array $stream): array
+    {
+        return array_map(fn (array $category) => $category['node'], $stream['edges']);
+    }
+
+    public function synchronizeDeletedCategories(IntegrationInterface $integration): void
+    {
+        $deletedCategories = $this->categoryApiClient->getCategoryDeleted($integration);
+        $stream = $deletedCategories['data']['categoryDeletedStream'];
+
+        $categories = $this->taxonRepository->findBy(['code' => $this->retrieveCategoryCodesFromResponse($stream)]);
+
+        foreach ($categories as $category) {
+            $this->entityManager->remove($category);
+        }
+
+        $integration->setCategoryDeletedStreamCursorEnd($stream['pageInfo']['endCursor']);
+        if ($stream['pageInfo']['hasNextPage']) {
+            $this->synchronizeDeletedCategories($integration);
+        }
     }
 }

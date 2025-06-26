@@ -14,7 +14,7 @@ namespace BitBag\SyliusErgonodePlugin\Menu;
 use Knp\Menu\Util\MenuManipulator;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-final class AdminMenuListener
+final readonly class AdminMenuListener
 {
     public function __construct(
         private readonly int $position,

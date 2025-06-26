@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
 
-final class AttributeList
+class AttributeList
 {
     private array $edges;
 

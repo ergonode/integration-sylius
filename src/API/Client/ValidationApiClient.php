@@ -14,7 +14,7 @@ namespace BitBag\SyliusErgonodePlugin\API\Client;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\ValidationRequestModel;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
-final class ValidationApiClient extends AbstractErgonodeClient
+final readonly class ValidationApiClient extends AbstractErgonodeClient
 {
     public function validate(IntegrationInterface $integration): array
     {

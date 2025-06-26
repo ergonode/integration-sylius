@@ -24,4 +24,6 @@ interface ResourceRelationMappingRepositoryInterface extends RepositoryInterface
     public function findOneByIntegrationAndTypeAndSyliusValue(IntegrationInterface $integration, RelationType $type, string $syliusValue): ?ResourceRelationMappingInterface;
 
     public function findOneByIntegrationAndTypeAndErgonodeValue(IntegrationInterface $integration, RelationType $type, string $ergonodeValue): ?ResourceRelationMappingInterface;
+
+    public function findAllByIntegrationAndType(IntegrationInterface $integration, RelationType $type): array;
 }

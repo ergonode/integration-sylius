@@ -112,6 +112,7 @@
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.form.mapping.type.locale_external_mapping_type" class="BitBag\SyliusErgonodePlugin\Form\Mapping\Type\LocaleExternalMappingType">
+            <argument type="service" id="sylius.repository.locale" />
             <tag name="form.type" />
             <tag
                 name="bitbag.sylius_ergonode_plugin.resource_relation_mapping_type"

@@ -14,6 +14,14 @@
             </option>
             <option name="message">bitbag_ergonode.integration.duplicated_for_url_and_category_tree</option>
         </constraint>
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">
+                <value>code</value>
+            </option>
+            <option name="groups">
+                <value>sylius</value>
+            </option>
+        </constraint>
         <constraint name="BitBag\SyliusErgonodePlugin\Validator\Constraint\ErgonodeIntegrationConstraint">
             <option name="groups">
                 <value>sylius</value>
@@ -21,6 +29,13 @@
         </constraint>
 
         <property name="name">
+            <constraint name="NotBlank">
+                <option name="groups">
+                    <value>sylius</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="code">
             <constraint name="NotBlank">
                 <option name="groups">
                     <value>sylius</value>
