@@ -35,6 +35,10 @@ class Integration implements IntegrationInterface
 
     protected ?string $categoryDeletedStreamCursorEnd = null;
 
+    protected ?string $attributeStreamCursorEnd = null;
+
+    protected ?string $attributeDeletedStreamCursorEnd = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,5 +127,25 @@ class Integration implements IntegrationInterface
     public function setMainLanguageCode(?string $mainLanguageCode): void
     {
         $this->mainLanguageCode = $mainLanguageCode;
+    }
+
+    public function getAttributeStreamCursorEnd(): ?string
+    {
+        return $this->attributeStreamCursorEnd;
+    }
+
+    public function setAttributeStreamCursorEnd(?string $attributeStreamCursorEnd): void
+    {
+        $this->attributeStreamCursorEnd = $attributeStreamCursorEnd;
+    }
+
+    public function getAttributeDeletedStreamCursorEnd(): ?string
+    {
+        return $this->attributeDeletedStreamCursorEnd;
+    }
+
+    public function setAttributeDeletedStreamCursorEnd(?string $attributeDeletedStreamCursorEnd): void
+    {
+        $this->attributeDeletedStreamCursorEnd = $attributeDeletedStreamCursorEnd;
     }
 }

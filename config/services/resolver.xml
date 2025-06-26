@@ -33,5 +33,11 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.stringable_checker"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.attribute.attribute_type_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\Attribute\AttributeTypeResolver"/>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.attribute_option.attribute_option_name_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\AttributeOption\AttributeOptionNameResolver">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+        </service>
     </services>
 </container>

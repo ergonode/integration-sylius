@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
+namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon;
 
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;

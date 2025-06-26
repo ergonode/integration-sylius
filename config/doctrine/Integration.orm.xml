@@ -18,5 +18,7 @@
         <field name="enabled" column="enabled" type="boolean" />
         <field name="categoryStreamCursorEnd" column="category_stream_cursor_end" type="string" nullable="true" />
         <field name="categoryDeletedStreamCursorEnd" column="category_deleted_stream_cursor_end" type="string" nullable="true" />
+        <field name="attributeStreamCursorEnd" column="attribute_stream_cursor_end" type="string" nullable="true" />
+        <field name="attributeDeletedStreamCursorEnd" column="attribute_deleted_stream_cursor_end" type="string" nullable="true" />
     </entity>
 </doctrine-mapping>

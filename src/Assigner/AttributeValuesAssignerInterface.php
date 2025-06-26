@@ -9,18 +9,16 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
+namespace BitBag\SyliusErgonodePlugin\Assigner;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
-use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
+use Sylius\Component\Attribute\Model\AttributeInterface;
 
-interface TaxonPropertyValueAssignerInterface
+interface AttributeValuesAssignerInterface
 {
     public function assign(
         IntegrationInterface $integration,
-        TaxonInterface $taxon,
-        ResourceRelationMappingInterface $propertyMapping,
-        array $attributeValue,
+        AttributeInterface $attribute,
+        array $attributeNode,
     ): void;
 }

@@ -13,7 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 
 final readonly class SimpleValueResolver extends ValueResolver
 {
@@ -38,15 +38,15 @@ final readonly class SimpleValueResolver extends ValueResolver
 
     public function supports(string $typename, ResourceRelationMappingInterface $languageExternalId): bool
     {
-        return in_array(AttributeType::tryFrom($typename), [
-            AttributeType::TEXT,
-            AttributeType::TEXTAREA,
-            AttributeType::DATE,
-            AttributeType::NUMBER,
-            AttributeType::PRICE,
-            AttributeType::FILE,
-            AttributeType::GALLERY,
-            AttributeType::IMAGE,
+        return in_array(AttributeValueType::tryFrom($typename), [
+            AttributeValueType::TEXT,
+            AttributeValueType::TEXTAREA,
+            AttributeValueType::DATE,
+            AttributeValueType::NUMBER,
+            AttributeValueType::PRICE,
+            AttributeValueType::FILE,
+            AttributeValueType::GALLERY,
+            AttributeValueType::IMAGE,
         ], true);
     }
 }

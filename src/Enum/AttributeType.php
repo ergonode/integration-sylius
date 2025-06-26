@@ -13,16 +13,16 @@ namespace BitBag\SyliusErgonodePlugin\Enum;
 
 enum AttributeType: string
 {
-    case TEXT = 'TextAttributeValue';
-    case TEXTAREA = 'TextareaAttributeValue';
-    case DATE = 'DateAttributeValue';
-    case NUMBER = 'NumberAttributeValue';
-    case SELECT = 'SelectAttributeValue';
-    case MULTISELECT = 'MultiSelectAttributeValue';
-    case UNIT = 'UnitAttributeValue';
-    case PRICE = 'PriceAttributeValue';
-    case IMAGE = 'ImageAttributeValue';
-    case GALLERY = 'GalleryAttributeValue';
-    case FILE = 'FileAttributeValue';
-    case PRODUCT_RELATION = 'ProductRelationAttributeValue';
+    case TEXT = 'TextAttribute';
+    case TEXTAREA = 'TextareaAttribute';
+    case DATE = 'DateAttribute';
+    case NUMBER = 'NumericAttribute';
+    case SELECT = 'SelectAttribute';
+    case MULTISELECT = 'MultiSelectAttribute';
+    case UNIT = 'UnitAttribute';
+    case PRICE = 'PriceAttribute';
+    case IMAGE = 'ImageAttribute';
+    case GALLERY = 'GalleryAttribute';
+    case FILE = 'FileAttribute';
+    case PRODUCT_RELATION = 'ProductRelationAttribute';
 }

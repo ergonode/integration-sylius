@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner;
+namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
@@ -40,6 +40,10 @@ final readonly class TaxonNameAssigner implements TaxonNameAssignerInterface
             );
 
             if (null === $languageMapping) {
+                continue;
+            }
+
+            if (null === $name->getValue()) {
                 continue;
             }
 

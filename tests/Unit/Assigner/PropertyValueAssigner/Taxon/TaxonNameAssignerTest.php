@@ -9,15 +9,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner;
+namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonNameAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\LocalizedText;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
-use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;

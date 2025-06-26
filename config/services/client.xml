@@ -17,5 +17,11 @@
             <argument type="service" id="http_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.api.client.attribute_api_client" class="BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClient">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
+            <argument type="service" id="http_client"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
     </services>
 </container>

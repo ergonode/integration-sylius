@@ -13,7 +13,7 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Resolver\CategoryAttribute;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\UnitValueResolver;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
@@ -81,8 +81,8 @@ final class UnitValueResolverTest extends TestCase
         $resolver = new UnitValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);
 
-        $this->assertTrue($resolver->supports(AttributeType::UNIT->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeType::GALLERY->value, $mapping));
+        $this->assertTrue($resolver->supports(AttributeValueType::UNIT->value, $mapping));
+        $this->assertFalse($resolver->supports(AttributeValueType::GALLERY->value, $mapping));
         $this->assertFalse($resolver->supports('undefined', $mapping));
     }
 }

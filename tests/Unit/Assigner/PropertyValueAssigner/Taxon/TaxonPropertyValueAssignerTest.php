@@ -9,8 +9,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\TaxonPropertyValueAssigner;
+namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
+
+use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
@@ -19,8 +20,8 @@ use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Core\Model\TaxonImageInterface;
+use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 

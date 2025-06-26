@@ -13,7 +13,7 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Resolver\CategoryAttribute;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\SimpleValueResolver;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
@@ -75,19 +75,19 @@ final class SimpleValueResolverTest extends TestCase
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);
 
         foreach ([
-                    AttributeType::TEXT,
-                    AttributeType::TEXTAREA,
-                    AttributeType::DATE,
-                    AttributeType::NUMBER,
-                    AttributeType::PRICE,
-                    AttributeType::FILE,
-                    AttributeType::GALLERY,
-                    AttributeType::IMAGE,
+                    AttributeValueType::TEXT,
+                    AttributeValueType::TEXTAREA,
+                    AttributeValueType::DATE,
+                    AttributeValueType::NUMBER,
+                    AttributeValueType::PRICE,
+                    AttributeValueType::FILE,
+                    AttributeValueType::GALLERY,
+                    AttributeValueType::IMAGE,
                 ] as $validType) {
             $this->assertTrue($resolver->supports($validType->value, $mapping), "Expected {$validType->value} to be supported.");
         }
 
-        $this->assertFalse($resolver->supports(AttributeType::UNIT->value, $mapping));
+        $this->assertFalse($resolver->supports(AttributeValueType::UNIT->value, $mapping));
         $this->assertFalse($resolver->supports('undefined', $mapping));
     }
 }
