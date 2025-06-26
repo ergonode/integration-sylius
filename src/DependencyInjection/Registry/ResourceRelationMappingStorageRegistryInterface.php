@@ -12,13 +12,13 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\DependencyInjection\Registry;
 
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Storage\ResourceRelationMappingStorage;
+use BitBag\SyliusErgonodePlugin\Storage\ResourceRelationMappingStorageInterface;
 
 interface ResourceRelationMappingStorageRegistryInterface
 {
-    public function addStorage(RelationType $relationType, ResourceRelationMappingStorage $storage): void;
+    public function addStorage(RelationType $relationType, ResourceRelationMappingStorageInterface $storage): void;
 
-    public function getStorage(RelationType $relationType): ResourceRelationMappingStorage;
+    public function getStorage(RelationType $relationType): ResourceRelationMappingStorageInterface;
 
     public function hasStorage(RelationType $relationType): bool;
 }

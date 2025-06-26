@@ -12,14 +12,14 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\DependencyInjection\Registry;
 
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Storage\ResourceRelationMappingStorage;
+use BitBag\SyliusErgonodePlugin\Storage\ResourceRelationMappingStorageInterface;
 
 final class ResourceRelationMappingStorageRegistry implements ResourceRelationMappingStorageRegistryInterface
 {
-    /** @var array<string, ResourceRelationMappingStorage> */
+    /** @var array<string, ResourceRelationMappingStorageInterface> */
     private array $storages = [];
 
-    public function addStorage(RelationType $relationType, ResourceRelationMappingStorage $storage): void
+    public function addStorage(RelationType $relationType, ResourceRelationMappingStorageInterface $storage): void
     {
         $this->storages[$relationType->value] = $storage;
     }
@@ -29,7 +29,7 @@ final class ResourceRelationMappingStorageRegistry implements ResourceRelationMa
         return isset($this->storages[$relationType->value]);
     }
 
-    public function getStorage(RelationType $relationType): ResourceRelationMappingStorage
+    public function getStorage(RelationType $relationType): ResourceRelationMappingStorageInterface
     {
         if (!isset($this->storages[$relationType->value])) {
             throw new \InvalidArgumentException(
