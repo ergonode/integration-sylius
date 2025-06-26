@@ -44,3 +44,9 @@ bitbag_ergonode_admin_integration_synchronization:
     methods: [POST]
     defaults:
         _controller: bitbag.sylius_ergonode_plugin.controller.synchronization_action
+
+bitbag_ergonode_admin_integration_full_synchronization:
+    path: /integration/{id}/full-sychronization
+    methods: [POST]
+    defaults:
+        _controller: bitbag.sylius_ergonode_plugin.controller.synchronization_action

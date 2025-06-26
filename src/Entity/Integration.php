@@ -148,4 +148,12 @@ class Integration implements IntegrationInterface
     {
         $this->attributeDeletedStreamCursorEnd = $attributeDeletedStreamCursorEnd;
     }
+
+    public function resetCursorProperties(): void
+    {
+        $this->categoryStreamCursorEnd = null;
+        $this->categoryDeletedStreamCursorEnd = null;
+        $this->attributeDeletedStreamCursorEnd = null;
+        $this->attributeStreamCursorEnd = null;
+    }
 }

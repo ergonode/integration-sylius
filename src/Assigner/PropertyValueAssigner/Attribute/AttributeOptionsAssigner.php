@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute;
 
 use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
+use BitBag\SyliusErgonodePlugin\Context\FullSynchronizationContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\AttributeSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\AttributeOption\AttributeOptionNameResolverInterface;
@@ -26,19 +27,26 @@ final class AttributeOptionsAssigner implements AttributeOptionsAssignerInterfac
     public function __construct(
         private readonly AttributeApiClientInterface $attributeApiClient,
         private readonly AttributeOptionNameResolverInterface $attributeOptionNameResolver,
+        private readonly FullSynchronizationContextInterface $fullSynchronizationContext,
     ) {
     }
 
     public function assign(IntegrationInterface $integration, AttributeInterface $attribute, string $ergonodeAttributeCode, array $optionList): void
     {
         $configuration = $attribute->getConfiguration();
-        $choices = array_key_exists('choices', $configuration) ? $configuration['choices'] : [];
+        $fullSync = $this->fullSynchronizationContext->isFullSynchronization();
 
-        $choices = $this->resolveOptions($optionList['edges'], $integration, $choices);
-        $pageInfo = $optionList['pageInfo'];
-
-        $cursor = $pageInfo['endCursor'];
-        $hasNextPage = $pageInfo['hasNextPage'];
+        if (!$fullSync) {
+            $choices = array_key_exists('choices', $configuration) ? $configuration['choices'] : [];
+            $choices = $this->resolveOptions($optionList['edges'], $integration, $choices);
+            $pageInfo = $optionList['pageInfo'];
+            $cursor = $pageInfo['endCursor'];
+            $hasNextPage = $pageInfo['hasNextPage'];
+        } else {
+            $choices = [];
+            $cursor = null;
+            $hasNextPage = true;
+        }
 
         while ($hasNextPage) {
             $optionList = $this->getAttributeOptions($integration, $ergonodeAttributeCode, $cursor);

@@ -24,4 +24,6 @@ interface IntegrationRepositoryInterface extends RepositoryInterface
     public function createEnabledQueryBuilder(): QueryBuilder;
 
     public function findOneEnabledById(int $id): ?IntegrationInterface;
+
+    public function findOneEnabledByCode(string $code): ?IntegrationInterface;
 }

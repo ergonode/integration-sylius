@@ -17,4 +17,9 @@ final class IntegrationException extends \Exception
     {
         return new self(sprintf('Integration with id `%s` does not exist or is disabled.', $id));
     }
+
+    public static function notFoundEnabledWithCode(string $code): self
+    {
+        return new self(sprintf('Integration with code `%s` does not exist or is disabled.', $code));
+    }
 }
