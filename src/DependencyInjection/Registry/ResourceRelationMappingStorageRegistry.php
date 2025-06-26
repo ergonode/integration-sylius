@@ -26,8 +26,6 @@ final class ResourceRelationMappingStorageRegistry implements ResourceRelationMa
 
     public function hasStorage(RelationType $relationType): bool
     {
-        dump($this->storages);
-
         return isset($this->storages[$relationType->value]);
     }
 
