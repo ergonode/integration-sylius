@@ -8,5 +8,7 @@
         <service id="bitbag.sylius_ergonode_plugin.context.main_language_context" class="BitBag\SyliusErgonodePlugin\Context\MainLanguageContext">
             <argument type="service" id="bitbag_ergonode.repository.resource_relation_mapping"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.context.full_synchronization_context" class="BitBag\SyliusErgonodePlugin\Context\FullSynchronizationContext"/>
     </services>
 </container>

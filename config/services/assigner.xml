@@ -36,6 +36,7 @@
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_options_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeOptionsAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.attribute_api_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.attribute_option.attribute_option_name_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.full_synchronization_context"/>
         </service>
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributePropertyValueAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_type_assigner"/>
