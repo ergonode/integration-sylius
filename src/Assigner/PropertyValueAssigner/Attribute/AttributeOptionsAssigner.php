@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute;
 
 use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
-use BitBag\SyliusErgonodePlugin\Context\FullSynchronizationContextInterface;
+use BitBag\SyliusErgonodePlugin\Context\SynchronizationContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\AttributeSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\AttributeOption\AttributeOptionNameResolverInterface;
@@ -27,7 +27,7 @@ final class AttributeOptionsAssigner implements AttributeOptionsAssignerInterfac
     public function __construct(
         private readonly AttributeApiClientInterface $attributeApiClient,
         private readonly AttributeOptionNameResolverInterface $attributeOptionNameResolver,
-        private readonly FullSynchronizationContextInterface $fullSynchronizationContext,
+        private readonly SynchronizationContextInterface $fullSynchronizationContext,
     ) {
     }
 

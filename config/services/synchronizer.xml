@@ -14,6 +14,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.factory.serializer_factory"/>
             <argument type="service" id="sylius.repository.taxon"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="1000"/>
         </service>
 

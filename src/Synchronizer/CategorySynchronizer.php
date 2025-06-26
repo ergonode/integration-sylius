@@ -20,6 +20,7 @@ use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
 use BitBag\SyliusErgonodePlugin\Provider\CategoryTreeLeafsCodesProviderInterface;
 use BitBag\SyliusErgonodePlugin\Provider\TaxonProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
 final class CategorySynchronizer implements SynchronizerInterface
@@ -35,6 +36,7 @@ final class CategorySynchronizer implements SynchronizerInterface
         private readonly DenormalizerFactoryInterface $denormalizerFactory,
         private readonly RepositoryInterface $taxonRepository,
         private readonly TaxonParentAssignerInterface $taxonParentAssigner,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -64,6 +66,7 @@ final class CategorySynchronizer implements SynchronizerInterface
             $this->taxonValuesAssigner->assign($categoryNode, $integration, $taxon);
             $this->taxons[$categoryNode->getCode()] = $taxon;
 
+            $this->logger->info(sprintf('Taxon `%s` has been synchronized and will be persisted.', $taxon->getCode()));
             $this->entityManager->persist($taxon);
         }
 
@@ -86,6 +89,8 @@ final class CategorySynchronizer implements SynchronizerInterface
 
         $this->entityManager->persist($integration);
         $this->entityManager->flush();
+
+        $this->logger->info(sprintf('Previously mentioned categories have been saved.'));
 
         if ($pageInfo['hasNextPage']) {
             $this->synchronize($integration);

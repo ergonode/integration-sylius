@@ -149,6 +149,15 @@ class Integration implements IntegrationInterface
         $this->attributeDeletedStreamCursorEnd = $attributeDeletedStreamCursorEnd;
     }
 
+    public function isFirstSynchronization(): bool
+    {
+        return null === $this->categoryStreamCursorEnd
+            && null === $this->categoryDeletedStreamCursorEnd
+            && null === $this->attributeStreamCursorEnd
+            && null === $this->attributeDeletedStreamCursorEnd
+        ;
+    }
+
     public function resetCursorProperties(): void
     {
         $this->categoryStreamCursorEnd = null;

@@ -15,6 +15,7 @@ use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\Attribu
 use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeOptionsAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributePropertyValueAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeTypeAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Context\SynchronizationContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributePropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
@@ -37,6 +38,7 @@ final readonly class AttributeValuesAssigner implements AttributeValuesAssignerI
         private AttributeOptionsAssignerInterface $attributeOptionsAssigner,
         private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private AttributePropertyValueAssignerInterface $attributePropertyValueAssigner,
+        private SynchronizationContextInterface $synchronizationContext,
         private LoggerInterface $logger,
     ) {
     }
@@ -61,11 +63,17 @@ final readonly class AttributeValuesAssigner implements AttributeValuesAssignerI
                 RelationType::ATTRIBUTE_PROPERTY,
             );
 
-            if (null !== $propertyMapping && null !== $attribute->getId() && $propertyMapping->isImportOnce()) {
+            $mappingFound = null !== $propertyMapping;
+            $isFullSynchronization = $this->synchronizationContext->isFullSynchronization();
+
+            if ($mappingFound && !$isFullSynchronization && $propertyMapping->isImportOnce()) {
                 continue;
             }
 
-            $possibleProperty = AttributePropertyMapping::tryFrom(null === $propertyMapping ? $metadatum['key'] : $propertyMapping->getSyliusValue());
+            $possibleProperty = AttributePropertyMapping::tryFrom(!$mappingFound
+                ? $metadatum['key']
+                : $propertyMapping->getSyliusValue())
+            ;
 
             if (null === $possibleProperty) {
                 $this->logMissingMapping($integration, $metadatum['key']);

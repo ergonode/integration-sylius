@@ -45,7 +45,8 @@ final class AttributeSynchronizer implements SynchronizerInterface
             try {
                 $this->attributeValuesAssigner->assign($integration, $attribute, $attributeNode);
             } catch (AttributeSynchronizationException $exception) {
-                $this->logger->error($exception->getMessage());
+                $this->logger->error($exception->getMessage(), [$exception]);
+                $this->logger->info(sprintf('Attribute `%s` could not have been synchronized.', $attribute->getCode()));
 
                 continue;
             } catch (\Throwable $exception) {
@@ -54,16 +55,18 @@ final class AttributeSynchronizer implements SynchronizerInterface
                         'Unexpected exception occurred during attribute synchronization, message: %s',
                         $exception->getMessage(),
                     ),
+                    [$exception]
                 );
 
                 continue;
             }
-
+            $this->logger->info(sprintf('Attribute `%s` has been synchronized and will be persisted.', $attribute->getCode()));;
             $this->entityManager->persist($attribute);
         }
 
         $this->entityManager->persist($integration);
         $this->entityManager->flush();
+        $this->logger->info(sprintf('Previously mentioned attributes have been saved.'));
 
         if (false !== $attributeStream['pageInfo']['hasNextPage'] &&
             null !== $attributeStream['pageInfo']['endCursor']

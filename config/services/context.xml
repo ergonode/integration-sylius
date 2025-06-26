@@ -9,6 +9,6 @@
             <argument type="service" id="bitbag_ergonode.repository.resource_relation_mapping"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.context.full_synchronization_context" class="BitBag\SyliusErgonodePlugin\Context\FullSynchronizationContext"/>
+        <service id="bitbag.sylius_ergonode_plugin.context.synchronization_context" class="BitBag\SyliusErgonodePlugin\Context\SynchronizationContext"/>
     </services>
 </container>
