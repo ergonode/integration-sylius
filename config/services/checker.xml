@@ -7,5 +7,6 @@
     <services>
         <service id="bitbag.sylius_ergonode_plugin.checker.category.category_translatable_property_checker" class="BitBag\SyliusErgonodePlugin\Checker\Category\CategoryTranslatablePropertyChecker"/>
         <service id="bitbag.sylius_ergonode_plugin.checker.stringable_checker" class="BitBag\SyliusErgonodePlugin\Checker\StringableChecker"/>
+        <service id="bitbag.sylius_ergonode_plugin.checker.product.product_translatable_property_checker" class="BitBag\SyliusErgonodePlugin\Checker\Product\ProductTranslatablePropertyChecker"/>
     </services>
 </container>

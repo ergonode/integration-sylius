@@ -44,5 +44,13 @@
         <service id="bitbag.sylius_ergonode_plugin.resolver.attribute_option.attribute_option_name_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\AttributeOption\AttributeOptionNameResolver">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\FloatValueResolver"/>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolver"/>
+        <service id="bitbag.sylius_ergonode_plugin.resolver.product_attribute_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\ProductAttributeValueResolver">
+            <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.product.product_translatable_property_checker"/>
+        </service>
     </services>
 </container>

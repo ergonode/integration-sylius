@@ -29,5 +29,15 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="800"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.synchronizer.product_synchronizer" class="BitBag\SyliusErgonodePlugin\Synchronizer\ProductSynchronizer">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.provider.product_provider"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_values_assigner"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.variant_codes_storage"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="600"/>
+        </service>
     </services>
 </container>
