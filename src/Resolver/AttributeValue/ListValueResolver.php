@@ -24,37 +24,37 @@ final readonly class ListValueResolver extends ValueResolver
     ): array {
         $values = [];
         foreach ($attributeValue as $value) {
-            if (!array_key_exists('value', $value) && null !== $value['value']) {
+            if (!array_key_exists('value', $value) || null === $value['value']) {
                 continue;
             }
 
             if (!array_key_exists('translatedValue', $value)) {
                 continue;
             }
+
             $syliusLocaleCode = $this->getSyliusLocaleCode($integration, $value['language']);
 
             if (null === $syliusLocaleCode) {
                 continue;
             }
-            if (array_key_exists('name', $value['translatedValue'])) {
-                $values[$syliusLocaleCode] = [
-                    'code' => $value['value']['code'],
-                    'name' => $value['translatedValue']['name'],
-                ];
-
-                continue;
-            }
 
             $rowValue = $value['value'];
-            if (array_key_exists('code', $rowValue)) {
-                $code = $value['code'];
+
+            if (isset($rowValue['code'])) {
+                $code = $rowValue['code'];
                 $values[$syliusLocaleCode] = $this->getValue($code, $value['translatedValue']);
                 continue;
             }
 
-            $codes = array_map(fn ($value) => $value['code'], $rowValue);
-            foreach ($codes as $code) {
-                $values[$syliusLocaleCode][] = $this->getValue($code, $value['translatedValue']);
+            if (is_array($rowValue)) {
+                foreach ($rowValue as $entry) {
+                    if (!isset($entry['code'])) {
+                        continue;
+                    }
+
+                    $code = $entry['code'];
+                    $values[$syliusLocaleCode][] = $this->getValue($code, $value['translatedValue']);
+                }
             }
         }
 
