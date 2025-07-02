@@ -57,5 +57,25 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.synchronization_context" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger" />
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_values_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_property_value_assigner" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_attribute_value_resolver" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_attribute_value_assigner" />
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductPropertyValueAssigner">
+            <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.product_property_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.synchronization_context" />
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_attribute_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductAttributeValueAssigner">
+            <argument type="service" id="sylius.repository.product_attribute_value"/>
+            <argument type="service" id="sylius.repository.product_attribute"/>
+            <argument type="service" id="sylius.factory.product_attribute_value"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
     </services>
 </container>
