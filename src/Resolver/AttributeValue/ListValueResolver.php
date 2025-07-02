@@ -63,6 +63,10 @@ final readonly class ListValueResolver extends ValueResolver
 
     public function getValue(string $code, array $translatedValues): string
     {
+        if (array_key_exists('name', $translatedValues)) {
+            return $translatedValues['name'] ?? $translatedValue['code'] ?? $code;
+        }
+
         $translation = array_filter($translatedValues, function ($translatedValue) use ($code) {
             return $code === $translatedValue['code'];
         });

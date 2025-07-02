@@ -53,12 +53,6 @@ final class ProductAttributeValueAssigner implements ProductAttributeValueAssign
 
             $attributeValue->setValue($value);
 
-            $storageType = $attribute->getStorageType();
-
-            switch ($storageType) {
-
-            }
-
             $this->entityManager->persist($attributeValue);
         }
     }

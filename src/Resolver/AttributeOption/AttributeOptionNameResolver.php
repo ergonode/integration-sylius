@@ -33,10 +33,9 @@ final readonly class AttributeOptionNameResolver implements AttributeOptionNameR
                 RelationType::LANGUAGE_EXTERNAL_ID,
             );
 
-            if (null === $languageMapping) {
+            if (null === $languageMapping || null === $name['value']) {
                 continue;
             }
-
             $names[$languageMapping->getSyliusValue()] = $name['value'];
         }
 
