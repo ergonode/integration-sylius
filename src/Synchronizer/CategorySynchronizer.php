@@ -12,13 +12,16 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClientInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonParentAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonParentAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
+use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Factory\DenormalizerFactoryInterface;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
 use BitBag\SyliusErgonodePlugin\Provider\CategoryTreeLeafsCodesProviderInterface;
 use BitBag\SyliusErgonodePlugin\Provider\TaxonProviderInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
@@ -35,8 +38,9 @@ final class CategorySynchronizer implements SynchronizerInterface
         private readonly TaxonValuesAssignerInterface $taxonValuesAssigner,
         private readonly DenormalizerFactoryInterface $denormalizerFactory,
         private readonly RepositoryInterface $taxonRepository,
+        private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private readonly TaxonParentAssignerInterface $taxonParentAssigner,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -63,8 +67,15 @@ final class CategorySynchronizer implements SynchronizerInterface
             $categoryNode = $denormalizer->denormalize($nodeArray, CategoryNode::class, 'array');
             $taxon = $this->taxonProvider->provide($integration, $categoryNode->getCode());
 
-            $this->taxonValuesAssigner->assign($categoryNode, $integration, $taxon);
-            $this->taxons[$categoryNode->getCode()] = $taxon;
+            try {
+                $this->taxonValuesAssigner->assign($categoryNode, $integration, $taxon);
+                $this->taxons[$categoryNode->getCode()] = $taxon;
+            } catch (SynchronizationException $exception) {
+                $this->logger->error($exception->getMessage(), [$exception]);
+                $this->logger->info(sprintf('Taxon `%s` could not have been synchronized.', $taxon->getCode()));
+
+                continue;
+            }
 
             $this->logger->info(sprintf('Taxon `%s` has been synchronized and will be persisted.', $taxon->getCode()));
             $this->entityManager->persist($taxon);
@@ -110,8 +121,19 @@ final class CategorySynchronizer implements SynchronizerInterface
     {
         $deletedCategories = $this->categoryApiClient->getCategoryDeleted($integration);
         $stream = $deletedCategories['data']['categoryDeletedStream'];
+        $categoryCodes = [];
 
-        $categories = $this->taxonRepository->findBy(['code' => $this->retrieveCategoryCodesFromResponse($stream)]);
+        foreach ($this->retrieveCategoryCodesFromResponse($stream) as $code) {
+            $resourceRelationMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue($integration, $code, RelationType::CATEGORY_EXTERNAL_ID);
+            if (null === $resourceRelationMapping) {
+                $categoryCodes[] = $code;
+
+                continue;
+            }
+
+            $categoryCodes[] = $resourceRelationMapping->getSyliusValue();
+        }
+        $categories = $this->taxonRepository->findBy(['code' => $categoryCodes]);
 
         foreach ($categories as $category) {
             $this->entityManager->remove($category);

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute;
+namespace BitBag\SyliusErgonodePlugin\Assigner\Attribute;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;

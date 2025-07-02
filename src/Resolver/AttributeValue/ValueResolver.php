@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute;
+namespace BitBag\SyliusErgonodePlugin\Resolver\AttributeValue;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;

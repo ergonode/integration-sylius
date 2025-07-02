@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonPropertyValueAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;

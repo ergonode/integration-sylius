@@ -14,8 +14,10 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\AttributeValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\AttributeSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Provider\AttributeProviderInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Repository\ProductAttributeRepositoryInterface;
@@ -27,6 +29,7 @@ final class AttributeSynchronizer implements SynchronizerInterface
         private readonly AttributeProviderInterface $attributeProvider,
         private readonly EntityManagerInterface $entityManager,
         private readonly ProductAttributeRepositoryInterface $productAttributeRepository,
+        private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private readonly AttributeValuesAssignerInterface $attributeValuesAssigner,
         private readonly LoggerInterface $logger,
     ) {
@@ -55,12 +58,12 @@ final class AttributeSynchronizer implements SynchronizerInterface
                         'Unexpected exception occurred during attribute synchronization, message: %s',
                         $exception->getMessage(),
                     ),
-                    [$exception]
+                    [$exception],
                 );
 
                 continue;
             }
-            $this->logger->info(sprintf('Attribute `%s` has been synchronized and will be persisted.', $attribute->getCode()));;
+            $this->logger->info(sprintf('Attribute `%s` has been synchronized and will be persisted.', $attribute->getCode()));
             $this->entityManager->persist($attribute);
         }
 
@@ -96,13 +99,24 @@ final class AttributeSynchronizer implements SynchronizerInterface
 
     public function synchronizeDeletedAttributes(IntegrationInterface $integration): void
     {
-        $deletedCategories = $this->attributeApiClient->getDeletedAttributes($integration);
-        $stream = $deletedCategories['data']['attributeDeletedStream'];
+        $deletedAttributes = $this->attributeApiClient->getDeletedAttributes($integration);
+        $stream = $deletedAttributes['data']['attributeDeletedStream'];
+        $attributeCodes = [];
 
-        $categories = $this->productAttributeRepository->findBy(['code' => $this->retrieveCodesFromResponse($stream)]);
+        foreach ($this->retrieveCodesFromResponse($stream) as $code) {
+            $resourceRelationMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue($integration, $code, RelationType::ATTRIBUTE_EXTERNAL_ID);
+            if (null === $resourceRelationMapping) {
+                $attributeCodes[] = $code;
 
-        foreach ($categories as $category) {
-            $this->entityManager->remove($category);
+                continue;
+            }
+
+            $attributeCodes[] = $resourceRelationMapping->getSyliusValue();
+        }
+
+        $attributes = $this->productAttributeRepository->findBy(['code' => $attributeCodes]);
+        foreach ($attributes as $attribute) {
+            $this->entityManager->remove($attribute);
         }
 
         if (null !== $stream['pageInfo']['endCursor']) {

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonPropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;

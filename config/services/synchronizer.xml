@@ -13,16 +13,18 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.taxon_values_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.factory.serializer_factory"/>
             <argument type="service" id="sylius.repository.taxon"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="1000"/>
         </service>
 
-        <service id="bit_bag.sylius_ergonode_plugin.synchronizer.attribute_synchronizer" class="BitBag\SyliusErgonodePlugin\Synchronizer\AttributeSynchronizer">
+        <service id="bitbag.sylius_ergonode_plugin.synchronizer.attribute_synchronizer" class="BitBag\SyliusErgonodePlugin\Synchronizer\AttributeSynchronizer">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.attribute_api_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.provider.attribute_provider"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="sylius.repository.product_attribute"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.attribute_values_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="800"/>

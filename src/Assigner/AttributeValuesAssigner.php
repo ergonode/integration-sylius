@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeNameAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeOptionsAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributePropertyValueAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeTypeAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeNameAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeOptionsAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributePropertyValueAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeTypeAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Context\SynchronizationContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributePropertyMapping;

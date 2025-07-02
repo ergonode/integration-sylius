@@ -14,17 +14,22 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.category.category_translatable_property_checker"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.simple_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\SimpleValueResolver">
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.simple_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\SimpleValueResolver">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.list_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ListValueResolver">
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.list_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ListValueResolver">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.unit_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\UnitValueResolver">
+        <service id="bitbag.sylius_ergonode_plugin.resolver.category_attribute.unit_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\UnitValueResolver">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.attribute_value.product_relation_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ProductRelationValueResolver">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <tag name="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
         </service>

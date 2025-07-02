@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon;
+namespace BitBag\SyliusErgonodePlugin\Assigner\Taxon;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;

@@ -16,7 +16,6 @@ enum ProductPropertyMapping: string
     case ENABLED = 'enabled';
     case SHIPPING_REQUIRED = 'shipping_required';
     case CHANNELS = 'channels';
-    case PRODUCT_TYPE = 'product_type';
     case PRICE = 'price';
     case ORIGINAL_PRICE = 'original_price';
     case MINIMUM_PRICE = 'minimum_price';
@@ -24,7 +23,7 @@ enum ProductPropertyMapping: string
     case SHIPPING_CATEGORY = 'shipping_category';
     case WIDTH = 'width';
     case HEIGHT = 'height';
-    case LENGTH = 'length';
+    case DEPTH = 'depth';
     case CURRENT_STOCK = 'current_stock';
     case TRACKED = 'tracked';
     case NAME = 'name';
@@ -34,7 +33,5 @@ enum ProductPropertyMapping: string
     case META_DESCRIPTION = 'meta_description';
     case SHORT_DESCRIPTION = 'short_description';
     case MAIN_TAXON = 'main_taxon';
-    case TAXONS = 'taxons';
     case MEDIA = 'media';
-    case VARIANT_SELECTION_METHOD = 'variant_selection_method';
 }

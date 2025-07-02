@@ -9,18 +9,18 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon;
+namespace BitBag\SyliusErgonodePlugin\Resolver\AttributeValue;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
-use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
-interface TaxonPropertyValueAssignerInterface
+interface ValueResolverInterface
 {
-    public function assign(
+    public function resolve(
         IntegrationInterface $integration,
-        TaxonInterface $taxon,
-        ResourceRelationMappingInterface $propertyMapping,
+        array $attribute,
         array $attributeValue,
-    ): void;
+    ): array;
+
+    public function supports(RelationType $relationType, string $typename): bool;
 }

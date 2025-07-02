@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute;
+namespace BitBag\SyliusErgonodePlugin\Resolver\AttributeValue;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
-use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
 final readonly class ListValueResolver extends ValueResolver
 {
@@ -21,7 +21,6 @@ final readonly class ListValueResolver extends ValueResolver
         IntegrationInterface $integration,
         array $attribute,
         array $attributeValue,
-        ResourceRelationMappingInterface $languageExternalId,
     ): array {
         $values = [];
         foreach ($attributeValue as $value) {
@@ -45,27 +44,36 @@ final readonly class ListValueResolver extends ValueResolver
 
                 continue;
             }
-            $code = $value['value']['code'];
-            $translation = array_filter($value['translatedValue'], function ($translatedValue) use ($code) {
-                return $code === $translatedValue['code'];
-            });
 
-            $translatedValue = array_shift($translation);
-            if (null === $translatedValue || !array_key_exists('name', $translatedValue)) {
+            $rowValue = $value['value'];
+            if (array_key_exists('code', $rowValue)) {
+                $code = $value['code'];
+                $values[$syliusLocaleCode] = $this->getValue($code, $value['translatedValue']);
                 continue;
             }
 
-            $values[$syliusLocaleCode] = [
-                'code' => $code,
-                'name' => $translatedValue['name'],
-            ];
+            $codes = array_map(fn ($value) => $value['code'], $rowValue);
+            foreach ($codes as $code) {
+                $values[$syliusLocaleCode][] = $this->getValue($code, $value['translatedValue']);
+            }
         }
 
         return $values;
     }
 
-    public function supports(string $typename, ResourceRelationMappingInterface $languageExternalId): bool
+    public function getValue(string $code, array $translatedValues): string
     {
+        $translation = array_filter($translatedValues, function ($translatedValue) use ($code) {
+            return $code === $translatedValue['code'];
+        });
+
+        return array_shift($translation)['name'] ?? $code;
+    }
+
+    public function supports(
+        RelationType $relationType,
+        string $typename,
+    ): bool {
         return in_array(AttributeValueType::tryFrom($typename), [
             AttributeValueType::SELECT,
             AttributeValueType::MULTISELECT,

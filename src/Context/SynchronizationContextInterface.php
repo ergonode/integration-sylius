@@ -16,9 +16,16 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 interface SynchronizationContextInterface
 {
     public const CATEGORY_STREAM = 'category_stream';
+
     public const CATEGORY_DELETED_STREAM = 'category_deleted_stream';
+
     public const ATTRIBUTE_STREAM = 'attribute_stream';
+
     public const ATTRIBUTE_DELETED_STREAM = 'attribute_deleted_stream';
+
+    public const PRODUCT_STREAM = 'product_stream';
+
+    public const PRODUCT_DELETED_STREAM = 'product_deleted_stream';
 
     public function initialize(IntegrationInterface $integration, bool $isFullSynchronization): void;
 

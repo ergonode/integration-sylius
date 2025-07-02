@@ -9,44 +9,37 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute;
+namespace BitBag\SyliusErgonodePlugin\Resolver\AttributeValue;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
-use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
-final readonly class SimpleValueResolver extends ValueResolver
+final readonly class UnitValueResolver extends ValueResolver
 {
     public function resolve(
         IntegrationInterface $integration,
         array $attribute,
         array $attributeValue,
-        ResourceRelationMappingInterface $languageExternalId,
     ): array {
         $values = [];
         foreach ($attributeValue as $value) {
             $syliusCode = $this->getSyliusLocaleCode($integration, $value['language']);
+
             if (null === $syliusCode) {
                 continue;
             }
 
-            $values[$syliusCode] = $value['value'];
+            $values[$syliusCode] = sprintf('%s %s', $value['value'], $attribute['unit']['symbol]']);
         }
 
         return $values;
     }
 
-    public function supports(string $typename, ResourceRelationMappingInterface $languageExternalId): bool
-    {
-        return in_array(AttributeValueType::tryFrom($typename), [
-            AttributeValueType::TEXT,
-            AttributeValueType::TEXTAREA,
-            AttributeValueType::DATE,
-            AttributeValueType::NUMBER,
-            AttributeValueType::PRICE,
-            AttributeValueType::FILE,
-            AttributeValueType::GALLERY,
-            AttributeValueType::IMAGE,
-        ], true);
+    public function supports(
+        RelationType $relationType,
+        string $typename,
+    ): bool {
+        return AttributeValueType::UNIT === AttributeValueType::tryFrom($typename);
     }
 }

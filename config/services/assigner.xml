@@ -14,35 +14,35 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonPropertyValueAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.downloader.ergonode_file_downloader" />
             <argument type="service" id="sylius.factory.taxon_image" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonParentAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonParentAssigner">
             <argument type="service" id="sylius.repository.taxon"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeNameAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_options_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeOptionsAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_options_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeOptionsAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.attribute_api_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.attribute_option.attribute_option_name_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.synchronization_context"/>
         </service>
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributePropertyValueAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributePropertyValueAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_type_assigner"/>
         </service>
 
-        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_type_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeTypeAssigner">
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_type_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeTypeAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.attribute.attribute_type_resolver"/>
             <argument type="service" id="sylius.registry.attribute_type" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger" />

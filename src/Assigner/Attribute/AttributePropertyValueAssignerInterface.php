@@ -9,20 +9,16 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute;
+namespace BitBag\SyliusErgonodePlugin\Assigner\Attribute;
 
-use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\AttributePropertyMapping;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 
-interface AttributeTypeAssignerInterface
+interface AttributePropertyValueAssignerInterface
 {
-    public function assignByEnum(
+    public function assign(
         AttributeInterface $attribute,
-        AttributeType $type,
-    ): void;
-
-    public function assignByMetadatumValue(
-        AttributeInterface $attribute,
-        string $type,
+        AttributePropertyMapping $propertyMapping,
+        mixed $attributeValue,
     ): void;
 }

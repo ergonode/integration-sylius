@@ -22,7 +22,7 @@ enum ProductVariantPropertyMapping: string
     case SHIPPING_CATEGORY = 'shipping_category';
     case WIDTH = 'width';
     case HEIGHT = 'height';
-    case LENGTH = 'length';
+    case DEPTH = 'depth';
     case CURRENT_STOCK = 'current_stock';
     case TRACKED = 'tracked';
     case NAME = 'name';

@@ -26,7 +26,9 @@ final class SynchronizationContext implements SynchronizationContextInterface
             self::CATEGORY_STREAM => $integration->getCategoryStreamCursorEnd(),
             self::CATEGORY_DELETED_STREAM => $integration->getCategoryDeletedStreamCursorEnd(),
             self::ATTRIBUTE_STREAM => $integration->getAttributeStreamCursorEnd(),
-            self::ATTRIBUTE_DELETED_STREAM => $integration->getAttributeStreamCursorEnd(),
+            self::ATTRIBUTE_DELETED_STREAM => $integration->getAttributeDeletedStreamCursorEnd(),
+            self::PRODUCT_STREAM => $integration->getProductStreamCursorEnd(),
+            self::PRODUCT_DELETED_STREAM => $integration->getProductDeletedStreamCursorEnd(),
         ];
     }
 
