@@ -28,11 +28,11 @@ final readonly class AttributeApiClient extends AbstractErgonodeClient implement
         ), $integration);
     }
 
-    public function getDeletedAttributes(IntegrationInterface $integration): array
+    public function getDeletedAttributes(IntegrationInterface $integration, ?string $previousCursorEnd = null): array
     {
         return $this->query(new DeletedAttributeStream(
             self::LIMIT,
-            $integration->getAttributeDeletedStreamCursorEnd(),
+            $previousCursorEnd ?? $integration->getAttributeDeletedStreamCursorEnd(),
         ), $integration);
     }
 

@@ -17,7 +17,7 @@ use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 
 final class VariantCodesStorage implements VariantCodesStorageInterface
 {
-    private array $variantCodes = [];
+    private array $variants = [];
 
     private array $variantLists = [];
 
@@ -46,24 +46,24 @@ final class VariantCodesStorage implements VariantCodesStorageInterface
                     continue;
                 }
 
-                $this->variantCodes[] = $edge['sku'];
+                $this->variants[] = $edge['sku'];
             }
 
             $hasNextPage = $pageInfo['hasNextPage'];
             $cursor = $pageInfo['endCursor'];
         }
 
-        $this->variantCodes = array_flip(array_unique($this->variantCodes));
+        $this->variants = array_flip(array_unique($this->variants));
     }
 
     public function hasVariantByCode(string $code): bool
     {
-        return array_key_exists($code, $this->variantCodes);
+        return array_key_exists($code, $this->variants);
     }
 
     public function getVariantByCode(string $code): array
     {
-        return $this->variantCodes[$code];
+        return $this->variants[$code];
     }
 
     public function storeVariant(array $variantNode): void
@@ -72,7 +72,7 @@ final class VariantCodesStorage implements VariantCodesStorageInterface
             throw SynchronizationException::invalidArrayStructure($variantNode, 'code');
         }
 
-        $this->variantCodes[$variantNode['code']] = $variantNode;
+        $this->variants[$variantNode['code']] = $variantNode;
     }
 
     public function storeVariantList(string $productCode, array $variantsList): void
@@ -87,6 +87,6 @@ final class VariantCodesStorage implements VariantCodesStorageInterface
 
     public function unsetVariant(string $code): void
     {
-        unset($this->variantCodes[$code], $this->variantLists[$code]);
+        unset($this->variants[$code], $this->variantLists[$code]);
     }
 }

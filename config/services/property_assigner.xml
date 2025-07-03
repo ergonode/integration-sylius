@@ -8,8 +8,6 @@
         <defaults>
             <tag name="bitbag.sylius_ergonode_plugin.product_property_assigner"/>
             <tag name="bitbag.sylius_ergonode_plugin.product_variant_property_assigner"/>
-            <tag name="bitbag.sylius_ergonode_plugin.attribute_property_assigner"/>
-            <tag name="bitbag.sylius_ergonode_plugin.taxon_property_assigner"/>
         </defaults>
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.common.media_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Common\MediaAssigner">
             <argument type="service" id="sylius.factory.product_image"/>

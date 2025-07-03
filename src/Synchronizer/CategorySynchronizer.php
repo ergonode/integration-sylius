@@ -14,6 +14,7 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 use BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonParentAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Collector\DeletedCategoriesCollectorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
@@ -40,6 +41,7 @@ final class CategorySynchronizer implements SynchronizerInterface
         private readonly RepositoryInterface $taxonRepository,
         private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private readonly TaxonParentAssignerInterface $taxonParentAssigner,
+        private readonly DeletedCategoriesCollectorInterface $deletedCategoriesCollector,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -50,6 +52,7 @@ final class CategorySynchronizer implements SynchronizerInterface
         $categoryTreeLeafsCodes = $categoryTree['codes'];
         $parentCodes = $categoryTree['parents'];
 
+        $this->deletedCategoriesCollector->collect($integration);
         $response = $this->categoryApiClient->getCategories($integration);
 
         $categoryStream = $response['data']['categoryStream'];
@@ -57,9 +60,16 @@ final class CategorySynchronizer implements SynchronizerInterface
         $categories = $categoryStream['edges'];
         $denormalizer = $this->denormalizerFactory->create();
 
+
         foreach ($categories as $category) {
+            if ([] === $category['node']) {
+                continue;
+            }
+
             $nodeArray = $category['node'];
-            if (false === in_array($nodeArray['code'], $categoryTreeLeafsCodes, true)) {
+            if (false === in_array($nodeArray['code'], $categoryTreeLeafsCodes, true)
+                || $this->deletedCategoriesCollector->isInDeletedList($category['node']['code'])
+            ) {
                 continue;
             }
 
@@ -112,18 +122,9 @@ final class CategorySynchronizer implements SynchronizerInterface
         $this->synchronizeDeletedCategories($integration);
     }
 
-    private function retrieveCategoryCodesFromResponse(array $stream): array
-    {
-        return array_map(fn (array $category) => $category['node'], $stream['edges']);
-    }
-
     public function synchronizeDeletedCategories(IntegrationInterface $integration): void
     {
-        $deletedCategories = $this->categoryApiClient->getCategoryDeleted($integration);
-        $stream = $deletedCategories['data']['categoryDeletedStream'];
-        $categoryCodes = [];
-
-        foreach ($this->retrieveCategoryCodesFromResponse($stream) as $code) {
+        foreach ($this->deletedCategoriesCollector->getDeletedList() as $code) {
             $resourceRelationMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue($integration, $code, RelationType::CATEGORY_EXTERNAL_ID);
             if (null === $resourceRelationMapping) {
                 $categoryCodes[] = $code;
@@ -139,15 +140,9 @@ final class CategorySynchronizer implements SynchronizerInterface
             $this->entityManager->remove($category);
         }
 
-        if (null !== $stream['pageInfo']['endCursor']) {
-            $integration->setCategoryDeletedStreamCursorEnd($stream['pageInfo']['endCursor']);
-        }
+        $integration->setCategoryDeletedStreamCursorEnd($this->deletedCategoriesCollector->getCursorEnd());
 
         $this->entityManager->persist($integration);
         $this->entityManager->flush();
-
-        if ($stream['pageInfo']['hasNextPage']) {
-            $this->synchronizeDeletedCategories($integration);
-        }
     }
 }

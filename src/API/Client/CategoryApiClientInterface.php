@@ -19,5 +19,5 @@ interface CategoryApiClientInterface
 
     public function getCategoryTreeLeafCodes(IntegrationInterface $integration): array;
 
-    public function getCategoryDeleted(IntegrationInterface $integration): array;
+    public function getCategoryDeleted(IntegrationInterface $integration, ?string $endCursor = null): array;
 }

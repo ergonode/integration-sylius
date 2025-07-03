@@ -15,9 +15,11 @@ use BitBag\SyliusErgonodePlugin\Assigner\Property\MediaAssigner as PropertyMedia
 use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use Sylius\Component\Core\Model\ImagesAwareInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Webmozart\Assert\Assert;
@@ -36,16 +38,23 @@ final class MediaAssigner extends PropertyMediaAssigner
         Assert::isInstanceOf($resource, ImagesAwareInterface::class);
         /** @var ProductImageInterface $image */
         $image = $this->productImageFactory->createNew();
+        $owner = $resource instanceof ProductVariantInterface ? $resource->getProduct() : $resource;
+        Assert::notNull($owner);
+        $this->saveImage($owner, $values, $image);
 
-        $this->saveImage($resource, $values, $image);
+        if ($resource instanceof ProductVariantInterface) {
+            $image->addProductVariant($resource);
+        }
     }
 
     public function supports(ResourceInterface $resource, string $property): bool
     {
-        if (!$resource instanceof ProductInterface) {
+        if (!$resource instanceof ProductInterface || !$resource instanceof ProductVariantInterface) {
             return true;
         }
 
-        return ProductPropertyMapping::MEDIA === ProductPropertyMapping::tryFrom($property);
+        return ProductPropertyMapping::MEDIA === ProductPropertyMapping::tryFrom($property)
+            || ProductVariantPropertyMapping::MEDIA === ProductVariantPropertyMapping::tryFrom($property)
+        ;
     }
 }

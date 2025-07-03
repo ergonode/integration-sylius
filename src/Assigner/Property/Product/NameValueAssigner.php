@@ -14,7 +14,9 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Property\Product;
 use BitBag\SyliusErgonodePlugin\Assigner\Property\TranslatableTextValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class NameValueAssigner extends TranslatableTextValueAssigner
@@ -36,10 +38,12 @@ final class NameValueAssigner extends TranslatableTextValueAssigner
 
     public function supports(ResourceInterface $resource, string $property): bool
     {
-        if (!$resource instanceof ProductInterface) {
+        if (!$resource instanceof ProductInterface && !$resource instanceof ProductVariantInterface) {
             return true;
         }
 
-        return ProductPropertyMapping::NAME === ProductPropertyMapping::tryFrom($property);
+        return ProductPropertyMapping::NAME === ProductPropertyMapping::tryFrom($property)
+            || ProductVariantPropertyMapping::NAME === ProductVariantPropertyMapping::tryFrom($property)
+        ;
     }
 }

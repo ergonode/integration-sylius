@@ -40,11 +40,11 @@ final readonly class CategoryApiClient extends AbstractErgonodeClient implements
         ), $integration);
     }
 
-    public function getCategoryDeleted(IntegrationInterface $integration): array
+    public function getCategoryDeleted(IntegrationInterface $integration, ?string $endCursor = null): array
     {
         return $this->query(new CategoryDeletedStream(
             self::LIMIT,
-            $integration->getCategoryDeletedStreamCursorEnd(),
+            $endCursor ?? $integration->getCategoryDeletedStreamCursorEnd(),
         ), $integration);
     }
 }

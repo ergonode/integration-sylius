@@ -26,8 +26,6 @@ enum ProductVariantPropertyMapping: string
     case CURRENT_STOCK = 'current_stock';
     case TRACKED = 'tracked';
     case NAME = 'name';
-    case MAIN_TAXON = 'main_taxon';
-    case TAXONS = 'taxons';
     case MEDIA = 'media';
     case VARIANT_SELECTION_METHOD = 'variant_selection_method';
 }

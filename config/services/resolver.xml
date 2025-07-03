@@ -52,5 +52,10 @@
             <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.product.product_translatable_property_checker"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.resolver.product_variant_attribute_value_resolver" class="BitBag\SyliusErgonodePlugin\Resolver\ProductVariantAttributeValueResolver">
+            <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.category_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.checker.variant.product_variant_translatable_property_checker"/>
+        </service>
     </services>
 </container>
