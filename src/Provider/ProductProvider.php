@@ -15,8 +15,10 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
+use Webmozart\Assert\Assert;
 
 final class ProductProvider implements ProductProviderInterface
 {
@@ -50,7 +52,9 @@ final class ProductProvider implements ProductProviderInterface
         /** @var ProductInterface $product */
         $product = $this->productFactory->createWithVariant();
         $product->setCode($ergonodeProductCode);
-        $product->getVariants()->first()->setCode($ergonodeProductCode);
+        $variant = $product->getVariants()->first();
+        Assert::isInstanceOf($variant, ProductVariantInterface::class);
+        $variant->setCode($ergonodeProductCode);
 
         return $product;
     }

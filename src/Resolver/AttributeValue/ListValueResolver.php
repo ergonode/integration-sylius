@@ -43,6 +43,7 @@ final readonly class ListValueResolver extends ValueResolver
             if (isset($rowValue['code'])) {
                 $code = $rowValue['code'];
                 $values[$syliusLocaleCode] = $this->getValue($code, $value['translatedValue']);
+
                 continue;
             }
 
@@ -53,7 +54,7 @@ final readonly class ListValueResolver extends ValueResolver
                     }
 
                     $code = $entry['code'];
-                    $values[$syliusLocaleCode][] = $this->getValue($code, $value['translatedValue']);
+                    $values[$syliusLocaleCode] = [$this->getValue($code, $value['translatedValue'])];
                 }
             }
         }
@@ -64,7 +65,7 @@ final readonly class ListValueResolver extends ValueResolver
     public function getValue(string $code, array $translatedValues): string
     {
         if (array_key_exists('name', $translatedValues)) {
-            return $translatedValues['name'] ?? $translatedValue['code'] ?? $code;
+            return $translatedValues['name'] ?? $translatedValues['code'] ?? $code;
         }
 
         $translation = array_filter($translatedValues, function ($translatedValue) use ($code) {

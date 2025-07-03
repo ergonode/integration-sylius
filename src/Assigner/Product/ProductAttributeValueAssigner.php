@@ -17,7 +17,6 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class ProductAttributeValueAssigner implements ProductAttributeValueAssignerInterface
 {
@@ -25,7 +24,7 @@ final class ProductAttributeValueAssigner implements ProductAttributeValueAssign
         private readonly RepositoryInterface $productAttributeValueRepository,
         private readonly RepositoryInterface $attributeRepository,
         private readonly FactoryInterface $productAttributeValueFactory,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 

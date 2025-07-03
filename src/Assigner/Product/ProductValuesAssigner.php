@@ -15,7 +15,6 @@ use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductAttributeValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;

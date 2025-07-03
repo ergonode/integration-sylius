@@ -51,7 +51,6 @@ final class ProductSynchronizer implements SynchronizerInterface
             try {
                 $this->productValuesAssigner->assign($productNode, $integration, $product);
                 if ('VariableProduct' === $productNode['typename']) {
-
                     $this->variantCodesStorage->storeVariantList($code, $productNode['variantList']);
                 }
             } catch (SynchronizationException $exception) {
