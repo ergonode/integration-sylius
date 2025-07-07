@@ -18,4 +18,6 @@ interface ProductApiClientInterface
     public function getProducts(IntegrationInterface $integration, ?string $cursorEnd = null): array;
 
     public function getProductAttributes(IntegrationInterface $integration, string $productCode, ?string $cursorEnd = null): array;
+
+    public function getDeletedProducts(IntegrationInterface $integration, ?string $cursorEnd = null): array;
 }

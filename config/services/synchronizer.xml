@@ -42,6 +42,8 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.variant_codes_storage"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
             <argument type="service" id="sylius.repository.product"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.collector.deleted_products_collector"/>
+            <argument type="service" id="sylius.repository.product_variant"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="600"/>
         </service>
     </services>

@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Collector;
 
-use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
 use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
@@ -28,8 +27,13 @@ final class DeletedProductsCollector implements DeletedProductsCollectorInterfac
 
     public function collect(IntegrationInterface $integration): void
     {
-        $deletedAttributes = $this->productApiClient->getDeletedProducts();
-        $stream = $deletedAttributes['data']['productDeletedStream'];
+        $deletedProducts = $this->productApiClient->getDeletedProducts($integration, $this->productDeletedStreamCursorEnd);
+        $stream = $deletedProducts['data']['productDeletedStream'];
+
+        if ([] === $stream) {
+            return;
+        }
+
         foreach ($this->retrieveProductSkusFromResponse($stream) as $code) {
             $this->deletedProducts[] = $code;
         }

@@ -24,7 +24,7 @@ final class DeletedProductStream extends ErgonodeRequestModel
     public function getRequestBody(): string
     {
         return <<<'GRAPHQL'
-             query GetDeletedProducts($previousCursorEnd: String, $limit: Int = 200) {}
+             query GetDeletedProducts($previousCursorEnd: String, $limit: Int = 200) {
               productDeletedStream(first: $limit, after: $previousCursorEnd) {
                 pageInfo {
                   endCursor

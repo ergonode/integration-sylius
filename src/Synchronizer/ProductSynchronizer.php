@@ -14,6 +14,7 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantValuesAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Collector\DeletedProductsCollectorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Provider\ProductProviderInterface;
@@ -23,6 +24,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 
 final class ProductSynchronizer implements SynchronizerInterface
 {
@@ -36,12 +38,15 @@ final class ProductSynchronizer implements SynchronizerInterface
         private readonly VariantCodesStorageInterface $variantCodesStorage,
         private readonly LoggerInterface $logger,
         private readonly ProductRepositoryInterface $productRepository,
+        private readonly DeletedProductsCollectorInterface $deletedProductsCollector,
+        private readonly ProductVariantRepositoryInterface $productVariantRepository,
     ) {
     }
 
     public function synchronize(IntegrationInterface $integration): void
     {
         $this->variantCodesStorage->initialize($integration);
+        $this->deletedProductsCollector->collect($integration);
         $productStream = $this->getProductStream($integration);
         if (null === $productStream) {
             return;
@@ -80,15 +85,17 @@ final class ProductSynchronizer implements SynchronizerInterface
             $this->entityManager->persist($product);
         }
 
+        if (null !== $productStream['pageInfo']['endCursor']) {
+            $integration->setProductStreamCursorEnd($productStream['pageInfo']['endCursor']);
+        }
+
         $this->entityManager->persist($integration);
         $this->entityManager->flush();
 
         $this->logger->info(sprintf('Previously mentioned product have been saved.'));
 
-        if (false !== $productStream['pageInfo']['hasNextPage'] &&
-            null !== $productStream['pageInfo']['endCursor']
+        if (false !== $productStream['pageInfo']['hasNextPage']
         ) {
-            $integration->setProductStreamCursorEnd($productStream['pageInfo']['endCursor']);
             $this->synchronize($integration);
 
             return;
@@ -116,6 +123,8 @@ final class ProductSynchronizer implements SynchronizerInterface
             }
         }
         $this->entityManager->flush();
+
+        $this->synchronizeDeletedProducts($integration);
     }
 
     private function getProductStream(IntegrationInterface $integration): ?array
@@ -132,5 +141,22 @@ final class ProductSynchronizer implements SynchronizerInterface
         }
 
         return $attributes['data']['productStream'];
+    }
+
+    private function synchronizeDeletedProducts(IntegrationInterface $integration): void
+    {
+        $codes = $this->deletedProductsCollector->getDeletedList();
+
+        foreach ($this->productRepository->findBy(['code' => $codes]) as $product) {
+            $this->entityManager->remove($product);
+        }
+
+        foreach ($this->productVariantRepository->findBy(['code' => $codes]) as $variant) {
+            $this->entityManager->remove($variant);
+        }
+
+        $integration->setProductDeletedStreamCursorEnd($this->deletedProductsCollector->getCursorEnd());
+
+        $this->entityManager->flush();
     }
 }

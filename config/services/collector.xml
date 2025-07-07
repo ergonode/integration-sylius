@@ -12,5 +12,9 @@
         <service id="bitbag.sylius_ergonode_plugin.collector.deleted_categories_collector" class="BitBag\SyliusErgonodePlugin\Collector\DeletedCategoriesCollector">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.category_api_client"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.collector.deleted_products_collector" class="BitBag\SyliusErgonodePlugin\Collector\DeletedProductsCollector">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
+        </service>
     </services>
 </container>
