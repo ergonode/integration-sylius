@@ -111,7 +111,9 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
         if ($pageInfo['hasNextPage']) {
             $cursorEnd = $pageInfo['endCursor'];
             $response = $this->apiClient->getCategoryAttributes($integration, $code, $cursorEnd);
-            dd($response);
+            $category = $response['data']['category'];
+            $attributeList = $category['attributeList'];
+            $this->assignValues($attributeList['edges'], $integration, $taxon, $attributeList['pageInfo'], $code);
         }
     }
 }

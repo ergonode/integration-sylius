@@ -34,112 +34,129 @@ final class CategoryAttributesList extends ErgonodeRequestModel
                 }
 
                 attributeList(first: $limit, after: $previousCursorEnd) {
-                  pageInfo {
-                    endCursor
-                    hasNextPage
-                  }
-                  edges {
-                    node {
-                      attribute {
-                        code
-                        name {
-                          language
-                          value
-                        }
-                      }
-                      translations {
-                        language
-
-                        ... on TextAttributeValueTranslation {
-                          textValue: value
-                        }
-
-                        ... on TextareaAttributeValueTranslation {
-                          textareaValue: value
-                          rawValue
-                        }
-
-                        ... on NumericAttributeValueTranslation {
-                          numericValue: value
-                        }
-
-                        ... on PriceAttributeValueTranslation {
-                          priceValue: value
-                        }
-
-                        ... on UnitAttributeValueTranslation {
-                          unitValue: value
-                        }
-
-                        ... on DateAttributeValueTranslation {
-                          dateValue: value
-                        }
-
-                        ... on SelectAttributeValueTranslation {
-                          selectValue: value {
-                            code
-                            name {
-                              language
-                              value
-                            }
-                          }
-                          translatedOption: translatedValue {
-                            code
-                            name
-                          }
-                        }
-
-                        ... on MultiSelectAttributeValueTranslation {
-                          multiSelectValue: value {
-                            code
-                            name {
-                              language
-                              value
-                            }
-                          }
-                          translatedOptions: translatedValue {
-                            code
-                            name
-                          }
-                        }
-
-                        ... on ImageAttributeValueTranslation {
-                          imageValue: value {
-                            url
-                            name
-                            extension
-                            mime
-                            size
-                          }
-                        }
-
-                        ... on GalleryAttributeValueTranslation {
-                          galleryValue: value {
-                            url
-                            name
-                            extension
-                            mime
-                            size
-                          }
-                        }
-
-                        ... on FileAttributeValueTranslation {
-                          fileValue: value {
-                            url
-                            name
-                            extension
-                            mime
-                            size
-                          }
-                        }
-
-                        ... on ProductRelationAttributeValueTranslation {
-                          productRelationValue: value {
-                            sku
-                          }
+                    pageInfo {
+                        endCursor
+                        hasNextPage
+                    }
+                      edges {
+                        node {
+                          ...AttributeValueFields
                         }
                       }
                     }
+                  }
+                }
+
+            fragment AttributeValueFields on AttributeValue {
+              typename: __typename
+              attribute {
+                code
+                name {
+                  language
+                  value
+                }
+              }
+
+              ... on TextAttributeValue {
+                textTranslations: translations {
+                  language
+                  value
+                }
+              }
+               ... on SelectAttributeValue {
+                selectTranslations: translations {
+                 language
+                 value {
+                   code
+                   name {
+                     language
+                     value
+                   }
+                 }
+                 translatedValue {
+                   code
+                   name
+                 }
+               }
+             }
+              ... on TextareaAttributeValue {
+                textareaTranslations: translations {
+                  language
+                  value
+                }
+              }
+              ... on DateAttributeValue {
+                dateTranslations: translations {
+                  language
+                  value
+                }
+              }
+              ... on NumberAttributeValue {
+                numberTranslations: translations {
+                  language
+                  value
+                }
+              }
+              ... on UnitAttributeValue {
+                unitTranslations: translations {
+                  language
+                  value
+                }
+                attribute {
+                  unit {
+                    name
+                    symbol
+                  }
+                }
+              }
+              ... on ImageAttributeValue {
+                imageTranslations: translations {
+                  language
+                  value {
+                    name
+                    url
+                  }
+                }
+              }
+              ... on GalleryAttributeValue {
+                galleryTranslations: translations {
+                  language
+                  value {
+                    name
+                    url
+                  }
+                }
+              }
+              ... on FileAttributeValue {
+                fileTranslations: translations {
+                  language
+                  value {
+                    name
+                    url
+                  }
+                }
+              }
+            ... on MultiSelectAttributeValue {
+                multiSelectTranslations: translations {
+                    language
+                    value {
+                    code
+                      name {
+                      language
+                        value
+                    }
+                    }
+                    translatedValue {
+                    code
+                    name
+                }
+              }
+            }
+              ... on ProductRelationAttributeValue {
+                relationTranslations: translations {
+                  language
+                  value {
+                    sku
                   }
                 }
               }
