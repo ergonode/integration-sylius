@@ -42,8 +42,8 @@ final class NameValueAssigner extends TranslatableTextValueAssigner
             return true;
         }
 
-        return ProductPropertyMapping::NAME === ProductPropertyMapping::tryFrom($property)
-            || ProductVariantPropertyMapping::NAME === ProductVariantPropertyMapping::tryFrom($property)
+        return ProductPropertyMapping::NAME === ProductPropertyMapping::tryFrom($property) ||
+            ProductVariantPropertyMapping::NAME === ProductVariantPropertyMapping::tryFrom($property)
         ;
     }
 }

@@ -16,18 +16,20 @@ use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
+use Psr\Log\LoggerInterface;
+use Sylius\Component\Core\Model\ImageAwareInterface;
 use Sylius\Component\Core\Model\ImagesAwareInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Webmozart\Assert\Assert;
 
 final class MediaAssigner extends PropertyMediaAssigner
 {
     public function __construct(
         private readonly FactoryInterface $productImageFactory,
+        private readonly LoggerInterface $logger,
         ErgonodeFileDownloaderInterface $downloader,
     ) {
         parent::__construct($downloader);
@@ -35,11 +37,18 @@ final class MediaAssigner extends PropertyMediaAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        Assert::isInstanceOf($resource, ImagesAwareInterface::class);
         /** @var ProductImageInterface $image */
         $image = $this->productImageFactory->createNew();
         $owner = $resource instanceof ProductVariantInterface ? $resource->getProduct() : $resource;
-        Assert::notNull($owner);
+        if (!$owner instanceof ImagesAwareInterface || !$owner instanceof ImageAwareInterface) {
+            $ownerFound = $owner instanceof ResourceInterface;
+            $this->logger->error('Owner of media is not ImagesAwareInterface or ImageAwareInterface', [
+                'ownerId' => $ownerFound ? $owner->getId() : $resource->getId(),
+                'ownerClass' => $ownerFound ? get_class($owner) : get_class($resource),
+            ]);
+
+            return;
+        }
         $this->saveImage($owner, $values, $image);
 
         if ($resource instanceof ProductVariantInterface) {
@@ -53,8 +62,8 @@ final class MediaAssigner extends PropertyMediaAssigner
             return true;
         }
 
-        return ProductPropertyMapping::MEDIA === ProductPropertyMapping::tryFrom($property)
-            || ProductVariantPropertyMapping::MEDIA === ProductVariantPropertyMapping::tryFrom($property)
+        return ProductPropertyMapping::MEDIA === ProductPropertyMapping::tryFrom($property) ||
+            ProductVariantPropertyMapping::MEDIA === ProductVariantPropertyMapping::tryFrom($property)
         ;
     }
 }

@@ -13,7 +13,6 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\AttributeValuesAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Collector\DeletedAttributesCollector;
 use BitBag\SyliusErgonodePlugin\Collector\DeletedAttributesCollectorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
@@ -58,6 +57,7 @@ final class AttributeSynchronizer implements SynchronizerInterface
             }
 
             $attribute = $this->attributeProvider->provide($integration, $code);
+
             try {
                 $this->attributeValuesAssigner->assign($integration, $attribute, $attributeNode);
             } catch (AttributeSynchronizationException $exception) {

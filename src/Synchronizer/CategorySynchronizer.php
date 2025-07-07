@@ -60,15 +60,14 @@ final class CategorySynchronizer implements SynchronizerInterface
         $categories = $categoryStream['edges'];
         $denormalizer = $this->denormalizerFactory->create();
 
-
         foreach ($categories as $category) {
             if ([] === $category['node']) {
                 continue;
             }
 
             $nodeArray = $category['node'];
-            if (false === in_array($nodeArray['code'], $categoryTreeLeafsCodes, true)
-                || $this->deletedCategoriesCollector->isInDeletedList($category['node']['code'])
+            if (false === in_array($nodeArray['code'], $categoryTreeLeafsCodes, true) ||
+                $this->deletedCategoriesCollector->isInDeletedList($category['node']['code'])
             ) {
                 continue;
             }
@@ -124,6 +123,7 @@ final class CategorySynchronizer implements SynchronizerInterface
 
     public function synchronizeDeletedCategories(IntegrationInterface $integration): void
     {
+        $categoryCodes = [];
         foreach ($this->deletedCategoriesCollector->getDeletedList() as $code) {
             $resourceRelationMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue($integration, $code, RelationType::CATEGORY_EXTERNAL_ID);
             if (null === $resourceRelationMapping) {

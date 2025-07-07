@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Resolver;
 
-use BitBag\SyliusErgonodePlugin\Checker\Product\ProductTranslatablePropertyCheckerInterface;
 use BitBag\SyliusErgonodePlugin\Checker\Variant\ProductVariantTranslatablePropertyCheckerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
