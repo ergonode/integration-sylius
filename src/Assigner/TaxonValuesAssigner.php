@@ -68,7 +68,7 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
         IntegrationInterface $integration,
         TaxonInterface $taxon,
         array $pageInfo,
-        string $code
+        string $code,
     ): void {
         foreach ($attributeListNodes as $attributeListNode) {
             if (!array_key_exists('node', $attributeListNode)) {

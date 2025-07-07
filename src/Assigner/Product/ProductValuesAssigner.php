@@ -29,7 +29,7 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
         private MainLanguageContextInterface $mainLanguageContext,
         private ProductAttributeValueResolverInterface $productAttributeValueResolver,
         private ProductAttributeValueAssignerInterface $productAttributeValueAssigner,
-        private ProductApiClientInterface $apiClient
+        private ProductApiClientInterface $apiClient,
     ) {
     }
 

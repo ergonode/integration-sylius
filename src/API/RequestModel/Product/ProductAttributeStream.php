@@ -162,7 +162,7 @@ final class ProductAttributeStream extends ErgonodeRequestModel
     public function getRequestPayload(): array
     {
         return [
-            'sku' => $this->limit,
+            'sku' => $this->sku,
             'previousCursorEnd' => $this->previousCursorEnd,
             'limit' => $this->limit,
         ];
