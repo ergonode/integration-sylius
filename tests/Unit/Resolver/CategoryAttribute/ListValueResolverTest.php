@@ -45,7 +45,7 @@ final class ListValueResolverTest extends TestCase
         $result = $resolver->resolve($integration, $attribute, $attributeValue);
 
         $this->assertSame([
-            'en_US' => ['code' => 'red', 'name' => 'Red'],
+            'en_US' => 'Red',
         ], $result);
     }
 
@@ -80,7 +80,7 @@ final class ListValueResolverTest extends TestCase
         );
 
         $this->assertSame([
-            'pl_PL' => ['code' => 'm', 'name' => 'Średni'],
+            'pl_PL' => 'Średni',
         ], $result);
     }
 
