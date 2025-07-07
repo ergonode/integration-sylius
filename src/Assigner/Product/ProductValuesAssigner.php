@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
 
+use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
@@ -28,6 +29,7 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
         private MainLanguageContextInterface $mainLanguageContext,
         private ProductAttributeValueResolverInterface $productAttributeValueResolver,
         private ProductAttributeValueAssignerInterface $productAttributeValueAssigner,
+        private ProductApiClientInterface $apiClient
     ) {
     }
 
@@ -36,7 +38,9 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
         IntegrationInterface $integration,
         ProductInterface $product,
     ): void {
+        $sku = $productNode['sku'];
         $attributeListNodes = $productNode['attributeList'];
+        $pageInfo = $attributeListNodes['pageInfo'];
         foreach ($attributeListNodes['edges'] as $attributeListNode) {
             if (!array_key_exists('node', $attributeListNode)) {
                 throw ProductSynchronizationException::invalidArrayStructure($attributeListNode, 'node');
@@ -79,6 +83,11 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
                 $propertyMapping,
                 $attributeValue,
             );
+        }
+
+        if ($pageInfo['hasNextPage']) {
+            $productNode = $this->apiClient->getProductAttributes($integration, $sku, $pageInfo['endCursor']);
+            $this->assign($productNode, $integration, $product);
         }
     }
 }

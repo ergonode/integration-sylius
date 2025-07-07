@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\API\Client;
 
+use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryAttributesList;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryDeletedStream;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryStream;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryTreeLeafCodes;
@@ -26,6 +27,15 @@ final readonly class CategoryApiClient extends AbstractErgonodeClient implements
         return $this->query(new CategoryStream(
             self::LIMIT,
             $integration->getCategoryStreamCursorEnd(),
+        ), $integration);
+    }
+
+    public function getCategoryAttributes(IntegrationInterface $integration, string $code, ?string $endCursor = null): array
+    {
+        return $this->query(new CategoryAttributesList(
+            self::LIMIT,
+            $code,
+            $endCursor ?? $integration->getCategoryDeletedStreamCursorEnd(),
         ), $integration);
     }
 

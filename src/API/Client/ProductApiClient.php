@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\API\Client;
 
+use BitBag\SyliusErgonodePlugin\API\RequestModel\Product\ProductAttributeStream;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Product\ProductStream;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
@@ -22,6 +23,15 @@ final readonly class ProductApiClient extends AbstractErgonodeClient implements 
     {
         return $this->query(new ProductStream(
             self::LIMIT,
+            $cursorEnd,
+        ), $integration);
+    }
+
+    public function getProductAttributes(IntegrationInterface $integration, string $productCode, ?string $cursorEnd = null): array
+    {
+        return $this->query(new ProductAttributeStream(
+            self::LIMIT,
+            $productCode,
             $cursorEnd,
         ), $integration);
     }

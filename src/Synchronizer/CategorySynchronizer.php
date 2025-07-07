@@ -84,6 +84,11 @@ final class CategorySynchronizer implements SynchronizerInterface
                 $this->logger->info(sprintf('Taxon `%s` could not have been synchronized.', $taxon->getCode()));
 
                 continue;
+            } catch (\Exception $exception) {
+                $this->logger->critical($exception->getMessage(), [$exception]);
+                $this->logger->info(sprintf('Taxon `%s` could not have been synchronized.', $taxon->getCode()));
+
+                continue;
             }
 
             $this->logger->info(sprintf('Taxon `%s` has been synchronized and will be persisted.', $taxon->getCode()));

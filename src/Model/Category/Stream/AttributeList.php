@@ -13,6 +13,8 @@ namespace BitBag\SyliusErgonodePlugin\Model\Category\Stream;
 
 class AttributeList
 {
+    private array $pageInfo;
+
     private array $edges;
 
     public function getEdges(): array
@@ -23,5 +25,15 @@ class AttributeList
     public function setEdges(array $edges): void
     {
         $this->edges = $edges;
+    }
+
+    public function getPageInfo(): array
+    {
+        return $this->pageInfo;
+    }
+
+    public function setPageInfo(array $pageInfo): void
+    {
+        $this->pageInfo = $pageInfo;
     }
 }

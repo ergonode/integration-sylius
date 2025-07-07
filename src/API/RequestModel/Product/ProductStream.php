@@ -58,6 +58,10 @@ final class ProductStream extends ErgonodeRequestModel
                       }
                     }
                     attributeList(first: 100) {
+                        pageInfo {
+                        endCursor
+                        hasNextPage
+                    }
                       edges {
                         node {
                           ...AttributeValueFields

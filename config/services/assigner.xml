@@ -11,6 +11,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_name_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.category_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.category_api_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
@@ -64,6 +65,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_attribute_value_resolver" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_attribute_value_assigner" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductPropertyValueAssigner">
@@ -84,6 +86,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_attribute_value_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_property_value_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 

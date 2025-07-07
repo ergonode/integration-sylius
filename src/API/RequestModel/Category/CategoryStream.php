@@ -39,6 +39,10 @@ final class CategoryStream extends ErgonodeRequestModel
                       language
                     }
                     attributeList {
+                    pageInfo {
+                        endCursor
+                        hasNextPage
+                    }
                       edges {
                         node {
                           ...AttributeValueFields

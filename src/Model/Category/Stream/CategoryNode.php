@@ -60,4 +60,9 @@ class CategoryNode
     {
         return $this->attributeList->getEdges();
     }
+
+    public function getPageInfo(): array
+    {
+        return $this->attributeList->getPageInfo();
+    }
 }
