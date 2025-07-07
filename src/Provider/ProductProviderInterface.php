@@ -16,5 +16,5 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 interface ProductProviderInterface
 {
-    public function provide(IntegrationInterface $integration, string $ergonodeProductCode): ProductInterface;
+    public function provide(IntegrationInterface $integration, string $ergonodeProductCode, bool $withoutVariant): ProductInterface;
 }

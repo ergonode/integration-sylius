@@ -75,7 +75,27 @@
             <argument type="service" id="sylius.repository.product_attribute_value"/>
             <argument type="service" id="sylius.repository.product_attribute"/>
             <argument type="service" id="sylius.factory.product_attribute_value"/>
-            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.storage_based_product_attribute_value_assigner"/>
+        </service>
+
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_values_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantValuesAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_attribute_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_property_value_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantPropertyValueAssigner">
+            <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.product_variant_property_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.synchronization_context"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.storage_based_product_attribute_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\StorageBasedProductAttributeValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
     </services>
 </container>

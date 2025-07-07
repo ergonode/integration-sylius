@@ -22,7 +22,7 @@ use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ValueResolverInterface;
 
-final readonly class ProductVariantAttributeValueResolver implements ProductAttributeValueResolverInterface
+final readonly class ProductVariantAttributeValueResolver implements ProductVariantAttributeValueResolverInterface
 {
     public function __construct(
         private iterable $valueResolvers,
@@ -34,11 +34,11 @@ final readonly class ProductVariantAttributeValueResolver implements ProductAttr
         IntegrationInterface $integration,
         ResourceRelationMappingInterface $mainLanguageMapping,
         string $typename,
-        array $productAttribute,
-        array $productAttributeValue,
+        array $productVariantAttribute,
+        array $productVariantAttributeValue,
         ?ResourceRelationMappingInterface $propertyMapping,
     ): array {
-        $values = $this->getValues($integration, $productAttribute, $productAttributeValue, $typename);
+        $values = $this->getValues($integration, $productVariantAttribute, $productVariantAttributeValue, $typename);
 
         if (null === $propertyMapping) {
             return $values;

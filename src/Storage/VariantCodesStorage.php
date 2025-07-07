@@ -17,9 +17,9 @@ use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 
 final class VariantCodesStorage implements VariantCodesStorageInterface
 {
-    private array $variants = [];
+    private array $variantsLists = [];
 
-    private array $variantLists = [];
+    private array $variantPayloads = [];
 
     public function __construct(
         private readonly VariantApiClientInterface $apiClient,
@@ -40,53 +40,62 @@ final class VariantCodesStorage implements VariantCodesStorageInterface
             }
             $pageInfo = $response['data']['productStream']['pageInfo'];
             $edges = $response['data']['productStream']['edges'];
-
             foreach ($edges as $edge) {
+                $edge = $edge['node'];
                 if (!array_key_exists('sku', $edge)) {
                     continue;
                 }
+                $sku = $edge['sku'];
+                $variantSkus = [];
+                foreach ($edge['variantList']['edges'] as $variant) {
+                    $variantNode = $variant['node'];
 
-                $this->variants[] = $edge['sku'];
+                    if (!array_key_exists('sku', $variantNode)
+                    || !array_key_exists('__typename', $variantNode)
+                    || 'SimpleProduct' !== $variantNode['__typename']
+                    ) {
+                        continue;
+                    }
+
+                    $variantSkus[] = $variantNode['sku'];
+                }
+
+                $this->variantsLists[$sku] = [
+                    'options' => $edge['bindings'],
+                    'variants' => $variantSkus,
+                ];
+
+                $this->variantPayloads[] = $variantSkus;
             }
 
             $hasNextPage = $pageInfo['hasNextPage'];
             $cursor = $pageInfo['endCursor'];
         }
 
-        $this->variants = array_flip(array_unique($this->variants));
+        $this->variantPayloads = array_flip(array_merge(...$this->variantPayloads));
     }
 
     public function hasVariantByCode(string $code): bool
     {
-        return array_key_exists($code, $this->variants);
+        return array_key_exists($code, $this->variantPayloads);
     }
 
     public function getVariantByCode(string $code): array
     {
-        return $this->variants[$code];
+        return $this->variantPayloads[$code];
     }
 
     public function storeVariant(array $variantNode): void
     {
-        if (!array_key_exists('code', $variantNode)) {
-            throw SynchronizationException::invalidArrayStructure($variantNode, 'code');
+        if (!array_key_exists('sku', $variantNode)) {
+            throw SynchronizationException::invalidArrayStructure($variantNode, 'sku');
         }
 
-        $this->variants[$variantNode['code']] = $variantNode;
-    }
-
-    public function storeVariantList(string $productCode, array $variantsList): void
-    {
-        $this->variantLists[$productCode] = $variantsList;
+        $this->variantPayloads[$variantNode['sku']] = $variantNode;
     }
 
     public function getVariantLists(): array
     {
-        return $this->variantLists;
-    }
-
-    public function unsetVariant(string $code): void
-    {
-        unset($this->variants[$code], $this->variantLists[$code]);
+        return $this->variantsLists;
     }
 }

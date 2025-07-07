@@ -26,5 +26,11 @@
             <argument type="service" id="sylius.custom_factory.product"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.provider.product_variant_provider" class="BitBag\SyliusErgonodePlugin\Provider\ProductVariantProvider">
+            <argument type="service" id="sylius.repository.product_variant"/>
+            <argument type="service" id="sylius.custom_factory.product_variant"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+        </service>
     </services>
 </container>

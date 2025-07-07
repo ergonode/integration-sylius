@@ -73,13 +73,8 @@ final class ProductStream extends ErgonodeRequestModel
                     }
                   }
                       variantList(first: 50) {
-                        pageInfo {
-                          endCursor
-                          hasNextPage
-                        }
                         edges {
                           node {
-                            __typename
                             sku
                           }
                         }

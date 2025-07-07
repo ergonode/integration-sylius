@@ -2,21 +2,28 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner;
+namespace BitBag\SyliusErgonodePlugin\Assigner\ProductVariant;
 
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
+use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantAttributeValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
 
-final class ProductVariantValuesAssigner
+final class ProductVariantValuesAssigner implements ProductVariantValuesAssignerInterface
 {
+    private const MISSING_PROPERTY_LOG_FORMAT = 'Missing property relation mapping for integration id `%s`, relation type %s and value %s';
+
     public function __construct(
         private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
-        private readonly MainLanguageContextInterface $mainLanguageContext
+        private readonly MainLanguageContextInterface $mainLanguageContext,
+        private readonly ProductVariantAttributeValueResolverInterface $productVariantAttributeValueResolver,
+        private readonly ProductVariantPropertyValueAssignerInterface $productVariantPropertyValueAssigner,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -48,18 +55,20 @@ final class ProductVariantValuesAssigner
                 continue;
             }
 
-            $attributeValue = $this->productVariantPropertyValueResolver->resolve(
+            $attributeValue = $this->productVariantAttributeValueResolver->resolve(
                 $integration,
                 $this->mainLanguageContext->getMainLanguageMapping($integration),
-                $propertyMapping,
                 $typename,
                 $attribute,
                 $value,
+                $propertyMapping,
             );
 
+            $property = ProductVariantPropertyMapping::tryFrom($propertyMapping->getSyliusValue());
+
             $this->productVariantPropertyValueAssigner->assign(
-                $integration,
                 $productVariant,
+                $property,
                 $propertyMapping,
                 $attributeValue,
             );
@@ -73,7 +82,7 @@ final class ProductVariantValuesAssigner
                 self::MISSING_PROPERTY_LOG_FORMAT,
                 $integration->getId(),
                 $ergonodeAttributeCode,
-                RelationType::CATEGORY_PROPERTY->value,
+                RelationType::VARIANT_PROPERTY->value,
             ),
         );
     }

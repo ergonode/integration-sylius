@@ -23,9 +23,5 @@ interface VariantCodesStorageInterface
 
     public function storeVariant(array $variantNode): void;
 
-    public function storeVariantList(string $productCode, array $variantsList): void;
-
     public function getVariantLists(): array;
-
-    public function unsetVariant(string $code): void;
 }

@@ -29,7 +29,7 @@ final class ProductProvider implements ProductProviderInterface
     ) {
     }
 
-    public function provide(IntegrationInterface $integration, string $ergonodeProductCode): ProductInterface
+    public function provide(IntegrationInterface $integration, string $ergonodeProductCode, bool $withoutVariant): ProductInterface
     {
         $mapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
             $integration,
@@ -50,11 +50,14 @@ final class ProductProvider implements ProductProviderInterface
         }
 
         /** @var ProductInterface $product */
-        $product = $this->productFactory->createWithVariant();
+        $product = $withoutVariant ? $this->productFactory->createNew() : $this->productFactory->createWithVariant();
         $product->setCode($ergonodeProductCode);
-        $variant = $product->getVariants()->first();
-        Assert::isInstanceOf($variant, ProductVariantInterface::class);
-        $variant->setCode($ergonodeProductCode);
+
+        if (!$withoutVariant) {
+            $variant = $product->getVariants()->first();
+            Assert::isInstanceOf($variant, ProductVariantInterface::class);
+            $variant->setCode($ergonodeProductCode);
+        }
 
         return $product;
     }

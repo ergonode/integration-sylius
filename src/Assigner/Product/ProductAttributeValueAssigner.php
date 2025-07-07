@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductAttributeValueInterface;
@@ -24,7 +23,7 @@ final class ProductAttributeValueAssigner implements ProductAttributeValueAssign
         private readonly RepositoryInterface $productAttributeValueRepository,
         private readonly RepositoryInterface $attributeRepository,
         private readonly FactoryInterface $productAttributeValueFactory,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly StorageBasedProductAttributeValueAssignerInterface $productAttributeValueStorageBasedResolver,
     ) {
     }
 
@@ -50,9 +49,7 @@ final class ProductAttributeValueAssigner implements ProductAttributeValueAssign
                 $attributeValue->setProduct($product);
             }
 
-            $attributeValue->setValue($value);
-
-            $this->entityManager->persist($attributeValue);
+            $this->productAttributeValueStorageBasedResolver->assign($attributeValue, $value);
         }
     }
 }

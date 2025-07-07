@@ -13,6 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Provider\ProductProviderInterface;
@@ -29,6 +30,7 @@ final class ProductSynchronizer implements SynchronizerInterface
         private readonly ProductProviderInterface $productProvider,
         private readonly ProductVariantProviderInterface $productVariantProvider,
         private readonly ProductValuesAssignerInterface $productValuesAssigner,
+        private readonly ProductVariantValuesAssignerInterface $productVariantValuesAssigner,
         private readonly EntityManagerInterface $entityManager,
         private readonly VariantCodesStorageInterface $variantCodesStorage,
         private readonly LoggerInterface $logger,
@@ -46,21 +48,19 @@ final class ProductSynchronizer implements SynchronizerInterface
         foreach ($productStream['edges'] as $productEdge) {
             $productNode = $productEdge['node'];
             $code = $productNode['sku'];
+            $typename = $productNode['typename'];
             if ($this->variantCodesStorage->hasVariantByCode($code)) {
                 $this->variantCodesStorage->storeVariant($productNode);
+                continue;
             }
-
-            $product = $this->productProvider->provide($integration, $code);
+            $isVariableProduct = $typename === 'VariableProduct';
+            $product = $this->productProvider->provide($integration, $code, $isVariableProduct);
 
             try {
                 $this->productValuesAssigner->assign($productNode, $integration, $product);
-                if ('VariableProduct' === $productNode['typename']) {
-                    $this->variantCodesStorage->storeVariantList($code, $productNode['variantList']);
-                }
             } catch (SynchronizationException $exception) {
                 $this->logger->error($exception->getMessage(), [$exception]);
                 $this->logger->info(sprintf('Product `%s` could not have been synchronized.', $product->getCode()));
-
                 continue;
             } catch (\Throwable $exception) {
                 $this->logger->warning(
@@ -92,20 +92,25 @@ final class ProductSynchronizer implements SynchronizerInterface
         }
 
         $variantLists = $this->variantCodesStorage->getVariantLists();
-        $products = $this->productRepository->findBy(['code' => array_keys($variantLists)]);
+        $productCodes = array_keys($variantLists);
+        $products = $this->productRepository->findBy(['code' => $productCodes]);
         foreach ($products as $product) {
-            $variants = $variantLists[$product->getCode()];
+            $variants = $variantLists[$product->getCode()]['variants'];
             foreach ($variants as $variantCode) {
                 if (!$this->variantCodesStorage->hasVariantByCode($variantCode)) {
                     continue;
                 }
-
-                $variant = $this->productVariantProvider->provide($integration, $product, $variantCode);
-                $variantNode = $this->variantCodesStorage->getVariantByCode($variantCode);
-                $this->productVariantValuesAssigner->assign($variant, $integration, $variantNode);
+                try {
+                    $variant = $this->productVariantProvider->provide($integration, $product, $variantCode);
+                    $variantNode = $this->variantCodesStorage->getVariantByCode($variantCode);
+                    $this->productVariantValuesAssigner->assign($variantNode, $integration, $variant);
+                } catch (\Throwable $e) {
+                    $this->logger->error(sprintf('Error occurred during product variant synchronization: %s', $e->getMessage()), ['variantCode' => $variantCode]);;
+                }
+                $this->entityManager->persist($variant);
             }
-            $this->entityManager->persist($variant);
         }
+        $this->entityManager->flush();
     }
 
     private function getProductStream(IntegrationInterface $integration): ?array
