@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Updater;
@@ -41,7 +48,7 @@ final class ProductAssociationTypeUpdater implements ProductAssociationTypeUpdat
 
         if (null !== $mapping) {
             $productAssociationType = $this->productAssociationTypeRepository->findOneBy(
-                ['code' => $mapping->getSyliusValue()]
+                ['code' => $mapping->getSyliusValue()],
             );
 
             if ($productAssociationType instanceof ProductAssociationTypeInterface) {
@@ -54,7 +61,7 @@ final class ProductAssociationTypeUpdater implements ProductAssociationTypeUpdat
         }
 
         /** @var ProductAssociationTypeInterface $productAssociationType */
-        $productAssociationType =  $this->productAssociationFactory->createNew();
+        $productAssociationType = $this->productAssociationFactory->createNew();
         $productAssociationType->setCode($associationTypeNode['code']);
 
         return $productAssociationType;
