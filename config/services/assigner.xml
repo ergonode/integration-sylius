@@ -100,5 +100,9 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product_association_type.product_association_type_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\ProductAssociationType\ProductAssociationTypeNameAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+        </service>
     </services>
 </container>

@@ -14,11 +14,14 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\AttributeValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Collector\DeletedAttributesCollectorInterface;
+use BitBag\SyliusErgonodePlugin\Creator\ProductAssociationTypeCreatorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\AttributeSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Provider\AttributeProviderInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
+use BitBag\SyliusErgonodePlugin\Updater\ProductAssociationTypeUpdater;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Repository\ProductAttributeRepositoryInterface;
@@ -33,6 +36,7 @@ final class AttributeSynchronizer implements SynchronizerInterface
         private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private readonly AttributeValuesAssignerInterface $attributeValuesAssigner,
         private readonly DeletedAttributesCollectorInterface $deletedAttributesCollector,
+        private readonly ProductAssociationTypeUpdater $productAssociationTypeUpdater,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -46,6 +50,16 @@ final class AttributeSynchronizer implements SynchronizerInterface
         }
         foreach ($attributeStream['edges'] as $attributeEdge) {
             $attributeNode = $attributeEdge['node'];
+            try {
+                if (AttributeType::PRODUCT_RELATION->value === $attributeNode['typename']) {
+                    $productAssociation = $this->productAssociationTypeUpdater->update($integration, $attributeNode);
+                    $this->entityManager->persist($productAssociation);
+
+                    continue;
+                }
+            } catch (\Throwable $exception) {
+                dd($exception);
+            }
 
             if ([] === $attributeNode) {
                 continue;
@@ -97,7 +111,6 @@ final class AttributeSynchronizer implements SynchronizerInterface
     private function getAttributeStream(IntegrationInterface $integration): ?array
     {
         $attributes = $this->attributeApiClient->getAttributes($integration);
-
         if (
             !array_key_exists('data', $attributes) ||
             !is_array($attributes['data']) ||

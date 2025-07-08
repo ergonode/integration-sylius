@@ -28,6 +28,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.attribute_values_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.collector.deleted_attributes_collector"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.updater.product_association_type_updater"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="800"/>
         </service>
