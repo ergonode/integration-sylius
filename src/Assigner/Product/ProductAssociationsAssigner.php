@@ -46,40 +46,45 @@ final class ProductAssociationsAssigner implements ProductAssociationsAssignerIn
             foreach ($associations as $association) {
                 try {
                     $associationTypeCode = $association['type'];
-                    $associatedProduct = $products[$association['associated']];
+                    foreach ($association['associated'] as $associatedProductCode) {
+                        $associatedProduct = $products[$associatedProductCode] ?? null;
+                        if (null === $associatedProduct) {
+                            continue;
+                        }
 
-                    if (null === $associatedProduct) {
-                        continue;
-                    }
+                        if (!is_string($associationTypeCode)) {
+                            throw ProductSynchronizationException::invalidAssociationTypeCode($associationTypeCode);
+                        }
 
-                    if (!is_string($associationTypeCode)) {
-                        throw ProductSynchronizationException::invalidAssociationTypeCode($associationTypeCode);
-                    }
+                        if (!array_key_exists($code, $productAssociations)) {
+                            $productAssociations[$code] = [];
+                        }
 
-                    if (!array_key_exists($code, $productAssociations)) {
-                        $productAssociations[$code] = [];
-                    }
+                        if (array_key_exists($associationTypeCode, $productAssociations[$code])) {
+                            $association = $productAssociations[$code][$associationTypeCode];
+                            $association->addAssociatedProduct($associatedProduct);
 
-                    if (array_key_exists($associationTypeCode, $productAssociations[$code])) {
-                        $association = $productAssociations[$code][$associationTypeCode];
+                            continue;
+                        }
+
+                        $association = $this->findFirstAssociationInProduct(
+                            $product,
+                            $associatedProduct,
+                            $associationTypeCode,
+                        );
+                        if (null === $association) {
+                            $association = $this->createAssociation($product, $associationTypeCode);
+                        }
+
+                        $productAssociations[$code][$associationTypeCode] = $association;
                         $association->addAssociatedProduct($associatedProduct);
-
-                        continue;
                     }
-
-                    $association = $this->findFirstAssociationInProduct($product, $associatedProduct, $associationTypeCode);
-                    if (null === $association) {
-                        $association = $this->createAssociation($product, $associationTypeCode);
-                    }
-
-                    $productAssociations[$code][$associationTypeCode] = $association;
-                    $association->addAssociatedProduct($associatedProduct);
                 } catch(\Throwable $e) {
                     $this->logger->error('An error occurred while assigning product associations', [
                         'message' => $e->getMessage(),
                         'product' => $product->getCode(),
                         'associationTypeCode' => is_string($associationTypeCode) ? $associationTypeCode : 'not a string',
-                        'associatedProduct' => $associatedProduct?->getCode(),
+                        'associatedProduct' => $association['associated'],
                     ]);
                 }
             }

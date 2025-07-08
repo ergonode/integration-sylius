@@ -59,9 +59,11 @@ final class AttributeSynchronizer implements SynchronizerInterface
                 }
             } catch (\Throwable $exception) {
                 $this->logger->warning(
-                    sprintf('Unexpected exception occurred during product association synchronization, attribute code: `%s` ',
-                        $attributeNode['code']),
-                    ['message' => $exception->getMessage()]
+                    sprintf(
+                        'Unexpected exception occurred during product association synchronization, attribute code: `%s` ',
+                        $attributeNode['code'],
+                    ),
+                    ['message' => $exception->getMessage()],
                 );
             }
 

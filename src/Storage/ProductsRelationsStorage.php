@@ -24,7 +24,7 @@ final class ProductsRelationsStorage implements ProductsRelationsStorageInterfac
         $productCode = $product->getCode();
         $this->associations[$productCode][] = [
             'type' => $associationCode,
-            'associated' => $associatedSkus,
+            'associated' => array_shift($associatedSkus),
         ];
 
         $this->productsCodes[] = $productCode;

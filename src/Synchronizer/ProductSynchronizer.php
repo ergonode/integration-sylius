@@ -103,7 +103,13 @@ final class ProductSynchronizer implements SynchronizerInterface
             return;
         }
 
-        $this->productAssociationsAssigner->assign();
+        try {
+            $this->productAssociationsAssigner->assign();
+        } catch (\Throwable $e) {
+            $this->logger->critical('An unexpected error occurred during assigning association process', [
+                'message' => $e->getMessage(),
+            ]);
+        }
 
         $variantLists = $this->variantCodesStorage->getVariantLists();
         $productCodes = array_keys($variantLists);
