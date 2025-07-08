@@ -14,6 +14,7 @@ namespace BitBag\SyliusErgonodePlugin\Resolver;
 use BitBag\SyliusErgonodePlugin\Checker\Product\ProductTranslatablePropertyCheckerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
@@ -24,7 +25,7 @@ final readonly class ProductAttributeValueResolver implements ProductAttributeVa
 {
     public function __construct(
         private iterable $valueResolvers,
-        private ProductTranslatablePropertyCheckerInterface $categoryTranslatablePropertyChecker,
+        private ProductTranslatablePropertyCheckerInterface $productTranslatablePropertyChecker,
     ) {
     }
 
@@ -36,7 +37,18 @@ final readonly class ProductAttributeValueResolver implements ProductAttributeVa
         array $productAttributeValue,
         ?ResourceRelationMappingInterface $propertyMapping,
     ): array {
+        if (null === $mainLanguageMapping->getErgonodeValue()) {
+            throw SynchronizationException::missingErgonodeValue($mainLanguageMapping);
+        }
+
         $values = $this->getValues($integration, $productAttribute, $productAttributeValue, $typename);
+
+        if ($typename === AttributeValueType::PRODUCT_RELATION->value) {
+            return array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)
+               ? [$mainLanguageMapping->getErgonodeValue() => $values[$mainLanguageMapping->getErgonodeValue()]]
+               : []
+            ;
+        }
 
         if (null === $propertyMapping) {
             return $values;
@@ -48,12 +60,11 @@ final readonly class ProductAttributeValueResolver implements ProductAttributeVa
         }
 
         $propertyEnum = ProductPropertyMapping::tryFrom($property);
-        if (null === $propertyEnum || $this->categoryTranslatablePropertyChecker->check($propertyEnum)) {
-            return $values;
-        }
 
-        if (null === $mainLanguageMapping->getErgonodeValue()) {
-            throw SynchronizationException::missingErgonodeValue($mainLanguageMapping);
+        if ((null === $propertyEnum || $this->productTranslatablePropertyChecker->check($propertyEnum)) &&
+            $typename !== AttributeValueType::PRODUCT_RELATION->value
+        ) {
+            return $values;
         }
 
         return array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)

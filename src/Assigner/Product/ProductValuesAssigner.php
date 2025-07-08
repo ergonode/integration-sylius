@@ -14,11 +14,13 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
 use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductAttributeValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
+use BitBag\SyliusErgonodePlugin\Storage\ProductsRelationsStorageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
 final class ProductValuesAssigner implements ProductValuesAssignerInterface
@@ -29,6 +31,7 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
         private MainLanguageContextInterface $mainLanguageContext,
         private ProductAttributeValueResolverInterface $productAttributeValueResolver,
         private ProductAttributeValueAssignerInterface $productAttributeValueAssigner,
+        private ProductsRelationsStorageInterface $productsRelationsStorage,
         private ProductApiClientInterface $apiClient,
     ) {
     }
@@ -71,6 +74,11 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
             }
 
             $syliusAttributeCode = null === $property ? $ergonodeAttributeCode : $property->value;
+
+            if ($typename === AttributeValueType::PRODUCT_RELATION->value) {
+                $this->productsRelationsStorage->storeAssociation($product, $ergonodeAttributeCode, $attributeValue);
+            }
+
             if (null === $propertyMapping || null === $property) {
                 $this->productAttributeValueAssigner->assign($product, $attributeValue, $syliusAttributeCode);
 

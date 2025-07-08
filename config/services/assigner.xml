@@ -65,6 +65,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_attribute_value_resolver" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_attribute_value_assigner" />
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.products_relations_storage" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
         </service>
 
@@ -103,6 +104,15 @@
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.product_association_type.product_association_type_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\ProductAssociationType\ProductAssociationTypeNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_associations_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductAssociationsAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.products_relations_storage"/>
+            <argument type="service" id="sylius.repository.product"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.product_association_type_storage"/>
+            <argument type="service" id="sylius.factory.product_association"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
     </services>
 </container>

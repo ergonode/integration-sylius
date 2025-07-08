@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductAssociationsAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Collector\DeletedProductsCollectorInterface;
@@ -40,6 +41,7 @@ final class ProductSynchronizer implements SynchronizerInterface
         private readonly ProductRepositoryInterface $productRepository,
         private readonly DeletedProductsCollectorInterface $deletedProductsCollector,
         private readonly ProductVariantRepositoryInterface $productVariantRepository,
+        private readonly ProductAssociationsAssignerInterface $productAssociationsAssigner,
     ) {
     }
 
@@ -100,6 +102,8 @@ final class ProductSynchronizer implements SynchronizerInterface
 
             return;
         }
+
+        $this->productAssociationsAssigner->assign();
 
         $variantLists = $this->variantCodesStorage->getVariantLists();
         $productCodes = array_keys($variantLists);

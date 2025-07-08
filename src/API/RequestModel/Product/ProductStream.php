@@ -46,7 +46,7 @@ final class ProductStream extends ErgonodeRequestModel
                         translatedName
                       }
                     }
-                    categoryList(first: 50) {
+                    categoryList(first: 200) {
                       edges {
                         node {
                           code
@@ -58,7 +58,7 @@ final class ProductStream extends ErgonodeRequestModel
                       }
                     }
                     attributeList(first: 100) {
-                        pageInfo {
+                    pageInfo {
                         endCursor
                         hasNextPage
                     }

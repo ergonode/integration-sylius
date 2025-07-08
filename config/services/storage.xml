@@ -8,5 +8,10 @@
         <service id="bitbag.sylius_ergonode_plugin.storage.variant_codes_storage" class="BitBag\SyliusErgonodePlugin\Storage\VariantCodesStorage">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.variant_api_client"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.storage.products_relations_storage" class="BitBag\SyliusErgonodePlugin\Storage\ProductsRelationsStorage"/>
+        <service id="bitbag.sylius_ergonode_plugin.storage.product_association_type_storage" class="BitBag\SyliusErgonodePlugin\Storage\ProductAssociationTypeStorage">
+            <argument type="service" id="sylius.repository.product_association_type"/>
+        </service>
     </services>
 </container>

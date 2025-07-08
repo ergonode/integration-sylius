@@ -47,4 +47,12 @@ final class ProductSynchronizationException extends SynchronizationException
             get_class($resource),
         ));
     }
+
+    public static function missingAssociation(string $associationTypeCode): self
+    {
+        return new self(sprintf(
+            'Missing association with code `%s`.',
+            $associationTypeCode,
+        ));
+    }
 }

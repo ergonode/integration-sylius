@@ -73,4 +73,14 @@ class SynchronizationException extends \Exception
             ),
         );
     }
+
+    public static function invalidAssociationTypeCode(mixed $code): self
+    {
+        return new self(
+            sprintf(
+                'Invalid association type code, expected string, got `%s`.',
+                $code,
+            ),
+        );
+    }
 }

@@ -27,8 +27,10 @@ final readonly class ProductRelationValueResolver extends ValueResolver
             if (null === $syliusCode) {
                 continue;
             }
-
-            $values[$syliusCode] = $value['sku'];
+            $skus = $value['value'];
+            $values[$syliusCode] = array_map(function (array $sku) {
+                return $sku['sku'];
+            }, $skus);
         }
 
         return $values;
