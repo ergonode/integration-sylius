@@ -13,5 +13,9 @@
         <service id="bitbag.sylius_ergonode_plugin.storage.product_association_type_storage" class="BitBag\SyliusErgonodePlugin\Storage\ProductAssociationTypeStorage">
             <argument type="service" id="sylius.repository.product_association_type"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.storage.taxon_storage" class="BitBag\SyliusErgonodePlugin\Storage\TaxonStorage">
+            <argument type="service" id="sylius.repository.taxon"/>
+        </service>
     </services>
 </container>

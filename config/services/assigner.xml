@@ -114,5 +114,12 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_taxons_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductTaxonsAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.taxon_storage"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="sylius.factory.product_taxon"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
     </services>
 </container>

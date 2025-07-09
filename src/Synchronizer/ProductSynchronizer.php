@@ -13,6 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductAssociationsAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductTaxonsAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Collector\DeletedProductsCollectorInterface;
@@ -42,6 +43,7 @@ final class ProductSynchronizer implements SynchronizerInterface
         private readonly DeletedProductsCollectorInterface $deletedProductsCollector,
         private readonly ProductVariantRepositoryInterface $productVariantRepository,
         private readonly ProductAssociationsAssignerInterface $productAssociationsAssigner,
+        private readonly ProductTaxonsAssignerInterface $productTaxonsAssigner,
     ) {
     }
 
@@ -67,6 +69,7 @@ final class ProductSynchronizer implements SynchronizerInterface
 
             try {
                 $this->productValuesAssigner->assign($productNode, $integration, $product);
+                $this->productTaxonsAssigner->assign($productNode, $integration, $product);
             } catch (SynchronizationException $exception) {
                 $this->logger->error($exception->getMessage(), [$exception]);
                 $this->logger->info(sprintf('Product `%s` could not have been synchronized.', $product->getCode()));

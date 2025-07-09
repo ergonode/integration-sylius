@@ -39,21 +39,10 @@ final class ProductStream extends ErgonodeRequestModel
                     template {
                       code
                     }
-                    status {
-                      language
-                      value {
-                        code
-                        translatedName
-                      }
-                    }
                     categoryList(first: 200) {
                       edges {
                         node {
                           code
-                          name {
-                            language
-                            value
-                          }
                         }
                       }
                     }
