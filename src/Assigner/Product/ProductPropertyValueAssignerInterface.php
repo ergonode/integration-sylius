@@ -20,7 +20,7 @@ interface ProductPropertyValueAssignerInterface
     public function assign(
         ProductInterface $product,
         ProductPropertyMapping $propertyMapping,
-        ResourceRelationMappingInterface $resourceRelationMapping,
+        ?ResourceRelationMappingInterface $resourceRelationMapping,
         array $productValue,
     ): void;
 }

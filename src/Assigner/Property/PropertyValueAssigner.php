@@ -19,7 +19,7 @@ abstract class PropertyValueAssigner
     abstract public function assign(
         ResourceInterface $resource,
         array $values,
-        ResourceRelationMappingInterface $mapping,
+        ?ResourceRelationMappingInterface $mapping,
     ): void;
 
     abstract public function supports(ResourceInterface $resource, string $property): bool;

@@ -30,17 +30,18 @@ readonly class ProductPropertyValueAssigner implements ProductPropertyValueAssig
     public function assign(
         ProductInterface $product,
         ProductPropertyMapping $propertyMapping,
-        ResourceRelationMappingInterface $resourceRelationMapping,
+        ?ResourceRelationMappingInterface $resourceRelationMapping,
         array $productValue,
     ): void {
         Assert::isInstanceOf($product, ResourceInterface::class);
         $existingProduct = null !== $product->getId();
-        $skipForExistingProduct = $resourceRelationMapping->isImportOnce();
+        $skipForExistingProduct = null !== $resourceRelationMapping && $resourceRelationMapping->isImportOnce();
         $shouldSkipInPartialSync = $existingProduct && !$skipForExistingProduct;
 
         if ($shouldSkipInPartialSync && !$this->synchronizationContext->isFullSynchronization()) {
             return;
         }
+
         /** @var PropertyValueAssigner $propertyValueAssigner */
         foreach ($this->propertyValueAssigners as $propertyValueAssigner) {
             if (!$propertyValueAssigner->supports($product, $propertyMapping->value)) {

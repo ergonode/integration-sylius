@@ -18,6 +18,7 @@ use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
+use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\TaxonImageInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Resource\Factory\FactoryInterface;
@@ -119,7 +120,7 @@ readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerI
 
         /** @var array $value */
         foreach ($mainLanguageValue as $value) {
-            if (null === $image = $this->findCorrespondingImage($taxon, $value)) {
+            if (null === $image = $this->findImage($taxon, $value)) {
                 /** @var TaxonImageInterface $image */
                 $image = $this->taxonImageFactory->createNew();
             }
@@ -128,11 +129,14 @@ readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerI
         }
     }
 
-    private function findCorrespondingImage(TaxonInterface $taxon, array $value): ?TaxonImageInterface
+    private function findImage(TaxonInterface $taxon, array $value): ?TaxonImageInterface
     {
         $image = $taxon->getImages()->filter(
-            static function (TaxonImageInterface $image) use ($value) {
-                $path = $image->getPath();
+            static function (ImageInterface $image) use ($value) {
+                if (null === $path = $image->getPath()) {
+                    return false;
+                }
+
                 $pathParts = explode('/', $path);
 
                 return end($pathParts) === $value['name'];

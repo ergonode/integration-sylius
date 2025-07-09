@@ -20,7 +20,7 @@ final class EnabledValueAssigner extends BooleanValueAssigner
 {
     private const ENABLED = 'enabled';
 
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $this->assignValue($resource, $values, function (ToggleableInterface $resource, bool $value) {
             $resource->setEnabled($value);

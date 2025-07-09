@@ -19,6 +19,7 @@ use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
@@ -32,18 +33,25 @@ final class PriceValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
         private readonly ProductVariantResolverInterface $productVariantResolver,
-        private ChannelRepositoryInterface $channelRepository,
-        private FactoryInterface $channelPricingFactory,
-        private MoneyConverter $moneyConverter,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly FactoryInterface $channelPricingFactory,
+        private readonly  MoneyConverter $moneyConverter,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
+        if (null === $mapping || null === $mapping->getChannelCode()) {
+            $this->logger->warning('To assign price, you need to add mapping with channel code specified');
+
+            return;
+        }
+
         $value = array_shift($values);
         $variant = $this->productVariantResolver->getVariant($resource);
         $channelCode = $mapping->getChannelCode();
-        Assert::notNull($channelCode);
+
         $channel = $this->channelRepository->findOneByCode($channelCode);
         if (!$channel instanceof ChannelInterface) {
             return;

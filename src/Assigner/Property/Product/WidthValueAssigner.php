@@ -30,7 +30,7 @@ final class WidthValueAssigner extends FloatValueAssigner
         parent::__construct($resolver);
     }
 
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $this->assignValue($resource, $values, function (ProductVariantInterface|ProductInterface $resource, float|int $value) {
             $variant = $this->productVariantResolver->getVariant($resource);

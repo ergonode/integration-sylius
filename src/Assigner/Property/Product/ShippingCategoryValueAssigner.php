@@ -30,7 +30,7 @@ final class ShippingCategoryValueAssigner extends PropertyValueAssigner
     ) {
     }
 
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $value = array_shift($values);
         /** @var ?ShippingCategoryInterface $shippingCategory */

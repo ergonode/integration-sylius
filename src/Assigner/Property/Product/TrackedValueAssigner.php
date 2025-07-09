@@ -27,7 +27,7 @@ final class TrackedValueAssigner extends BooleanValueAssigner
     ) {
     }
 
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $this->assignValue($resource, $values, function (ProductInterface|ProductVariantInterface $resource, bool $value) {
             $variant = $this->productVariantResolver->getVariant($resource);

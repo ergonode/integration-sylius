@@ -77,7 +77,7 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
                 $this->productsRelationsStorage->storeAssociation($product, $ergonodeAttributeCode, $attributeValue);
             }
 
-            if (null === $propertyMapping && null === $property) {
+            if (null === $property) {
                 $this->productAttributeValueAssigner->assign($product, $attributeValue, $syliusAttributeCode);
 
                 continue;

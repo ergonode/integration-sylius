@@ -22,7 +22,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class ShippingRequiredValueAssigner extends BooleanValueAssigner
 {
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $this->assignValue($resource, $values, function (ProductVariantInterface|ProductInterface $resource, bool $value) {
             $variant = !$resource instanceof ProductInterface

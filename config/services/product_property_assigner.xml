@@ -42,6 +42,7 @@
             <argument type="service" id="sylius.repository.channel"/>
             <argument type="service" id="sylius.factory.channel_pricing"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.converter.money_converter"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.product.shipping_category_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\ShippingCategoryValueAssigner">
             <argument type="service" id="sylius.repository.shipping_category"/>

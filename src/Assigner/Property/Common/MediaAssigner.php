@@ -36,7 +36,7 @@ final class MediaAssigner extends PropertyMediaAssigner
         parent::__construct($downloader);
     }
 
-    public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
+    public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $value = array_shift($values);
         $owner = $resource instanceof ProductVariantInterface ? $resource->getProduct() : $resource;
@@ -57,7 +57,7 @@ final class MediaAssigner extends PropertyMediaAssigner
 
         $this->saveImage($owner, $value[0], $image);
 
-        if ($resource instanceof ProductVariantInterface) {
+        if ($resource instanceof ProductVariantInterface && $image instanceof ProductImageInterface) {
             $image->addProductVariant($resource);
         }
     }
@@ -84,11 +84,15 @@ final class MediaAssigner extends PropertyMediaAssigner
             }
 
             $image = $product->getImages()->filter(
-                static function (ProductImageInterface $image) use ($value, $variant) {
+                static function (ImageInterface $image) use ($value, $variant) {
+                    /** @var ProductImageInterface $image */
                     if (!$image->hasProductVariant($variant)) {
                         return false;
                     }
-                    $path = $image->getPath();
+
+                    if (null === $path = $image->getPath()) {
+                        return false;
+                    }
                     $pathParts = explode('/', $path);
 
                     return end($pathParts) === $value['name'];
@@ -100,11 +104,10 @@ final class MediaAssigner extends PropertyMediaAssigner
 
         if ($resource instanceof ImageAwareInterface) {
             $image = $resource->getImage();
-            if (null === $image) {
+            if (null === $image || null === $path = $image->getPath()) {
                 return null;
             }
 
-            $path = $image->getPath();
             $pathParts = explode('/', $path);
 
             return end($pathParts) === $value['name'] ? $image : null;
@@ -113,7 +116,10 @@ final class MediaAssigner extends PropertyMediaAssigner
         if ($resource instanceof ImagesAwareInterface) {
             $image = $resource->getImages()->filter(
                 static function (ImageInterface $image) use ($value) {
-                    $path = $image->getPath();
+                    if (null === $path = $image->getPath()) {
+                        return false;
+                    }
+
                     $pathParts = explode('/', $path);
 
                     return end($pathParts) === $value['name'];

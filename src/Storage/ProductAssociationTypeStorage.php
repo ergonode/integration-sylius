@@ -38,6 +38,7 @@ final class ProductAssociationTypeStorage implements ProductAssociationTypeStora
 
     private function preload(): void
     {
+        /** @var array<ProductAssociationTypeInterface> $associations */
         $associations = $this->productAssociationTypeRepository->findAll();
 
         $this->associations = array_merge(

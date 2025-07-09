@@ -22,7 +22,7 @@ final class DescriptionValueAssignerTranslatable extends TranslatableTextValueAs
     public function assign(
         ResourceInterface $resource,
         array $values,
-        ResourceRelationMappingInterface $mapping,
+        ?ResourceRelationMappingInterface $mapping,
     ): void {
         $this->assignValue($resource, $values, function (ProductInterface $resource, string $value, string $locale) {
             $translation = $resource->getTranslation($locale);
