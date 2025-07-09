@@ -17,7 +17,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.collector.deleted_categories_collector"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
-<!--            <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="1000"/>-->
+            <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="1000"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.synchronizer.attribute_synchronizer" class="BitBag\SyliusErgonodePlugin\Synchronizer\AttributeSynchronizer">
@@ -30,7 +30,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.collector.deleted_attributes_collector"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.updater.product_association_type_updater"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
-<!--            <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="800"/>-->
+            <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="800"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.synchronizer.product_synchronizer" class="BitBag\SyliusErgonodePlugin\Synchronizer\ProductSynchronizer">

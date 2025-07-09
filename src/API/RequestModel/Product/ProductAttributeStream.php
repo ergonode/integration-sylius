@@ -46,6 +46,10 @@ final class ProductAttributeStream extends ErgonodeRequestModel
                     typename: __typename
                     attribute {
                             code
+                            metadata {
+                                key
+                                value
+                            }
                             name {
                                     language
                                     value

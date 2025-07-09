@@ -55,6 +55,10 @@ final class CategoryAttributesList extends ErgonodeRequestModel
                   language
                   value
                 }
+                metadata{
+                    key
+                    value
+                }
               }
 
               ... on TextAttributeValue {
