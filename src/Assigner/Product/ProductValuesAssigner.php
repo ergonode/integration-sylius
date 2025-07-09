@@ -21,7 +21,6 @@ use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductAttributeValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use BitBag\SyliusErgonodePlugin\Storage\ProductsRelationsStorageInterface;
-use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use Sylius\Component\Core\Model\ProductInterface;
 
 final class ProductValuesAssigner implements ProductValuesAssignerInterface

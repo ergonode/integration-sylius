@@ -43,11 +43,11 @@ readonly class ProductPropertyValueAssigner implements ProductPropertyValueAssig
         }
         /** @var PropertyValueAssigner $propertyValueAssigner */
         foreach ($this->propertyValueAssigners as $propertyValueAssigner) {
-
             if (!$propertyValueAssigner->supports($product, $propertyMapping->value)) {
                 continue;
             }
             $propertyValueAssigner->assign($product, $productValue, $resourceRelationMapping);
+
             return;
         }
     }

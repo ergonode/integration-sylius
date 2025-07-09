@@ -134,8 +134,9 @@ readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerI
             static function (TaxonImageInterface $image) use ($value) {
                 $path = $image->getPath();
                 $pathParts = explode('/', $path);
+
                 return end($pathParts) === $value['name'];
-            }
+            },
         )->first();
 
         return $image instanceof TaxonImageInterface ? $image : null;

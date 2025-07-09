@@ -47,6 +47,7 @@ final readonly class ListValueResolver extends ValueResolver
                 $code = $rowValue['code'];
                 if ($preferCode) {
                     $values[$syliusLocaleCode] = [$code];
+
                     continue;
                 }
 
@@ -65,6 +66,7 @@ final readonly class ListValueResolver extends ValueResolver
 
                     if ($preferCode) {
                         $values[$syliusLocaleCode] = [$code];
+
                         continue;
                     }
 
@@ -102,9 +104,10 @@ final readonly class ListValueResolver extends ValueResolver
     private function resolvePreferedValueToUse(array $attribute): bool
     {
         foreach ($attribute['metadata'] as $metadata) {
-            if ($metadata['key'] !== self::PREFER_CODE_OVER_NAME_METADATA_KEY) {
+            if (self::PREFER_CODE_OVER_NAME_METADATA_KEY !== $metadata['key']) {
                 continue;
             }
+
             return (bool) $metadata['value'];
         }
 

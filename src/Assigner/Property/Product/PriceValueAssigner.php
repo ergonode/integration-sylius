@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner\Property\Product;
 
-use BitBag\SyliusErgonodePlugin\Assigner\Property\FloatValueAssigner;
 use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Converter\MoneyConverter;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
@@ -19,7 +18,6 @@ use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
-use BitBag\SyliusErgonodePlugin\Resolver\FloatValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;

@@ -90,8 +90,9 @@ final class MediaAssigner extends PropertyMediaAssigner
                     }
                     $path = $image->getPath();
                     $pathParts = explode('/', $path);
+
                     return end($pathParts) === $value['name'];
-                }
+                },
             )->first();
 
             return $image instanceof ImageInterface ? $image : null;
@@ -105,6 +106,7 @@ final class MediaAssigner extends PropertyMediaAssigner
 
             $path = $image->getPath();
             $pathParts = explode('/', $path);
+
             return end($pathParts) === $value['name'] ? $image : null;
         }
 
@@ -113,8 +115,9 @@ final class MediaAssigner extends PropertyMediaAssigner
                 static function (ImageInterface $image) use ($value) {
                     $path = $image->getPath();
                     $pathParts = explode('/', $path);
+
                     return end($pathParts) === $value['name'];
-                }
+                },
             )->first();
 
             return $image instanceof ImageInterface ? $image : null;
