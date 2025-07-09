@@ -32,16 +32,16 @@ final class WidthValueAssigner extends FloatValueAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        $this->assignValue($resource, $values, function (ProductVariantInterface|ProductInterface $resource, float $value) {
+        $this->assignValue($resource, $values, function (ProductVariantInterface|ProductInterface $resource, float|int $value) {
             $variant = $this->productVariantResolver->getVariant($resource);
-            $variant->setHeight($value);
+            $variant->setWidth($value);
         });
     }
 
     public function supports(ResourceInterface $resource, string $property): bool
     {
         $isVariant = $resource instanceof ProductVariantInterface;
-        $productWithSingleVariant = $resource instanceof ProductInterface && 1 == $resource->getVariants()->count();
+        $productWithSingleVariant = $resource instanceof ProductInterface;
 
         if (!$isVariant && !$productWithSingleVariant) {
             return false;

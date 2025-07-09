@@ -13,7 +13,6 @@ namespace BitBag\SyliusErgonodePlugin\Enum;
 
 enum CategoryPropertyMapping: string
 {
-    case PARENT = 'parent';
     case ENABLED = 'enabled';
     case DESCRIPTION = 'description';
     case SLUG = 'slug';

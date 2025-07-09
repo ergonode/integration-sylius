@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\FloatValueAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
+use BitBag\SyliusErgonodePlugin\Converter\MoneyConverter;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
@@ -28,82 +30,77 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class PriceValueAssigner extends FloatValueAssigner
+final class PriceValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
         private readonly ProductVariantResolverInterface $productVariantResolver,
         private ChannelRepositoryInterface $channelRepository,
         private FactoryInterface $channelPricingFactory,
-        FloatValueResolverInterface $resolver,
+        private MoneyConverter $moneyConverter,
     ) {
-        parent::__construct($resolver);
     }
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        $this->assignValue(
-            $resource,
-            $values,
-            function (ProductVariantInterface|ProductInterface $resource, int $value, ResourceRelationMappingInterface $mapping) {
-                $variant = $this->productVariantResolver->getVariant($resource);
-                $channelCode = $mapping->getChannelCode();
-                Assert::notNull($channelCode);
-                $channel = $this->channelRepository->findOneByCode($channelCode);
-                if (!$channel instanceof ChannelInterface) {
+        $value = array_shift($values);
+        $variant = $this->productVariantResolver->getVariant($resource);
+        $channelCode = $mapping->getChannelCode();
+        Assert::notNull($channelCode);
+        $channel = $this->channelRepository->findOneByCode($channelCode);
+        if (!$channel instanceof ChannelInterface) {
+            return;
+        }
+
+        if ($variant->hasChannelPricingForChannel($channel)) {
+            /** @var ChannelPricingInterface $pricing */
+            $pricing = $variant->getChannelPricingForChannel($channel);
+        } else {
+            /** @var ChannelPricingInterface $pricing */
+            $pricing = $this->channelPricingFactory->createNew();
+            $pricing->setChannelCode($channelCode);
+            $variant->addChannelPricing($pricing);
+        }
+
+        $relationType = $mapping->getRelationType();
+        Assert::notNull($mapping->getSyliusValue());
+        $value = $this->moneyConverter->convert($value);
+        if (RelationType::PRODUCT_PROPERTY === $relationType) {
+            $property = ProductPropertyMapping::tryFrom($mapping->getSyliusValue());
+            switch ($property) {
+                case ProductPropertyMapping::PRICE:
+                    $pricing->setPrice($value);
+
                     return;
-                }
+                case ProductPropertyMapping::MINIMUM_PRICE:
+                    $pricing->setMinimumPrice($value);
 
-                if ($variant->hasChannelPricingForChannel($channel)) {
-                    /** @var ChannelPricingInterface $pricing */
-                    $pricing = $variant->getChannelPricingForChannel($channel);
-                } else {
-                    /** @var ChannelPricingInterface $pricing */
-                    $pricing = $this->channelPricingFactory->createNew();
-                    $pricing->setProductVariant($variant);
-                }
+                    return;
+                case ProductPropertyMapping::ORIGINAL_PRICE:
+                    $pricing->setOriginalPrice($value);
 
-                $relationType = $mapping->getRelationType();
-                Assert::notNull($mapping->getSyliusValue());
+                    return;
+            }
+        }
 
-                if (RelationType::PRODUCT_PROPERTY === $relationType) {
-                    $property = ProductPropertyMapping::tryFrom($mapping->getSyliusValue());
-                    switch ($property) {
-                        case ProductPropertyMapping::PRICE:
-                            $pricing->setPrice($value);
+        if (RelationType::PRODUCT_PROPERTY === $relationType) {
+            $property = ProductVariantPropertyMapping::tryFrom($mapping->getSyliusValue());
+            switch ($property) {
+                case ProductVariantPropertyMapping::PRICE:
+                    $pricing->setPrice($value);
 
-                            return;
-                        case ProductPropertyMapping::MINIMUM_PRICE:
-                            $pricing->setMinimumPrice($value);
+                    return;
+                case ProductVariantPropertyMapping::MINIMUM_PRICE:
+                    $pricing->setMinimumPrice($value);
 
-                            return;
-                        case ProductPropertyMapping::ORIGINAL_PRICE:
-                            $pricing->setOriginalPrice($value);
+                    return;
+                case ProductVariantPropertyMapping::ORIGINAL_PRICE:
+                    $pricing->setOriginalPrice($value);
 
-                            return;
-                    }
-                }
+                    return;
+            }
+        }
 
-                if (RelationType::PRODUCT_PROPERTY === $relationType) {
-                    $property = ProductVariantPropertyMapping::tryFrom($mapping->getSyliusValue());
-                    switch ($property) {
-                        case ProductVariantPropertyMapping::PRICE:
-                            $pricing->setPrice($value);
-
-                            return;
-                        case ProductVariantPropertyMapping::MINIMUM_PRICE:
-                            $pricing->setMinimumPrice($value);
-
-                            return;
-                        case ProductVariantPropertyMapping::ORIGINAL_PRICE:
-                            $pricing->setOriginalPrice($value);
-
-                            return;
-                    }
-                }
-
-                throw SynchronizationException::invalidRelationType($relationType);
-            },
-        );
+        throw SynchronizationException::invalidRelationType($relationType);
     }
 
     public function supports(ResourceInterface $resource, string $property): bool

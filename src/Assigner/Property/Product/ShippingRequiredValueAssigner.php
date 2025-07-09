@@ -24,7 +24,7 @@ final class ShippingRequiredValueAssigner extends BooleanValueAssigner
 {
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        $this->assignValue($resource, $values, function (ProductVariantInterface $resource, bool $value) {
+        $this->assignValue($resource, $values, function (ProductVariantInterface|ProductInterface $resource, bool $value) {
             $variant = !$resource instanceof ProductInterface
                 ? $resource
                 : $resource->getVariants()->first()
@@ -34,7 +34,7 @@ final class ShippingRequiredValueAssigner extends BooleanValueAssigner
                 throw ProductSynchronizationException::couldNotFindVariant($resource->getCode());
             }
 
-            $resource->setShippingRequired($value);
+            $variant->setShippingRequired($value);
         });
     }
 
@@ -47,8 +47,8 @@ final class ShippingRequiredValueAssigner extends BooleanValueAssigner
             return false;
         }
 
-        return ProductPropertyMapping::WIDTH === ProductPropertyMapping::tryFrom($property) ||
-            ProductVariantPropertyMapping::WIDTH === ProductVariantPropertyMapping::tryFrom($property)
+        return ProductPropertyMapping::SHIPPING_REQUIRED === ProductPropertyMapping::tryFrom($property) ||
+            ProductVariantPropertyMapping::SHIPPING_CATEGORY === ProductVariantPropertyMapping::tryFrom($property)
         ;
     }
 }

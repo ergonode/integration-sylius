@@ -43,7 +43,7 @@ final class ProductAssociationTypeStorage implements ProductAssociationTypeStora
         $this->associations = array_merge(
             ...array_map(function (ProductAssociationTypeInterface $productAssociationType) {
                 return [$productAssociationType->getCode() => $productAssociationType];
-            }, $this->associations),
+            }, $associations),
         );
     }
 }

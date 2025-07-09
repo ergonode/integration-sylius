@@ -13,12 +13,8 @@ namespace BitBag\SyliusErgonodePlugin\Converter;
 
 final class MoneyConverter implements MoneyConverterInterface
 {
-    public function money(int|float $value): int
+    public function convert(int|float $value): int
     {
-        if (is_int($value)) {
-            return $value;
-        }
-
         return (int) round($value * 100);
     }
 }

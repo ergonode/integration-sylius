@@ -81,7 +81,7 @@ final class ProductSynchronizer implements SynchronizerInterface
                     [$exception],
                 );
 
-                continue;
+                return;
             }
             $this->logger->info(sprintf('Product `%s` has been synchronized and will be persisted.', $product->getCode()));
             $this->entityManager->persist($product);

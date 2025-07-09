@@ -52,8 +52,8 @@ final class AttributeSynchronizer implements SynchronizerInterface
 
             try {
                 if (AttributeType::PRODUCT_RELATION->value === $attributeNode['typename']) {
-                    $productAssociation = $this->productAssociationTypeUpdater->update($integration, $attributeNode);
-                    $this->entityManager->persist($productAssociation);
+                    $productAssociationType = $this->productAssociationTypeUpdater->update($integration, $attributeNode);
+                    $this->entityManager->persist($productAssociationType);
 
                     continue;
                 }

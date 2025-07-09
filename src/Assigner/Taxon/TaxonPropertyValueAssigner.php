@@ -119,11 +119,25 @@ readonly class TaxonPropertyValueAssigner implements TaxonPropertyValueAssignerI
 
         /** @var array $value */
         foreach ($mainLanguageValue as $value) {
-            /** @var TaxonImageInterface $image */
-            $image = $this->taxonImageFactory->createNew();
-            $this->ergonodeFileDownloader->download($value, $image);
-
+            if (null === $image = $this->findCorrespondingImage($taxon, $value)) {
+                /** @var TaxonImageInterface $image */
+                $image = $this->taxonImageFactory->createNew();
+            }
             $taxon->addImage($image);
+            $this->ergonodeFileDownloader->download($value, $image);
         }
+    }
+
+    private function findCorrespondingImage(TaxonInterface $taxon, array $value): ?TaxonImageInterface
+    {
+        $image = $taxon->getImages()->filter(
+            static function (TaxonImageInterface $image) use ($value) {
+                $path = $image->getPath();
+                $pathParts = explode('/', $path);
+                return end($pathParts) === $value['name'];
+            }
+        )->first();
+
+        return $image instanceof TaxonImageInterface ? $image : null;
     }
 }

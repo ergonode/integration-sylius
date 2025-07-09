@@ -38,7 +38,9 @@ final readonly class ErgonodeFileDownloader implements ErgonodeFileDownloaderInt
 
         $content = $response->getContent();
 
-        $path = $this->downloadedFilePathGenerator->generate($filename);
+        if (null === $path = $image->getPath()) {
+            $path = $this->downloadedFilePathGenerator->generate($filename);
+        }
 
         if ($this->filesystem->has($path)) {
             $this->filesystem->delete($path);

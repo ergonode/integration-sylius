@@ -21,6 +21,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Taxation\Model\TaxCategoryInterface;
 use Sylius\Component\Taxation\Repository\TaxCategoryRepositoryInterface;
+use Webmozart\Assert\Assert;
 
 final class TaxCategoryValueAssigner extends PropertyValueAssigner
 {
@@ -32,7 +33,10 @@ final class TaxCategoryValueAssigner extends PropertyValueAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        $category = $this->taxCategoryRepository->findOneBy(['code' => $values[0]]);
+        $value = array_shift($values);
+        Assert::isInstanceOf($resource, ProductInterface::class);
+        $category = $this->taxCategoryRepository->findOneBy(['code' => $value]);
+
         if (!$category instanceof TaxCategoryInterface) {
             return;
         }

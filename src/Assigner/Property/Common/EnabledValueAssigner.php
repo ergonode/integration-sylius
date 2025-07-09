@@ -18,6 +18,8 @@ use Sylius\Resource\Model\ToggleableInterface;
 
 final class EnabledValueAssigner extends BooleanValueAssigner
 {
+    private const ENABLED = 'enabled';
+
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
         $this->assignValue($resource, $values, function (ToggleableInterface $resource, bool $value) {
@@ -27,6 +29,6 @@ final class EnabledValueAssigner extends BooleanValueAssigner
 
     public function supports(ResourceInterface $resource, string $property): bool
     {
-        return $resource instanceof ToggleableInterface;
+        return $resource instanceof ToggleableInterface && self::ENABLED === $property;
     }
 }

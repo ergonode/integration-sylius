@@ -92,6 +92,11 @@ final class ProductStream extends ErgonodeRequestModel
             typename: __typename
             attribute {
                 code
+                metadata {
+                    key
+                    value
+                }
+
                 name {
                     language
                     value
@@ -191,6 +196,12 @@ final class ProductStream extends ErgonodeRequestModel
                             code
                             name
                     }
+                }
+            }
+            ... on PriceAttributeValue {
+                priceTranslations: translations {
+                    language
+                    value
                 }
             }
             ... on ProductRelationAttributeValue {

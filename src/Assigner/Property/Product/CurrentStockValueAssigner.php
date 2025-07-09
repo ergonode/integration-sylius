@@ -24,7 +24,7 @@ final class CurrentStockValueAssigner extends FloatValueAssigner
 {
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        $this->assignValue($resource, $values, function (ProductVariantInterface $resource, float $value) {
+        $this->assignValue($resource, $values, function (ProductVariantInterface|ProductInterface $resource, float|int $value) {
             $variant = !$resource instanceof ProductInterface
                 ? $resource
                 : $resource->getVariants()->first()
@@ -34,7 +34,7 @@ final class CurrentStockValueAssigner extends FloatValueAssigner
                 throw ProductSynchronizationException::couldNotFindVariant($resource->getCode());
             }
 
-            $resource->setOnHand((int) floor($value));
+            $variant->setOnHand((int) floor($value));
         });
     }
 

@@ -29,9 +29,10 @@ final class MainTaxonValueAssigner extends PropertyValueAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
+        $value = array_shift($values);
         Assert::isInstanceOf($resource, ProductInterface::class);
         /** @var ?TaxonInterface $taxon */
-        $taxon = $this->taxonRepository->findOneBy(['code' => $values[0]]);
+        $taxon = $this->taxonRepository->findOneBy(['code' => $value]);
         $resource->setMainTaxon($taxon);
     }
 

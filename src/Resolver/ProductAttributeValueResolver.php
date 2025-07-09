@@ -67,10 +67,11 @@ final readonly class ProductAttributeValueResolver implements ProductAttributeVa
             return $values;
         }
 
-        return array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)
-            ? [$mainLanguageMapping->getErgonodeValue() => $values[$mainLanguageMapping->getErgonodeValue()]]
-            : []
-        ;
+        if (array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)) {
+            return [$mainLanguageMapping->getErgonodeValue() => $values[$mainLanguageMapping->getErgonodeValue()]];
+        }
+
+        return [];
     }
 
     private function getValues(

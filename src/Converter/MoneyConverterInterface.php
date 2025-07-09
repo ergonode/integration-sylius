@@ -13,5 +13,5 @@ namespace BitBag\SyliusErgonodePlugin\Converter;
 
 interface MoneyConverterInterface
 {
-    public function money(int|float $value): int;
+    public function convert(int|float $value): int;
 }

@@ -17,11 +17,14 @@ use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
 final readonly class ListValueResolver extends ValueResolver
 {
+    private const PREFER_CODE_OVER_NAME_METADATA_KEY = 'prefer_code_over_name';
+
     public function resolve(
         IntegrationInterface $integration,
         array $attribute,
         array $attributeValue,
     ): array {
+        $preferCode = $this->resolvePreferedValueToUse($attribute);
         $values = [];
         foreach ($attributeValue as $value) {
             if (!array_key_exists('value', $value) || null === $value['value']) {
@@ -42,6 +45,11 @@ final readonly class ListValueResolver extends ValueResolver
 
             if (isset($rowValue['code'])) {
                 $code = $rowValue['code'];
+                if ($preferCode) {
+                    $values[$syliusLocaleCode] = [$code];
+                    continue;
+                }
+
                 $values[$syliusLocaleCode] = $this->getValue($code, $value['translatedValue']);
 
                 continue;
@@ -54,6 +62,12 @@ final readonly class ListValueResolver extends ValueResolver
                     }
 
                     $code = $entry['code'];
+
+                    if ($preferCode) {
+                        $values[$syliusLocaleCode] = [$code];
+                        continue;
+                    }
+
                     $values[$syliusLocaleCode] = [$this->getValue($code, $value['translatedValue'])];
                 }
             }
@@ -83,5 +97,17 @@ final readonly class ListValueResolver extends ValueResolver
             AttributeValueType::SELECT,
             AttributeValueType::MULTISELECT,
         ], true);
+    }
+
+    private function resolvePreferedValueToUse(array $attribute): bool
+    {
+        foreach ($attribute['metadata'] as $metadata) {
+            if ($metadata['key'] !== self::PREFER_CODE_OVER_NAME_METADATA_KEY) {
+                continue;
+            }
+            return (bool) $metadata['value'];
+        }
+
+        return false;
     }
 }

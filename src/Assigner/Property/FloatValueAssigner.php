@@ -24,7 +24,8 @@ abstract class FloatValueAssigner extends PropertyValueAssigner
     protected function assignValue(ResourceInterface $resource, array $values, callable $callable): void
     {
         $value = array_shift($values);
-        if (null !== $value = $this->resolver->resolve($value)) {
+
+        if (null === $value = $this->resolver->resolve($value)) {
             return;
         }
 

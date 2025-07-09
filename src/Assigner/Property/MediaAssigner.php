@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\Property;
 
 use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
+use Sylius\Component\Core\Filesystem\Adapter\FilesystemAdapterInterface;
 use Sylius\Component\Core\Model\ImageAwareInterface;
 use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ImagesAwareInterface;
@@ -26,6 +27,7 @@ abstract class MediaAssigner extends PropertyValueAssigner
     public function saveImage(ImagesAwareInterface|ImageAwareInterface $resource, array $values, ImageInterface $image): void
     {
         $this->downloader->download($values, $image);
+
         if ($resource instanceof ImageAwareInterface) {
             $resource->setImage($image);
 

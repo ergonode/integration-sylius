@@ -32,8 +32,9 @@ final class ShippingCategoryValueAssigner extends PropertyValueAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
+        $value = array_shift($values);
         /** @var ?ShippingCategoryInterface $shippingCategory */
-        $shippingCategory = $this->shippingCategoryRepository->findOneBy(['code' => $values[0]]);
+        $shippingCategory = $this->shippingCategoryRepository->findOneBy(['code' => $value]);
         $variant = $this->productVariantResolver->getVariant($resource);
         $variant->setShippingCategory($shippingCategory);
     }
@@ -47,7 +48,7 @@ final class ShippingCategoryValueAssigner extends PropertyValueAssigner
             return false;
         }
 
-        return ProductPropertyMapping::TAX_CATEGORY === ProductPropertyMapping::tryFrom($property) ||
-            ProductVariantPropertyMapping::TAX_CATEGORY === ProductVariantPropertyMapping::tryFrom($property);
+        return ProductPropertyMapping::SHIPPING_CATEGORY === ProductPropertyMapping::tryFrom($property) ||
+            ProductVariantPropertyMapping::SHIPPING_CATEGORY === ProductVariantPropertyMapping::tryFrom($property);
     }
 }

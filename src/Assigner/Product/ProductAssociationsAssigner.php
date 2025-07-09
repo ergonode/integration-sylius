@@ -96,7 +96,7 @@ final class ProductAssociationsAssigner implements ProductAssociationsAssignerIn
     private function createAssociation(ProductInterface $product, string $associationTypeCode): ProductAssociationInterface
     {
         $associationType = $this->productAssociationTypeStorage->getAssociationByCode($associationTypeCode);
-        if (null !== $associationType) {
+        if (null === $associationType) {
             throw ProductSynchronizationException::missingAssociation($associationTypeCode);
         }
 

@@ -18,6 +18,7 @@ use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ImageAwareInterface;
+use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ImagesAwareInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -37,10 +38,9 @@ final class MediaAssigner extends PropertyMediaAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
-        /** @var ProductImageInterface $image */
-        $image = $this->productImageFactory->createNew();
+        $value = array_shift($values);
         $owner = $resource instanceof ProductVariantInterface ? $resource->getProduct() : $resource;
-        if (!$owner instanceof ImagesAwareInterface || !$owner instanceof ImageAwareInterface) {
+        if (!$owner instanceof ImagesAwareInterface && !$owner instanceof ImageAwareInterface) {
             $ownerFound = $owner instanceof ResourceInterface;
             $this->logger->error('Owner of media is not ImagesAwareInterface or ImageAwareInterface', [
                 'ownerId' => $ownerFound ? $owner->getId() : $resource->getId(),
@@ -49,7 +49,13 @@ final class MediaAssigner extends PropertyMediaAssigner
 
             return;
         }
-        $this->saveImage($owner, $values, $image);
+
+        if (null === $image = $this->findImage($resource, $value[0])) {
+            /** @var ProductImageInterface $image */
+            $image = $this->productImageFactory->createNew();
+        }
+
+        $this->saveImage($owner, $value[0], $image);
 
         if ($resource instanceof ProductVariantInterface) {
             $image->addProductVariant($resource);
@@ -58,12 +64,62 @@ final class MediaAssigner extends PropertyMediaAssigner
 
     public function supports(ResourceInterface $resource, string $property): bool
     {
-        if (!$resource instanceof ProductInterface || !$resource instanceof ProductVariantInterface) {
-            return true;
+        if (!$resource instanceof ProductInterface && !$resource instanceof ProductVariantInterface) {
+            return false;
         }
 
         return ProductPropertyMapping::MEDIA === ProductPropertyMapping::tryFrom($property) ||
             ProductVariantPropertyMapping::MEDIA === ProductVariantPropertyMapping::tryFrom($property)
         ;
+    }
+
+    private function findImage(ResourceInterface $resource, mixed $value): ?ImageInterface
+    {
+        if ($resource instanceof ProductVariantInterface) {
+            $variant = $resource;
+            $product = $variant->getProduct();
+
+            if (!$product instanceof ProductInterface) {
+                return null;
+            }
+
+            $image = $product->getImages()->filter(
+                static function (ProductImageInterface $image) use ($value, $variant) {
+                    if (!$image->hasProductVariant($variant)) {
+                        return false;
+                    }
+                    $path = $image->getPath();
+                    $pathParts = explode('/', $path);
+                    return end($pathParts) === $value['name'];
+                }
+            )->first();
+
+            return $image instanceof ImageInterface ? $image : null;
+        }
+
+        if ($resource instanceof ImageAwareInterface) {
+            $image = $resource->getImage();
+            if (null === $image) {
+                return null;
+            }
+
+            $path = $image->getPath();
+            $pathParts = explode('/', $path);
+            return end($pathParts) === $value['name'] ? $image : null;
+        }
+
+        if ($resource instanceof ImagesAwareInterface) {
+            $image = $resource->getImages()->filter(
+                static function (ImageInterface $image) use ($value) {
+                    $path = $image->getPath();
+                    $pathParts = explode('/', $path);
+                    return end($pathParts) === $value['name'];
+                }
+            )->first();
+
+            return $image instanceof ImageInterface ? $image : null;
+        }
+
+        return null;
     }
 }

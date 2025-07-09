@@ -29,8 +29,9 @@ final class ChannelsValueAssigner extends PropertyValueAssigner
 
     public function assign(ResourceInterface $resource, array $values, ResourceRelationMappingInterface $mapping): void
     {
+        $value = array_shift($values);
         Assert::isInstanceOf($resource, ProductInterface::class);
-        $channels = $this->channelRepository->findBy(['code' => $values[0]]);
+        $channels = $this->channelRepository->findBy(['code' => $value]);
 
         /** @var ChannelInterface $channel */
         foreach ($channels as $channel) {
