@@ -47,9 +47,9 @@ final class VariantCodesStorage implements VariantCodesStorageInterface
                 }
                 $sku = $edge['sku'];
                 $variantSkus = [];
+
                 foreach ($edge['variantList']['edges'] as $variant) {
                     $variantNode = $variant['node'];
-
                     if (!array_key_exists('sku', $variantNode) ||
                     !array_key_exists('__typename', $variantNode) ||
                     'SimpleProduct' !== $variantNode['__typename']

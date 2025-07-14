@@ -61,7 +61,6 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
                 $ergonodeAttributeCode,
                 RelationType::VARIANT_PROPERTY,
             );
-
             if (null === $propertyMapping || null === $syliusValue = $propertyMapping->getSyliusValue()) {
                 $this->logMissingMapping($integration, $ergonodeAttributeCode);
 

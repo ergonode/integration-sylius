@@ -34,17 +34,20 @@ readonly class ProductVariantPropertyValueAssigner implements ProductVariantProp
         array $productValue,
     ): void {
         Assert::isInstanceOf($productVariant, ResourceInterface::class);
-        $shouldAssignInPartialSync = null === $productVariant->getId() || !$resourceRelationMapping->isImportOnce();
-        if ($shouldAssignInPartialSync || $this->synchronizationContext->isFullSynchronization()) {
+        $existingProduct = null !== $productVariant->getId();
+        $skipForExistingProduct = null !== $resourceRelationMapping && $resourceRelationMapping->isImportOnce();
+        $shouldSkipInPartialSync = $existingProduct && !$skipForExistingProduct;
+
+        if ($shouldSkipInPartialSync && !$this->synchronizationContext->isFullSynchronization()) {
             return;
         }
-
         /** @var PropertyValueAssigner $propertyValueAssigner */
         foreach ($this->propertyValueAssigners as $propertyValueAssigner) {
             if (!$propertyValueAssigner->supports($productVariant, $propertyMapping->value)) {
                 continue;
             }
             $propertyValueAssigner->assign($productVariant, $productValue, $resourceRelationMapping);
+            return;
         }
     }
 }

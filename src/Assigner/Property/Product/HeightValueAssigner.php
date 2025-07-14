@@ -41,7 +41,7 @@ final class HeightValueAssigner extends FloatValueAssigner
     public function supports(ResourceInterface $resource, string $property): bool
     {
         $isVariant = $resource instanceof ProductVariantInterface;
-        $productWithSingleVariant = $resource instanceof ProductInterface;
+        $productWithSingleVariant = $resource instanceof ProductInterface && 1 == $resource->getVariants()->count();
 
         if (!$isVariant && !$productWithSingleVariant) {
             return false;

@@ -88,7 +88,7 @@ final class PriceValueAssigner extends PropertyValueAssigner
             }
         }
 
-        if (RelationType::PRODUCT_PROPERTY === $relationType) {
+        if (RelationType::VARIANT_PROPERTY === $relationType) {
             $property = ProductVariantPropertyMapping::tryFrom($mapping->getSyliusValue());
             switch ($property) {
                 case ProductVariantPropertyMapping::PRICE:

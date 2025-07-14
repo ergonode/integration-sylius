@@ -34,14 +34,13 @@ final class TaxCategoryValueAssigner extends PropertyValueAssigner
     public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $value = array_shift($values);
-        Assert::isInstanceOf($resource, ProductInterface::class);
+        $variant = $this->productVariantResolver->getVariant($resource);
         $category = $this->taxCategoryRepository->findOneBy(['code' => $value]);
 
         if (!$category instanceof TaxCategoryInterface) {
             return;
         }
 
-        $variant = $this->productVariantResolver->getVariant($resource);
         $variant->setTaxCategory($category);
     }
 

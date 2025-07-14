@@ -113,13 +113,17 @@ final class ProductSynchronizer implements SynchronizerInterface
                 'message' => $e->getMessage(),
             ]);
         }
+        $this->entityManager->flush();
 
         $variantLists = $this->variantCodesStorage->getVariantLists();
         $productCodes = array_keys($variantLists);
         $products = $this->productRepository->findBy(['code' => $productCodes]);
+
         /** @var ProductInterface $product */
         foreach ($products as $product) {
-            $variants = $variantLists[$product->getCode()]['variants'];
+            $variableProduct = $variantLists[$product->getCode()];
+            $variants = $variableProduct['variants'];
+
             foreach ($variants as $variantCode) {
                 if (!$this->variantCodesStorage->hasVariantByCode($variantCode)) {
                     continue;

@@ -38,7 +38,7 @@ final class VariantCodesStream extends ErgonodeRequestModel
                                 code
                                 __typename
                               }
-                        variantList(first: 50) {
+                        variantList(first: 200) {
                             pageInfo {
                               endCursor
                               hasNextPage
