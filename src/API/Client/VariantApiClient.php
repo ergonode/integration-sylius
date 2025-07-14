@@ -16,7 +16,7 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
 final readonly class VariantApiClient extends AbstractErgonodeClient implements VariantApiClientInterface
 {
-    private const LIMIT = 200;
+    private const LIMIT = 50;
 
     public function getVariants(IntegrationInterface $integration, ?string $cursorEnd = null): array
     {

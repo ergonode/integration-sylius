@@ -20,7 +20,7 @@ use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 
 final readonly class CategoryApiClient extends AbstractErgonodeClient implements CategoryApiClientInterface
 {
-    private const LIMIT = 40;
+    private const LIMIT = 50;
 
     public function getCategories(IntegrationInterface $integration): array
     {

@@ -18,7 +18,7 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
 final readonly class AttributeApiClient extends AbstractErgonodeClient implements AttributeApiClientInterface
 {
-    private const LIMIT = 15;
+    private const LIMIT = 50;
 
     public function getAttributes(IntegrationInterface $integration): array
     {
