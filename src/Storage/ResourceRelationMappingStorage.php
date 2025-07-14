@@ -61,4 +61,13 @@ final class ResourceRelationMappingStorage implements ResourceRelationMappingSto
 
         return array_shift($mappingArray);
     }
+
+    public function getMappings(IntegrationInterface $integration): array
+    {
+        if ([] === $this->resolvedIdentifiers) {
+            $this->preload($integration);
+        }
+
+        return $this->resolvedIdentifiers[$integration->getId()];
+    }
 }

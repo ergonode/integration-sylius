@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner\Taxon;
 
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Model\Category\Stream\CategoryNode;
@@ -22,6 +23,7 @@ final readonly class TaxonNameAssigner implements TaxonNameAssignerInterface
 {
     public function __construct(
         private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
+        private TranslationAssignerInterface $taxonTranslationAssigner,
     ) {
     }
 
@@ -39,7 +41,9 @@ final readonly class TaxonNameAssigner implements TaxonNameAssignerInterface
                 RelationType::LANGUAGE_EXTERNAL_ID,
             );
 
-            if (null === $languageMapping) {
+            $localeCode = $languageMapping?->getSyliusValue();
+
+            if (null === $localeCode) {
                 continue;
             }
 
@@ -47,7 +51,12 @@ final readonly class TaxonNameAssigner implements TaxonNameAssignerInterface
                 continue;
             }
 
-            $translation = $taxon->getTranslation($languageMapping->getSyliusValue());
+            $translation = $taxon->getTranslation($localeCode);
+            if ($localeCode !== $translation->getLocale()) {
+                $this->taxonTranslationAssigner->assign($taxon, $localeCode);
+                $translation = $taxon->getTranslation($localeCode);
+            }
+
             $translation->setName($name->getValue());
         }
     }

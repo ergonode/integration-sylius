@@ -24,6 +24,7 @@
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.taxon_translation_assigner"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.taxon_parent_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonParentAssigner">
@@ -32,6 +33,7 @@
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.attribute_translation_assigner"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_options_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeOptionsAssigner">
@@ -120,6 +122,22 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="sylius.factory.product_taxon"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.translation.product_translation_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Translation\ProductTranslationAssigner">
+            <argument type="service" id="sylius.factory.product_translation"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.translation.product_variant_translation_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Translation\ProductVariantTranslationAssigner">
+            <argument type="service" id="sylius.factory.product_variant_translation"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.translation.taxon_translation_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Translation\TaxonTranslationAssigner">
+            <argument type="service" id="sylius.factory.taxon_translation"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.translation.attribute_translation_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Translation\AttributeTranslationAssigner">
+            <argument type="service" id="sylius.factory.product_attribute_translation"/>
         </service>
     </services>
 </container>

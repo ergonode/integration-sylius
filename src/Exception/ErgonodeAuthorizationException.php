@@ -25,6 +25,6 @@ final class ErgonodeAuthorizationException extends \Exception
 
     public static function requestFailed(array $responseArray): self
     {
-        return new self(sprintf('Ergonode authorization request failed: %s', json_encode($responseArray, JSON_THROW_ON_ERROR)));
+        return new self(sprintf('Ergonode authorization request failed: %s', json_encode($responseArray, \JSON_THROW_ON_ERROR)));
     }
 }

@@ -49,6 +49,7 @@ final class ProductTaxonsAssigner implements ProductTaxonsAssignerInterface
             $taxon = $this->taxonStorage->getTaxonByCode($code);
             if (!$taxon instanceof TaxonInterface) {
                 $this->logger->info(sprintf('Taxon with code "%s" not found.', $code));
+
                 return;
             }
 

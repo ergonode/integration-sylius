@@ -54,6 +54,7 @@
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant._variant.name_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\NameValueAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.product_variant_translation_assigner"/>
         </service>
     </services>
 </container>

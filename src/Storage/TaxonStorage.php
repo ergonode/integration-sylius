@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Storage;
 
 use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
 final class TaxonStorage implements TaxonStorageInterface

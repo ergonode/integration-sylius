@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner\Property;
 
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -19,6 +20,7 @@ abstract class TranslatableTextValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
         protected TextValueResolverInterface $textValueResolver,
+        protected TranslationAssignerInterface $translationAssigner,
     ) {
     }
 
@@ -30,9 +32,12 @@ abstract class TranslatableTextValueAssigner extends PropertyValueAssigner
 
         foreach ($values as $locale => $value) {
             $value = $this->textValueResolver->resolve($locale, $value);
-            if (null === $value) {
+            $localeTranslation = $resource->getTranslation($locale);
+            if (null === $value && $localeTranslation->getLocale() !== $locale) {
                 continue;
             }
+
+            $this->translationAssigner->assign($resource, $locale);
 
             $callback($resource, $value, $locale);
         }

@@ -63,8 +63,9 @@ abstract readonly class AbstractErgonodeClient
         }
 
         try {
-            if ($response->getStatusCode() === 429) {
+            if (429 === $response->getStatusCode()) {
                 sleep(1);
+
                 return $this->query($model, $integration);
             }
             $responseArray = $response->toArray(false);
@@ -73,7 +74,7 @@ abstract readonly class AbstractErgonodeClient
                 throw ErgonodeAuthorizationException::invalidCredentials();
             }
 
-            if (array_key_exists('errors', $responseArray) ) {
+            if (array_key_exists('errors', $responseArray)) {
                 throw ErgonodeAuthorizationException::requestFailed($responseArray);
             }
 
@@ -87,6 +88,7 @@ abstract readonly class AbstractErgonodeClient
                     $exception->getMessage(),
                 ),
             );
+
             throw ErgonodeRequestException::requestFailed($exception);
         }
     }

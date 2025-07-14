@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner\Attribute;
 
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
@@ -20,6 +21,7 @@ final readonly class AttributeNameAssigner implements AttributeNameAssignerInter
 {
     public function __construct(
         private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
+        private TranslationAssignerInterface $attributeTranslationAssigner,
     ) {
     }
 
@@ -35,8 +37,9 @@ final readonly class AttributeNameAssigner implements AttributeNameAssignerInter
                 $language,
                 RelationType::LANGUAGE_EXTERNAL_ID,
             );
+            $localeCode = $languageMapping?->getSyliusValue();
 
-            if (null === $languageMapping) {
+            if (null === $localeCode) {
                 continue;
             }
 
@@ -44,7 +47,12 @@ final readonly class AttributeNameAssigner implements AttributeNameAssignerInter
                 continue;
             }
 
-            $translation = $attribute->getTranslation($languageMapping->getSyliusValue());
+            $translation = $attribute->getTranslation($localeCode);
+            if ($localeCode !== $translation->getLocale()) {
+                $this->attributeTranslationAssigner->assign($attribute, $localeCode);
+                $translation = $attribute->getTranslation($localeCode);
+            }
+
             $translation->setName($name['value']);
         }
     }

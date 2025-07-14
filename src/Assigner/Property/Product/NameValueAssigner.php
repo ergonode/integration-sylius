@@ -28,10 +28,10 @@ final class NameValueAssigner extends TranslatableTextValueAssigner
     ): void {
         $this->assignValue($resource, $values, function (ProductInterface $resource, string $value, string $locale) {
             $translation = $resource->getTranslation($locale);
+
             if ($locale !== $translation->getLocale()) {
                 return;
             }
-
             $translation->setName($value);
         });
     }
