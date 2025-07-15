@@ -20,5 +20,6 @@ interface ProductVariantValuesAssignerInterface
         array $variantNode,
         IntegrationInterface $integration,
         ProductVariantInterface $productVariant,
+        array $productOptions,
     ): void;
 }

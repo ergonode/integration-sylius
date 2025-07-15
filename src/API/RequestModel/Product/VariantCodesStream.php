@@ -33,11 +33,15 @@ final class VariantCodesStream extends ErgonodeRequestModel
                 edges {
                   node {
                     ... on VariableProduct {
-                              sku
-                              bindings {
+                            sku
+                            bindings {
+                                name {
+                                    language
+                                    value
+                                }
                                 code
                                 __typename
-                              }
+                            }
                         variantList(first: 200) {
                             pageInfo {
                               endCursor

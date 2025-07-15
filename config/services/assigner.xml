@@ -89,6 +89,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_attribute_value_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_property_value_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_option_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
@@ -138,6 +139,23 @@
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.translation.attribute_translation_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Translation\AttributeTranslationAssigner">
             <argument type="service" id="sylius.factory.product_attribute_translation"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.translation.product_option_translation_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Translation\ProductOptionTranslationAssigner">
+            <argument type="service" id="sylius.factory.product_option_translation"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_option_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductOptionNameAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.product_option_translation_assigner"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_option_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantOptionAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.main_language_context"/>
+            <argument type="service" id="sylius.factory.product_option_value_translation"/>
+            <argument type="service" id="sylius.factory.product_option_value"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
     </services>
 </container>

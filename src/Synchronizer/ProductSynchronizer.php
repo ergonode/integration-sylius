@@ -19,6 +19,7 @@ use BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantValuesAssi
 use BitBag\SyliusErgonodePlugin\Collector\DeletedProductsCollectorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
+use BitBag\SyliusErgonodePlugin\Provider\ProductOptionProviderInterface;
 use BitBag\SyliusErgonodePlugin\Provider\ProductProviderInterface;
 use BitBag\SyliusErgonodePlugin\Provider\ProductVariantProviderInterface;
 use BitBag\SyliusErgonodePlugin\Storage\VariantCodesStorageInterface;
@@ -44,6 +45,7 @@ final class ProductSynchronizer implements SynchronizerInterface
         private readonly ProductVariantRepositoryInterface $productVariantRepository,
         private readonly ProductAssociationsAssignerInterface $productAssociationsAssigner,
         private readonly ProductTaxonsAssignerInterface $productTaxonsAssigner,
+        private readonly ProductOptionProviderInterface $productOptionProvider,
     ) {
     }
 
@@ -123,6 +125,12 @@ final class ProductSynchronizer implements SynchronizerInterface
         foreach ($products as $product) {
             $variableProduct = $variantLists[$product->getCode()];
             $variants = $variableProduct['variants'];
+            $productOptions = [];
+            foreach ($variableProduct['options'] as $option) {
+                $option = $this->productOptionProvider->provide($option, $integration);
+                $productOptions[$option->getCode()] = $option;
+                $this->entityManager->persist($option);
+            }
 
             foreach ($variants as $variantCode) {
                 if (!$this->variantCodesStorage->hasVariantByCode($variantCode)) {
@@ -132,7 +140,7 @@ final class ProductSynchronizer implements SynchronizerInterface
                 try {
                     $variant = $this->productVariantProvider->provide($integration, $product, $variantCode);
                     $variantNode = $this->variantCodesStorage->getVariantByCode($variantCode);
-                    $this->productVariantValuesAssigner->assign($variantNode, $integration, $variant);
+                    $this->productVariantValuesAssigner->assign($variantNode, $integration, $variant, $productOptions);
                     $this->entityManager->persist($variant);
                 } catch (\Throwable $e) {
                     $this->logger->error(sprintf('Error occurred during product variant synchronization: %s', $e->getMessage()), ['variantCode' => $variantCode]);

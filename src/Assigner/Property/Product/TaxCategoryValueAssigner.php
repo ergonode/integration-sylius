@@ -21,7 +21,6 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Taxation\Model\TaxCategoryInterface;
 use Sylius\Component\Taxation\Repository\TaxCategoryRepositoryInterface;
-use Webmozart\Assert\Assert;
 
 final class TaxCategoryValueAssigner extends PropertyValueAssigner
 {

@@ -23,5 +23,6 @@ interface ProductVariantAttributeValueResolverInterface
         array $productVariantAttribute,
         array $productVariantAttributeValue,
         ?ResourceRelationMappingInterface $propertyMapping,
+        ?bool $allValues = false,
     ): array;
 }

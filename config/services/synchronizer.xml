@@ -47,6 +47,7 @@
             <argument type="service" id="sylius.repository.product_variant"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_associations_assigner"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_taxons_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.provider.product_option_provider"/>
             <tag name="bitbag.sylius_ergonode_plugin.synchronizer" priority="600"/>
         </service>
     </services>

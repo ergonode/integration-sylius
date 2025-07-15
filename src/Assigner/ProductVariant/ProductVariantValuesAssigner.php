@@ -34,6 +34,7 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
         private readonly MainLanguageContextInterface $mainLanguageContext,
         private readonly ProductVariantAttributeValueResolverInterface $productVariantAttributeValueResolver,
         private readonly ProductVariantPropertyValueAssignerInterface $productVariantPropertyValueAssigner,
+        private readonly ProductVariantOptionAssignerInterface $productVariantOptionAssigner,
         private readonly ProductApiClientInterface $apiClient,
         private readonly LoggerInterface $logger,
     ) {
@@ -43,6 +44,7 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
         array $variantNode,
         IntegrationInterface $integration,
         ProductVariantInterface $productVariant,
+        array $productOptions,
     ): void {
         $sku = $variantNode['sku'];
         $attributeListNodes = $variantNode['attributeList'];
@@ -55,6 +57,29 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
             $attributeNode = $attributeListNode['node'];
             [$typename, $attribute, $value] = array_values($attributeNode);
             $ergonodeAttributeCode = $attribute['code'];
+
+            try {
+                if (array_key_exists($ergonodeAttributeCode, $productOptions)) {
+                    $this->productVariantOptionAssigner->assign(
+                        $integration,
+                        $productVariant,
+                        $productOptions[$ergonodeAttributeCode],
+                        $value,
+                    );
+
+                    continue;
+                }
+            } catch (\Throwable $exception) {
+                $this->logger->error(
+                    sprintf('Failed to assign option %s to variant %s. Exception : %s',
+                        $ergonodeAttributeCode,
+                        $productVariant->getCode(),
+                        $exception->getMessage()
+                    )
+                );
+
+                continue;
+            }
 
             $propertyMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
                 $integration,
@@ -93,7 +118,7 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
 
         if ($pageInfo['hasNextPage']) {
             $productNode = $this->apiClient->getProductAttributes($integration, $sku, $pageInfo['endCursor']);
-            $this->assign($productNode, $integration, $productVariant);
+            $this->assign($productNode, $integration, $productVariant, $productOptions);
         }
     }
 

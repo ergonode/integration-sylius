@@ -35,6 +35,7 @@ final readonly class ProductVariantAttributeValueResolver implements ProductVari
         array $productVariantAttribute,
         array $productVariantAttributeValue,
         ?ResourceRelationMappingInterface $propertyMapping,
+        ?bool $allValues = false,
     ): array {
         $values = $this->getValues($integration, $productVariantAttribute, $productVariantAttributeValue, $typename);
 
@@ -54,6 +55,10 @@ final readonly class ProductVariantAttributeValueResolver implements ProductVari
 
         if (null === $mainLanguageMapping->getErgonodeValue()) {
             throw SynchronizationException::missingErgonodeValue($mainLanguageMapping);
+        }
+
+        if (true === $allValues) {
+            return $values;
         }
 
         return array_key_exists($mainLanguageMapping->getErgonodeValue(), $values)
