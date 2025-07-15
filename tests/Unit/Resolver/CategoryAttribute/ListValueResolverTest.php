@@ -38,6 +38,7 @@ final class ListValueResolverTest extends TestCase
             'language' => 'en',
             'value' => ['code' => 'red'],
             'translatedValue' => ['name' => 'Red'],
+            'metadata' => ['key' => 'type', 'value' => 'select'],
         ]];
 
         $languageExternalId = $this->createMock(ResourceRelationMappingInterface::class);
@@ -66,6 +67,7 @@ final class ListValueResolverTest extends TestCase
         $attributeValue = [[
             'language' => 'pl',
             'value' => ['code' => 'm'],
+            'metadata' => ['key' => 'type', 'value' => 'select'],
             'translatedValue' => [
                 ['code' => 's', 'name' => 'Mały'],
                 ['code' => 'm', 'name' => 'Średni'],
@@ -106,7 +108,6 @@ final class ListValueResolverTest extends TestCase
     public function test_supports_only_select_and_multiselect(): void
     {
         $resolver = new ListValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
-        $mapping = $this->createMock(ResourceRelationMappingInterface::class);
         $categoryRelation = RelationType::CATEGORY_PROPERTY;
         $this->assertTrue($resolver->supports($categoryRelation, AttributeValueType::SELECT->value));
         $this->assertTrue($resolver->supports($categoryRelation, AttributeValueType::MULTISELECT->value));
