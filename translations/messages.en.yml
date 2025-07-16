@@ -46,6 +46,8 @@ bitbag_ergonode:
                 min_entries: Min entries
                 max_entries: Max entries
                 multiple: Multiple
+                translatable: Translatable
+                type: Type
             category:
                 name: Name
                 code: Code
