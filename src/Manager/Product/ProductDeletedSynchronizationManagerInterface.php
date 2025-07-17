@@ -9,9 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
+namespace BitBag\SyliusErgonodePlugin\Manager\Product;
 
-interface ProductAssociationsAssignerInterface
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+
+interface ProductDeletedSynchronizationManagerInterface
 {
-    public function assign(): void;
+    public function synchronizeDeletedProducts(IntegrationInterface $integration): void;
 }

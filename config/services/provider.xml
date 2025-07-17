@@ -38,5 +38,16 @@
             <argument type="service" id="sylius.factory.product_option"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_option_name_assigner"/>
         </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.provider.mapped_products_provider" class="BitBag\SyliusErgonodePlugin\Provider\MappedProductsProvider">
+            <argument type="service" id="sylius.repository.product"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.products_relations_storage"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.provider.product_association_provider" class="BitBag\SyliusErgonodePlugin\Provider\ProductAssociationProvider">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.product_association_type_preloader"/>
+            <argument type="service" id="sylius.factory.product_association"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
     </services>
 </container>
