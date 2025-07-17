@@ -13,8 +13,8 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
+use BitBag\SyliusErgonodePlugin\Preloader\TaxonPreloaderInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
-use BitBag\SyliusErgonodePlugin\Storage\TaxonStorageInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
@@ -24,7 +24,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 final class ProductTaxonsAssigner implements ProductTaxonsAssignerInterface
 {
     public function __construct(
-        private readonly TaxonStorageInterface $taxonStorage,
+        private readonly TaxonPreloaderInterface $taxonPreloader,
         private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private readonly FactoryInterface $productTaxonFactory,
         private readonly LoggerInterface $logger,
@@ -46,7 +46,7 @@ final class ProductTaxonsAssigner implements ProductTaxonsAssignerInterface
 
             $code = $mapping?->getSyliusValue() ?? $ergonodeValue;
 
-            $taxon = $this->taxonStorage->getTaxonByCode($code);
+            $taxon = $this->taxonPreloader->getTaxonByCode($code);
             if (!$taxon instanceof TaxonInterface) {
                 $this->logger->info(sprintf('Taxon with code "%s" not found.', $code));
 

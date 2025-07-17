@@ -7,7 +7,7 @@
 
     <services>
         <service id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger" class="BitBag\SyliusErgonodePlugin\Logger\PrefixedLogger">
-            <argument type="service" id="monolog.logger"/>
+            <argument type="service" id="monolog.logger.ergonode"/>
         </service>
     </services>
 </container>

@@ -57,6 +57,10 @@ final readonly class AttributeValuesAssigner implements AttributeValuesAssignerI
         $this->attributeTypeAssigner->assignByEnum($attribute, $typeEnum);
 
         foreach ($attributeNode['metadata'] as $metadatum) {
+            if (self::PREFER_CODE_OVER_NAME_METADATA_KEY === $metadatum['key']) {
+                continue;
+            }
+
             $propertyMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
                 $integration,
                 $metadatum['key'],

@@ -14,16 +14,16 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Property\Product;
 use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Preloader\TaxonPreloaderInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Webmozart\Assert\Assert;
 
 final class MainTaxonValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
-        private readonly TaxonRepositoryInterface $taxonRepository,
+        private readonly TaxonPreloaderInterface $preloader,
     ) {
     }
 
@@ -32,7 +32,7 @@ final class MainTaxonValueAssigner extends PropertyValueAssigner
         $value = array_shift($values);
         Assert::isInstanceOf($resource, ProductInterface::class);
         /** @var ?TaxonInterface $taxon */
-        $taxon = $this->taxonRepository->findOneBy(['code' => $value]);
+        $taxon = $this->preloader->getTaxonByCode($value[0]);
         $resource->setMainTaxon($taxon);
     }
 

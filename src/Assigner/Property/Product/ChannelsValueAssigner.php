@@ -14,8 +14,9 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Property\Product;
 use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Preloader\ChannelPreloaderInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Channel\Model\ChannelInterface;
-use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Webmozart\Assert\Assert;
@@ -23,7 +24,8 @@ use Webmozart\Assert\Assert;
 final class ChannelsValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
-        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly ChannelPreloaderInterface $channelPreloader,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -31,11 +33,26 @@ final class ChannelsValueAssigner extends PropertyValueAssigner
     {
         $value = array_shift($values);
         Assert::isInstanceOf($resource, ProductInterface::class);
-        $channels = $this->channelRepository->findBy(['code' => $value]);
+        $channels = [];
+        foreach ($value as $code) {
+            Assert::string($code);
+            /** @var ?ChannelInterface $channel */
+            $channel = $this->channelPreloader->getChannelByCode($code);
 
-        /** @var ChannelInterface $channel */
-        foreach ($channels as $channel) {
-            $resource->addChannel($channel);
+            if ($channel instanceof ChannelInterface) {
+                $resource->addChannel($channel);
+                $channels[] = $channel;
+
+                continue;
+            }
+
+            $this->logger->warning(sprintf('Channel with code "%s" not found.', $code));
+        }
+
+        foreach ($resource->getChannels() as $channel) {
+            if (!in_array($channel, $channels, true)) {
+                $resource->removeChannel($channel);
+            }
         }
     }
 

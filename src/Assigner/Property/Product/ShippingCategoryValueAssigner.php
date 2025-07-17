@@ -15,28 +15,36 @@ use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Preloader\ShippingCategoryPreloaderInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Core\Repository\ShippingCategoryRepositoryInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Shipping\Model\ShippingCategoryInterface;
 
 final class ShippingCategoryValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
-        private readonly ShippingCategoryRepositoryInterface $shippingCategoryRepository,
+        private readonly ShippingCategoryPreloaderInterface $shippingCategoryPreloader,
         private readonly ProductVariantResolverInterface $productVariantResolver,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
     public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $value = array_shift($values);
-        /** @var ?ShippingCategoryInterface $shippingCategory */
-        $shippingCategory = $this->shippingCategoryRepository->findOneBy(['code' => $value]);
-        $variant = $this->productVariantResolver->getVariant($resource);
-        $variant->setShippingCategory($shippingCategory);
+        $shippingCategory = $this->shippingCategoryPreloader->getShippingCategoryByCode($value[0]);
+
+        if ($shippingCategory instanceof ShippingCategoryInterface || null === $value) {
+            $variant = $this->productVariantResolver->getVariant($resource);
+            $variant->setShippingCategory($shippingCategory);
+
+            return;
+        }
+
+        $this->logger->warning(sprintf('Shipping category with code "%s" not found.', $value));
     }
 
     public function supports(ResourceInterface $resource, string $property): bool

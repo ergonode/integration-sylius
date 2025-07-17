@@ -16,9 +16,9 @@ use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Finder\ImageFinderInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ImageAwareInterface;
-use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ImagesAwareInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -31,6 +31,7 @@ final class MediaAssigner extends PropertyMediaAssigner
     public function __construct(
         private readonly FactoryInterface $productImageFactory,
         private readonly LoggerInterface $logger,
+        private readonly ImageFinderInterface $finder,
         ErgonodeFileDownloaderInterface $downloader,
     ) {
         parent::__construct($downloader);
@@ -50,7 +51,7 @@ final class MediaAssigner extends PropertyMediaAssigner
             return;
         }
 
-        if (null === $image = $this->findImage($resource, $value[0])) {
+        if (null === $image = $this->finder->findImage($resource, $value[0])) {
             /** @var ProductImageInterface $image */
             $image = $this->productImageFactory->createNew();
         }
@@ -71,64 +72,5 @@ final class MediaAssigner extends PropertyMediaAssigner
         return ProductPropertyMapping::MEDIA === ProductPropertyMapping::tryFrom($property) ||
             ProductVariantPropertyMapping::MEDIA === ProductVariantPropertyMapping::tryFrom($property)
         ;
-    }
-
-    private function findImage(ResourceInterface $resource, mixed $value): ?ImageInterface
-    {
-        if ($resource instanceof ProductVariantInterface) {
-            $variant = $resource;
-            $product = $variant->getProduct();
-
-            if (!$product instanceof ProductInterface) {
-                return null;
-            }
-
-            $image = $product->getImages()->filter(
-                static function (ImageInterface $image) use ($value, $variant) {
-                    /** @var ProductImageInterface $image */
-                    if (!$image->hasProductVariant($variant)) {
-                        return false;
-                    }
-
-                    if (null === $path = $image->getPath()) {
-                        return false;
-                    }
-                    $pathParts = explode('/', $path);
-
-                    return end($pathParts) === $value['name'];
-                },
-            )->first();
-
-            return $image instanceof ImageInterface ? $image : null;
-        }
-
-        if ($resource instanceof ImageAwareInterface) {
-            $image = $resource->getImage();
-            if (null === $image || null === $path = $image->getPath()) {
-                return null;
-            }
-
-            $pathParts = explode('/', $path);
-
-            return end($pathParts) === $value['name'] ? $image : null;
-        }
-
-        if ($resource instanceof ImagesAwareInterface) {
-            $image = $resource->getImages()->filter(
-                static function (ImageInterface $image) use ($value) {
-                    if (null === $path = $image->getPath()) {
-                        return false;
-                    }
-
-                    $pathParts = explode('/', $path);
-
-                    return end($pathParts) === $value['name'];
-                },
-            )->first();
-
-            return $image instanceof ImageInterface ? $image : null;
-        }
-
-        return null;
     }
 }

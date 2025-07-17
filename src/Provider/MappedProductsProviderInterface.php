@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Storage;
+namespace BitBag\SyliusErgonodePlugin\Provider;
 
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
-interface ProductAssociationTypeStorageInterface
+interface MappedProductsProviderInterface
 {
-    public function getAssociationByCode(string $code): ?ProductAssociationTypeInterface;
+    public function provide(IntegrationInterface $integration): array;
 }

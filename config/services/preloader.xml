@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="bitbag.sylius_ergonode_plugin.preloader.product_association_type_preloader" class="BitBag\SyliusErgonodePlugin\Preloader\ProductAssociationTypePreloader">
+            <argument type="service" id="sylius.repository.product_association_type"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.preloader.taxon_preloader" class="BitBag\SyliusErgonodePlugin\Preloader\TaxonPreloader">
+            <argument type="service" id="sylius.repository.taxon"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.preloader.shipping_category_preloader" class="BitBag\SyliusErgonodePlugin\Preloader\ShippingCategoryPreloader">
+            <argument type="service" id="sylius.repository.shipping_category"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.preloader.tax_category_preloader" class="BitBag\SyliusErgonodePlugin\Preloader\TaxCategoryPreloader">
+            <argument type="service" id="sylius.repository.tax_category"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.preloader.channel_preloader" class="BitBag\SyliusErgonodePlugin\Preloader\ChannelPreloader">
+            <argument type="service" id="sylius.repository.channel"/>
+        </service>
+    </services>
+</container>

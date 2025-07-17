@@ -9,9 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
+namespace BitBag\SyliusErgonodePlugin\Preloader;
 
-interface ProductAssociationsAssignerInterface
+use Sylius\Component\Taxation\Model\TaxCategoryInterface;
+
+interface TaxCategoryPreloaderInterface
 {
-    public function assign(): void;
+    public function getTaxCategoryByCode(string $code): ?TaxCategoryInterface;
 }

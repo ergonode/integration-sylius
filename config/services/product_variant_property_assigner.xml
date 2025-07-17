@@ -19,17 +19,23 @@
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.tax_category_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\TaxCategoryValueAssigner">
-            <argument type="service" id="sylius.repository.tax_category"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.tax_category_preloader"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
-
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.shipping_category_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\ShippingCategoryValueAssigner">
-            <argument type="service" id="sylius.repository.shipping_category"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.shipping_category_preloader"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.width_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\WidthValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.weight_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\WeightValueAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
         </service>

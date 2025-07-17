@@ -11,13 +11,19 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Storage;
 
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
 interface ProductsRelationsStorageInterface
 {
-    public function storeAssociation(ProductInterface $product, string $associationCode, array $associatedSkus): void;
+    public function storeAssociation(
+        IntegrationInterface $integration,
+        ProductInterface $product,
+        string $associationCode,
+        array $associatedSkus,
+    ): void;
 
-    public function getProductsCodes(): array;
+    public function getProductsCodes(IntegrationInterface $integration): array;
 
-    public function getAssociations(): array;
+    public function getAssociations(IntegrationInterface $integration): array;
 }

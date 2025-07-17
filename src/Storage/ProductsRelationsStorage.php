@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Storage;
 
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Webmozart\Assert\Assert;
 
 final class ProductsRelationsStorage implements ProductsRelationsStorageInterface
 {
@@ -19,29 +21,38 @@ final class ProductsRelationsStorage implements ProductsRelationsStorageInterfac
 
     private array $productsCodes = [];
 
-    public function storeAssociation(ProductInterface $product, string $associationCode, array $associatedSkus): void
+    public function storeAssociation(IntegrationInterface $integration, ProductInterface $product, string $associationCode, array $associatedSkus): void
     {
+        $integrationCode = $integration->getCode();
+        Assert::notNull($integrationCode);
+
         $productCode = $product->getCode();
-        $this->associations[$productCode][] = [
+        $this->associations[$integrationCode][$productCode][] = [
             'type' => $associationCode,
             'associated' => array_shift($associatedSkus),
         ];
 
-        $this->productsCodes[] = $productCode;
+        $this->productsCodes[$integrationCode][] = $productCode;
 
         /** @var string $associatedSku */
         foreach ($associatedSkus as $associatedSku) {
-            $this->productsCodes[] = $associatedSku;
+            $this->productsCodes[$integrationCode][] = $associatedSku;
         }
     }
 
-    public function getProductsCodes(): array
+    public function getProductsCodes(IntegrationInterface $integration): array
     {
-        return $this->productsCodes;
+        $integrationCode = $integration->getCode();
+        Assert::notNull($integrationCode);
+
+        return $this->productsCodes[$integrationCode] ?? [];
     }
 
-    public function getAssociations(): array
+    public function getAssociations(IntegrationInterface $integration): array
     {
-        return $this->associations;
+        $integrationCode = $integration->getCode();
+        Assert::notNull($integrationCode);
+
+        return $this->associations[$integrationCode] ?? [];
     }
 }

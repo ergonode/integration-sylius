@@ -10,30 +10,35 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument type="service" id="http_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <argument>%env(ERGONODE_REQUEST_TIMEOUT_PERIOD)%</argument>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.api.client.category_api_client" class="BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClient">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument type="service" id="http_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <argument>%env(ERGONODE_REQUEST_TIMEOUT_PERIOD)%</argument>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.api.client.attribute_api_client" class="BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClient">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument type="service" id="http_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <argument>%env(ERGONODE_REQUEST_TIMEOUT_PERIOD)%</argument>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.api.client.variant_api_client" class="BitBag\SyliusErgonodePlugin\API\Client\VariantApiClient">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument type="service" id="http_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <argument>%env(ERGONODE_REQUEST_TIMEOUT_PERIOD)%</argument>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.api.client.product_api_client" class="BitBag\SyliusErgonodePlugin\API\Client\ProductApiClient">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.encryptor.encryptor"/>
             <argument type="service" id="http_client"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <argument>%env(ERGONODE_REQUEST_TIMEOUT_PERIOD)%</argument>
         </service>
     </services>
 </container>

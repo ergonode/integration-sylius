@@ -74,7 +74,7 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
             }
             $syliusAttributeCode = null === $property ? $ergonodeAttributeCode : $property->value;
             if ($typename === AttributeValueType::PRODUCT_RELATION->value) {
-                $this->productsRelationsStorage->storeAssociation($product, $ergonodeAttributeCode, $attributeValue);
+                $this->productsRelationsStorage->storeAssociation($integration, $product, $ergonodeAttributeCode, $attributeValue);
             }
 
             if (null === $property) {

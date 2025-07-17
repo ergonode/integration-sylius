@@ -28,6 +28,7 @@ abstract readonly class AbstractErgonodeClient
         private EncryptorInterface $encryptor,
         private HttpClientInterface $ergonodeClient,
         private LoggerInterface $logger,
+        private int $requestTimeout,
     ) {
     }
 
@@ -64,7 +65,7 @@ abstract readonly class AbstractErgonodeClient
 
         try {
             if (429 === $response->getStatusCode()) {
-                sleep(1);
+                sleep($this->requestTimeout);
 
                 return $this->query($model, $integration);
             }

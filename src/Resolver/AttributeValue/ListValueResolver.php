@@ -11,14 +11,13 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Resolver\AttributeValue;
 
+use BitBag\SyliusErgonodePlugin\Assigner\AttributeValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
 final readonly class ListValueResolver extends ValueResolver
 {
-    private const PREFER_CODE_OVER_NAME_METADATA_KEY = 'prefer_code_over_name';
-
     public function resolve(
         IntegrationInterface $integration,
         array $attribute,
@@ -104,7 +103,7 @@ final readonly class ListValueResolver extends ValueResolver
     private function resolvePreferedValueToUse(array $attribute): bool
     {
         foreach ($attribute['metadata'] ?? [] as $metadata) {
-            if (self::PREFER_CODE_OVER_NAME_METADATA_KEY !== $metadata['key']) {
+            if (AttributeValuesAssignerInterface::PREFER_CODE_OVER_NAME_METADATA_KEY !== $metadata['key']) {
                 continue;
             }
 

@@ -71,11 +71,12 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
                 }
             } catch (\Throwable $exception) {
                 $this->logger->error(
-                    sprintf('Failed to assign option %s to variant %s. Exception : %s',
+                    sprintf(
+                        'Failed to assign option %s to variant %s. Exception : %s',
                         $ergonodeAttributeCode,
                         $productVariant->getCode(),
-                        $exception->getMessage()
-                    )
+                        $exception->getMessage(),
+                    ),
                 );
 
                 continue;

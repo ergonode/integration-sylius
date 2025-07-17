@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Storage;
+namespace BitBag\SyliusErgonodePlugin\Manager\Product;
 
-use Sylius\Component\Core\Model\TaxonInterface;
+use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 
-interface TaxonStorageInterface
+interface ProductDeletedSynchronizationManagerInterface
 {
-    public function getTaxonByCode(string $code): ?TaxonInterface;
+    public function synchronizeDeletedProducts(IntegrationInterface $integration): void;
 }

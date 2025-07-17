@@ -16,6 +16,8 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 
 interface AttributeValuesAssignerInterface
 {
+    public const PREFER_CODE_OVER_NAME_METADATA_KEY = 'prefer_code_over_name';
+
     public function assign(
         IntegrationInterface $integration,
         AttributeInterface $attribute,

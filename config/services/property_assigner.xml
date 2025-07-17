@@ -12,6 +12,7 @@
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.common.media_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Common\MediaAssigner">
             <argument type="service" id="sylius.factory.product_image"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.finder.image_finder"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.downloader.ergonode_file_downloader"/>
         </service>
         <service id="bitbag.sylius_ergonode_plugin.assigner.property.common.enabled_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Common\EnabledValueAssigner"/>

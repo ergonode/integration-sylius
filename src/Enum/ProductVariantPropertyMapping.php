@@ -28,4 +28,5 @@ enum ProductVariantPropertyMapping: string
     case NAME = 'name';
     case MEDIA = 'media';
     case VARIANT_SELECTION_METHOD = 'variant_selection_method';
+    case WEIGHT = 'weight';
 }

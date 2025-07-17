@@ -15,32 +15,36 @@ use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Preloader\TaxCategoryPreloaderInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Taxation\Model\TaxCategoryInterface;
-use Sylius\Component\Taxation\Repository\TaxCategoryRepositoryInterface;
 
 final class TaxCategoryValueAssigner extends PropertyValueAssigner
 {
     public function __construct(
-        private readonly TaxCategoryRepositoryInterface $taxCategoryRepository,
+        private readonly TaxCategoryPreloaderInterface $taxCategoryPreloader,
         private readonly ProductVariantResolverInterface $productVariantResolver,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
     public function assign(ResourceInterface $resource, array $values, ?ResourceRelationMappingInterface $mapping): void
     {
         $value = array_shift($values);
-        $variant = $this->productVariantResolver->getVariant($resource);
-        $category = $this->taxCategoryRepository->findOneBy(['code' => $value]);
+        $category = $this->taxCategoryPreloader->getTaxCategoryByCode($value[0]);
 
-        if (!$category instanceof TaxCategoryInterface) {
+        if ($category instanceof TaxCategoryInterface || null === $value) {
+            $variant = $this->productVariantResolver->getVariant($resource);
+            $variant->setTaxCategory($category);
+
             return;
         }
 
-        $variant->setTaxCategory($category);
+        $this->logger->warning(sprintf('Tax category with code "%s" not found.', $value));
     }
 
     public function supports(ResourceInterface $resource, string $property): bool
