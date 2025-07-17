@@ -15,6 +15,7 @@ use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterfac
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 
 final readonly class AttributeNameAssigner implements AttributeNameAssignerInterface
@@ -22,6 +23,7 @@ final readonly class AttributeNameAssigner implements AttributeNameAssignerInter
     public function __construct(
         private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private TranslationAssignerInterface $attributeTranslationAssigner,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -40,6 +42,8 @@ final readonly class AttributeNameAssigner implements AttributeNameAssignerInter
             $localeCode = $languageMapping?->getSyliusValue();
 
             if (null === $localeCode) {
+                $this->logger->info(sprintf('Locale with code "%s" not found.', $language));
+
                 continue;
             }
 

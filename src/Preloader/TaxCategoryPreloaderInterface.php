@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Storage;
+namespace BitBag\SyliusErgonodePlugin\Preloader;
 
-use Sylius\Component\Core\Model\TaxonInterface;
+use Sylius\Component\Taxation\Model\TaxCategoryInterface;
 
-interface TaxonStorageInterface
+interface TaxCategoryPreloaderInterface
 {
-    public function getTaxonByCode(string $code): ?TaxonInterface;
+    public function getTaxCategoryByCode(string $code): ?TaxCategoryInterface;
 }

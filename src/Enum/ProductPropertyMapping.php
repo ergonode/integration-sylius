@@ -34,4 +34,5 @@ enum ProductPropertyMapping: string
     case SHORT_DESCRIPTION = 'short_description';
     case MAIN_TAXON = 'main_taxon';
     case MEDIA = 'media';
+    case WEIGHT = 'weight';
 }

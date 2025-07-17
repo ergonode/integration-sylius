@@ -1,4 +1,5 @@
 imports:
     - { resource: "app/twig_hooks/**/*.yaml" }
     - { resource: "packages/sylius_resource.yaml" }
+    - { resource: "packages/monolog.yaml" }
     - { resource: "grids/**.yaml" }

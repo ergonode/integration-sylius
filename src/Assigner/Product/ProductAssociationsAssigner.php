@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusErgonodePlugin\Assigner\Product;
 
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
-use BitBag\SyliusErgonodePlugin\Storage\ProductAssociationTypeStorageInterface;
+use BitBag\SyliusErgonodePlugin\Preloader\ProductAssociationTypePreloaderInterface;
 use BitBag\SyliusErgonodePlugin\Storage\ProductsRelationsStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -26,7 +26,7 @@ final class ProductAssociationsAssigner implements ProductAssociationsAssignerIn
     public function __construct(
         private readonly ProductsRelationsStorageInterface $productsRelationsStorage,
         private readonly ProductRepositoryInterface $productRepository,
-        private readonly ProductAssociationTypeStorageInterface $productAssociationTypeStorage,
+        private readonly ProductAssociationTypePreloaderInterface $productAssociationsPreloader,
         private readonly FactoryInterface $productAssociationFactory,
         private readonly EntityManagerInterface $entityManager,
         private readonly LoggerInterface $logger,
@@ -49,6 +49,8 @@ final class ProductAssociationsAssigner implements ProductAssociationsAssignerIn
                     foreach ($association['associated'] as $associatedProductCode) {
                         $associatedProduct = $products[$associatedProductCode] ?? null;
                         if (null === $associatedProduct) {
+                            $this->logger->info(sprintf('Associated product with code `%s` not found in Sylius', $associatedProductCode));
+
                             continue;
                         }
 
@@ -95,7 +97,7 @@ final class ProductAssociationsAssigner implements ProductAssociationsAssignerIn
 
     private function createAssociation(ProductInterface $product, string $associationTypeCode): ProductAssociationInterface
     {
-        $associationType = $this->productAssociationTypeStorage->getAssociationByCode($associationTypeCode);
+        $associationType = $this->productAssociationsPreloader->getAssociationByCode($associationTypeCode);
         if (null === $associationType) {
             throw ProductSynchronizationException::missingAssociation($associationTypeCode);
         }

@@ -34,6 +34,7 @@
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.attribute_translation_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.property_value_assigner.attribute.attribute_options_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeOptionsAssigner">
@@ -112,14 +113,14 @@
         <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_associations_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductAssociationsAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.products_relations_storage"/>
             <argument type="service" id="sylius.repository.product"/>
-            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.product_association_type_storage"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.product_association_type_preloader"/>
             <argument type="service" id="sylius.factory.product_association"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_taxons_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductTaxonsAssigner">
-            <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.taxon_storage"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.taxon_preloader"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="sylius.factory.product_taxon"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
@@ -148,6 +149,7 @@
         <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_option_name_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductOptionNameAssigner">
             <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.resource_relation_mapping_resolver"/>
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.product_option_translation_assigner"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.product_variant.product_variant_option_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\ProductVariant\ProductVariantOptionAssigner">

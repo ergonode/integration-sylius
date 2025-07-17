@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusErgonodePlugin\Storage;
+namespace BitBag\SyliusErgonodePlugin\Preloader;
 
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 
-interface ProductAssociationTypeStorageInterface
+interface ChannelPreloaderInterface
 {
-    public function getAssociationByCode(string $code): ?ProductAssociationTypeInterface;
+    public function getChannelByCode(string $code): ?ChannelInterface;
 }

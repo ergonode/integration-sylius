@@ -1,6 +1,18 @@
 monolog:
     channels:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - ergonode
+    handlers:
+        ergonode_general:
+            type: stream
+            path: "%kernel.logs_dir%/sylius_ergonode_%kernel.environment%.log"
+            level: debug
+            channels: ["!event"]
+        ergonode_error:
+            type: stream
+            path: "%kernel.logs_dir%/sylius_ergonode_error_%kernel.environment%.log"
+            level: warning
+            channels: [ "app", "doctrine", "ergonode" ]
 
 when@dev:
     monolog:
