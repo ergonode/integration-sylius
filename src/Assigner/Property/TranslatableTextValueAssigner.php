@@ -33,7 +33,7 @@ abstract class TranslatableTextValueAssigner extends PropertyValueAssigner
         foreach ($values as $locale => $value) {
             $value = $this->textValueResolver->resolve($locale, $value);
             $localeTranslation = $resource->getTranslation($locale);
-            if (null === $value && $localeTranslation->getLocale() !== $locale) {
+            if (null === $value || $localeTranslation->getLocale() !== $locale) {
                 continue;
             }
 

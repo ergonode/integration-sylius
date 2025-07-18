@@ -36,7 +36,7 @@ readonly class ProductVariantPropertyValueAssigner implements ProductVariantProp
         Assert::isInstanceOf($productVariant, ResourceInterface::class);
         $existingProduct = null !== $productVariant->getId();
         $skipForExistingProduct = $resourceRelationMapping->isImportOnce();
-        $shouldSkipInPartialSync = $existingProduct && !$skipForExistingProduct;
+        $shouldSkipInPartialSync = $existingProduct && $skipForExistingProduct;
 
         if ($shouldSkipInPartialSync && !$this->synchronizationContext->isFullSynchronization()) {
             return;
