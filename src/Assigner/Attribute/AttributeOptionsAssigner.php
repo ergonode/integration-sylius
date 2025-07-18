@@ -64,7 +64,7 @@ final class AttributeOptionsAssigner implements AttributeOptionsAssignerInterfac
         $attribute->setConfiguration($configuration);
     }
 
-    public function resolveOptions(mixed $attributeOptions, IntegrationInterface $integration, array $options): array
+    private function resolveOptions(mixed $attributeOptions, IntegrationInterface $integration, array $options): array
     {
         foreach ($attributeOptions as $option) {
             $optionNode = $option['node'];
