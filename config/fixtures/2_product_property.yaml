@@ -18,7 +18,7 @@ sylius_fixtures:
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'shipping_required'
-                                ergonode_value: 'shipping-required'
+                                ergonode_value: 'shipping_required'
 
                             -   
                                 type: 'product_property'
@@ -30,7 +30,7 @@ sylius_fixtures:
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'product_type'
-                                ergonode_value: 'product-type'
+                                ergonode_value: 'product_type'
 
                             -   
                                 type: 'product_property'
@@ -43,27 +43,27 @@ sylius_fixtures:
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'original_price'
-                                ergonode_value: 'original-price'
+                                ergonode_value: 'original_price'
                                 channel_code: 'FASHION_WEB'
 
                             -   
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'minimum_price'
-                                ergonode_value: 'minimum-price'
+                                ergonode_value: 'minimum_price'
                                 channel_code: 'FASHION_WEB'
 
                             -   
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'tax_category'
-                                ergonode_value: 'tax-category'
+                                ergonode_value: 'tax_category'
 
                             -   
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'shipping_category'
-                                ergonode_value: 'shipping-category'
+                                ergonode_value: 'shipping_category'
 
                             -   
                                 type: 'product_property'
@@ -87,7 +87,7 @@ sylius_fixtures:
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'current_stock'
-                                ergonode_value: 'current-stock'
+                                ergonode_value: 'current_stock'
 
                             -   
                                 type: 'product_property'
@@ -117,25 +117,25 @@ sylius_fixtures:
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'meta_keywords'
-                                ergonode_value: 'meta-keywords'
+                                ergonode_value: 'meta_keywords'
 
                             -   
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'meta_description'
-                                ergonode_value: 'meta-description'
+                                ergonode_value: 'meta_description'
 
                             -   
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'short_description'
-                                ergonode_value: 'short-description'
+                                ergonode_value: 'short_description'
 
                             -   
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'main_taxon'
-                                ergonode_value: 'main-taxon'
+                                ergonode_value: 'main_taxon'
 
                             -   
                                 type: 'product_property'
@@ -153,4 +153,9 @@ sylius_fixtures:
                                 type: 'product_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'variant_selection_method'
-                                ergonode_value: 'variant-selection-method'
+                                ergonode_value: 'variant_selection_method'
+                            
+                            -   type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'weight'
+                                ergonode_value: 'weight'

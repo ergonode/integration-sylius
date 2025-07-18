@@ -12,61 +12,61 @@ sylius_fixtures:
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 't_shirt_brand'
-                                ergonode_value: 't-shirt-brand'
+                                ergonode_value: 't_shirt_brand'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 't_shirt_collection'
-                                ergonode_value: 't-shirt-collection'
+                                ergonode_value: 't_shirt_collection'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 't_shirt_material'
-                                ergonode_value: 't-shirt-material'
+                                ergonode_value: 't_shirt_material'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'damage_reduction'
-                                ergonode_value: 'damage-reduction'
+                                ergonode_value: 'damage_reduction'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'cap_brand'
-                                ergonode_value: 'cap-brand'
+                                ergonode_value: 'cap_brand'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'cap_collection'
-                                ergonode_value: 'cap-collection'
+                                ergonode_value: 'cap_collection'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'cap_material'
-                                ergonode_value: 'cap-material'
+                                ergonode_value: 'cap_material'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'dress_brand'
-                                ergonode_value: 'dress-brand'
+                                ergonode_value: 'dress_brand'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'dress_collection'
-                                ergonode_value: 'dress-collection'
+                                ergonode_value: 'dress_collection'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'dress_material'
-                                ergonode_value: 'dress-material'
+                                ergonode_value: 'dress_material'
                                 
                             -   
                                 type: 'attribute_external_identifier'
@@ -78,16 +78,16 @@ sylius_fixtures:
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'jeans_brand'
-                                ergonode_value: 'jeans-brand'
+                                ergonode_value: 'jeans_brand'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'jeans_collection'
-                                ergonode_value: 'jeans-collection'
+                                ergonode_value: 'jeans_collection'
                                 
                             -   
                                 type: 'attribute_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'jeans_material'
-                                ergonode_value: 'jeans-material'
+                                ergonode_value: 'jeans_material'
