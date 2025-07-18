@@ -7,6 +7,8 @@
     ```dotenv
     ADMIN_MENU_ERGONODE_SECTION_POSITION=5
     ERGONODE_API_KEY_ENCRYPTION_KEY_PATH='%kernel.project_dir%/config/encryption/ergonode_encryption_key.dev'
+    ERGONODE_REQUEST_TIMEOUT_PERIOD=10
+    ERGONODE_INTEGRATION_MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
     ```
 3. Make sure that plugin is registered in `config/bundles.php` file.
     ```php
@@ -35,4 +37,14 @@
     bitbag_sylius_ergonode_admin:
         resource: "@BitBagSyliusErgonodePlugin/config/admin_routing.yaml"
         prefix: /admin
+    ```
+
+6. Run migrations:
+    ```shell
+      php bin/console doctrine:migrations:migrate
+    ```
+
+6. Load plugin fixtures (optional):
+    ```shell
+      php bin/console sylius:fixtures:load bitbag_sylius_ergonode_plugin
     ```
