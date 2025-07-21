@@ -61,7 +61,6 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
             }
 
             $productVariant->addOptionValue($optionValue);
-            $this->entityManager->persist($optionValue);
 
             $bindingValueName = $bindingValue['name'];
 
@@ -93,6 +92,14 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
                 }
                 $translation->setValue($nameValue ?? $code);
             }
+
+            foreach ($optionValue->getTranslations() as $translation) {
+                if (null === $translation->getValue()) {
+                    $optionValue->removeTranslation($translation);
+                }
+            }
+
+            $this->entityManager->persist($optionValue);
         }
     }
 
