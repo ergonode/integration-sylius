@@ -21,10 +21,13 @@ use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductAttributeValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use BitBag\SyliusErgonodePlugin\Storage\ProductsRelationsStorageInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
 final class ProductValuesAssigner implements ProductValuesAssignerInterface
 {
+    private const MISSING_PROPERTY_LOG_FORMAT = 'Missing property relation mapping for integration id `%s`, relation type %s and value %s or has blank sylius value.';
+
     public function __construct(
         private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private ProductPropertyValueAssignerInterface $productPropertyValueAssigner,
@@ -33,6 +36,7 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
         private ProductAttributeValueAssignerInterface $productAttributeValueAssigner,
         private ProductsRelationsStorageInterface $productsRelationsStorage,
         private ProductApiClientInterface $apiClient,
+        private LoggerInterface $logger
     ) {
     }
 
@@ -69,7 +73,9 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
             );
 
             $property = $propertyMapping?->getSyliusValue();
+
             if (null !== $property) {
+                $this->logMissingMapping($integration, $ergonodeAttributeCode);
                 $property = ProductPropertyMapping::tryFrom($property);
             }
             $syliusAttributeCode = null === $property ? $ergonodeAttributeCode : $property->value;
@@ -94,5 +100,17 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
             $productNode = $this->apiClient->getProductAttributes($integration, $sku, $pageInfo['endCursor']);
             $this->assign($productNode, $integration, $product);
         }
+    }
+
+    private function logMissingMapping(IntegrationInterface $integration, mixed $ergonodeAttributeCode): void
+    {
+        $this->logger->info(
+            sprintf(
+                self::MISSING_PROPERTY_LOG_FORMAT,
+                $integration->getId(),
+                $ergonodeAttributeCode,
+                RelationType::VARIANT_PROPERTY->value,
+            ),
+        );
     }
 }

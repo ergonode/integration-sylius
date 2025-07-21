@@ -39,15 +39,10 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         ProductOptionInterface $productOption,
         array $attributeValues,
     ): void {
-        $optionValue = $productVariant->getOptionValues()->findFirst(function (int $key, ProductOptionValueInterface $optionValue) use ($productOption) {
-            return $optionValue->getOption()?->getCode() === $productOption->getCode();
-        });
 
-        if (null === $optionValue) {
-            $optionValue = $this->createOptionValue($productOption);
-        }
 
         $mainLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
+
         foreach ($attributeValues as $value) {
             $language = $value['language'];
             $bindingValue = $value['value'];
@@ -55,7 +50,15 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
             if ($language !== $mainLanguageMapping->getErgonodeValue()) {
                 continue;
             }
-            $optionValue->setCode($bindingValue['code']);
+            $value = sprintf('%s_%s', $productOption->getCode(), $bindingValue);
+            $optionValue = $productVariant->getOptionValues()->findFirst(function (int $key, ProductOptionValueInterface $optionValue) use ($value) {
+                return $optionValue->getValue() === $value;
+            }) ?? $this->createOptionValue($productOption);
+
+            if (null === $optionValue->getId()) {
+                $optionValue->setCode($value);
+            }
+
             $productVariant->addOptionValue($optionValue);
             $this->entityManager->persist($optionValue);
 

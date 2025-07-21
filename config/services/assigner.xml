@@ -70,6 +70,7 @@
             <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.product.product_attribute_value_assigner" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.storage.products_relations_storage" />
             <argument type="service" id="bitbag.sylius_ergonode_plugin.api.client.product_api_client"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
         </service>
 
         <service id="bitbag.sylius_ergonode_plugin.assigner.product.product_property_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Product\ProductPropertyValueAssigner">
