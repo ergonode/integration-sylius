@@ -110,8 +110,8 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
             $this->productVariantPropertyValueAssigner->assign(
                 $productVariant,
                 $property,
-                $propertyMapping,
                 $attributeValue,
+                $propertyMapping,
             );
         }
 
