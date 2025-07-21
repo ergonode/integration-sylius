@@ -46,11 +46,12 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         foreach ($attributeValues as $value) {
             $language = $value['language'];
             $bindingValue = $value['value'];
+            $code = $bindingValue['code'];
 
             if ($language !== $mainLanguageMapping->getErgonodeValue()) {
                 continue;
             }
-            $value = sprintf('%s_%s', $productOption->getCode(), $bindingValue);
+            $value = sprintf('%s_%s', $productOption->getCode(), $code);
             $optionValue = $productVariant->getOptionValues()->findFirst(function (int $key, ProductOptionValueInterface $optionValue) use ($value) {
                 return $optionValue->getValue() === $value;
             }) ?? $this->createOptionValue($productOption);

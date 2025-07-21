@@ -100,6 +100,10 @@ final class ProductVariantValuesAssigner implements ProductVariantValuesAssigner
                 $propertyMapping,
             );
 
+            if ([] === $attributeValue) {
+                continue;
+            }
+
             $property = ProductVariantPropertyMapping::tryFrom($syliusValue ?? '') ?? ProductVariantPropertyMapping::tryFrom($ergonodeAttributeCode);
             if (null === $property) {
                 $this->logUnresolvedProperty($propertyMapping, $ergonodeAttributeCode);

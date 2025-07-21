@@ -19,12 +19,14 @@ use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ValueResolverInterface;
+use Psr\Log\LoggerInterface;
 
 final readonly class ProductVariantAttributeValueResolver implements ProductVariantAttributeValueResolverInterface
 {
     public function __construct(
         private iterable $valueResolvers,
         private ProductVariantTranslatablePropertyCheckerInterface $productVariantTranslatablePropertyChecker,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -37,7 +39,12 @@ final readonly class ProductVariantAttributeValueResolver implements ProductVari
         ?ResourceRelationMappingInterface $propertyMapping,
         ?bool $allValues = false,
     ): array {
-        $values = $this->getValues($integration, $productVariantAttribute, $productVariantAttributeValue, $typename);
+        try {
+            $values = $this->getValues($integration, $productVariantAttribute, $productVariantAttributeValue, $typename);
+        } catch (\Throwable $exception) {
+            $this->logger->warning('Failed to resolve value for attribute', ['productVariantAttribute' => $productVariantAttribute, 'exception' => $exception]);
+            return [];
+        }
 
         if (null === $propertyMapping) {
             return $values;

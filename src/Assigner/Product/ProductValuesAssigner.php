@@ -72,6 +72,10 @@ final class ProductValuesAssigner implements ProductValuesAssignerInterface
                 $propertyMapping,
             );
 
+            if ([] === $attributeValue) {
+                continue;
+            }
+
             $property = $propertyMapping?->getSyliusValue();
 
             if (null !== $property) {
