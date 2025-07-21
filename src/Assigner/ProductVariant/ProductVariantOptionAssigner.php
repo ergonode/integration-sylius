@@ -39,8 +39,6 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         ProductOptionInterface $productOption,
         array $attributeValues,
     ): void {
-
-
         $mainLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
 
         foreach ($attributeValues as $value) {
@@ -90,12 +88,12 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
                     $translation->setLocale($localeCode);
                     $optionValue->addTranslation($translation);
                 }
-                $translation->setValue($nameValue ?? $code);
+                $translation->setValue($nameValue);
             }
 
             foreach ($optionValue->getTranslations() as $translation) {
                 if (null === $translation->getValue()) {
-                    $optionValue->removeTranslation($translation);
+                    $translation->setValue($optionValue->getCode());
                 }
             }
 
