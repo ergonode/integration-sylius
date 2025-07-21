@@ -17,6 +17,7 @@ use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Locale\Provider\LocaleProviderInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
@@ -30,6 +31,8 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         private readonly FactoryInterface $productOptionValueTranslationFactory,
         private readonly FactoryInterface $productOptionValueFactory,
         private readonly EntityManagerInterface $entityManager,
+        private readonly LocaleProviderInterface $localeProvider,
+
     ) {
     }
 
@@ -40,6 +43,7 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         array $attributeValues,
     ): void {
         $mainLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
+        $defaultLocaleCode = $this->localeProvider->getDefaultLocaleCode();
 
         foreach ($attributeValues as $value) {
             $language = $value['language'];
@@ -90,11 +94,9 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
                 }
                 $translation->setValue($nameValue);
             }
-
-            foreach ($optionValue->getTranslations() as $translation) {
-                if (null === $translation->getValue()) {
-                    $translation->setValue($optionValue->getCode());
-                }
+            $defaultTranslation = $optionValue->getTranslation($defaultLocaleCode);
+            if (null === $optionValue->getValue()) {
+                $defaultTranslation->setValue($code);
             }
 
             $this->entityManager->persist($optionValue);
