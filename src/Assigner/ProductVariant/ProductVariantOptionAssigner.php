@@ -91,7 +91,7 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
                     $translation->setLocale($localeCode);
                     $optionValue->addTranslation($translation);
                 }
-                $translation->setValue($nameValue);
+                $translation->setValue($nameValue ?? $code);
             }
         }
     }
