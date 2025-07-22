@@ -44,7 +44,7 @@ final class ShippingCategoryValueAssigner extends PropertyValueAssigner
             return;
         }
 
-        $this->logger->warning(sprintf('Shipping category with code "%s" not found.', $value));
+        $this->logger->warning(sprintf('Shipping category with code "%s" not found.', $value[0]));
     }
 
     public function supports(ResourceInterface $resource, string $property): bool
