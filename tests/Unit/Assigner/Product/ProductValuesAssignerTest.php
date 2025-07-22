@@ -8,6 +8,7 @@ use BitBag\SyliusErgonodePlugin\API\Client\ProductApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductAttributeValueAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductPropertyValueAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Product\ProductValuesAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
@@ -18,45 +19,69 @@ use BitBag\SyliusErgonodePlugin\Resolver\ProductAttributeValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use BitBag\SyliusErgonodePlugin\Storage\ProductsRelationsStorageInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
 final class ProductValuesAssignerTest extends TestCase
 {
+    private ProductValuesAssignerInterface $productValuesAssigner;
+
+    private ResourceRelationMappingResolverInterface $resolver;
+
+    private ProductPropertyValueAssignerInterface $propertyAssigner;
+
+    private MainLanguageContextInterface $mainLangCtx;
+
+    private ProductAttributeValueResolverInterface $valueResolver;
+
+    private ProductAttributeValueAssignerInterface $attributeAssigner;
+
+    private ProductsRelationsStorageInterface $relationStorage;
+
+    private ProductApiClientInterface $apiClient;
+
+    private LoggerInterface $logger;
+
+    public function setUp(): void
+    {
+        $this->resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
+        $this->propertyAssigner = $this->createMock(ProductPropertyValueAssignerInterface::class);
+        $this->mainLangCtx = $this->createMock(MainLanguageContextInterface::class);
+        $this->valueResolver = $this->createMock(ProductAttributeValueResolverInterface::class);
+        $this->attributeAssigner = $this->createMock(ProductAttributeValueAssignerInterface::class);
+        $this->relationStorage = $this->createMock(ProductsRelationsStorageInterface::class);
+        $this->apiClient = $this->createMock(ProductApiClientInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+
+        $this->productValuesAssigner = new ProductValuesAssigner(
+            $this->resolver,
+            $this->propertyAssigner,
+            $this->mainLangCtx,
+            $this->valueResolver,
+            $this->attributeAssigner,
+            $this->relationStorage,
+            $this->apiClient,
+            $this->logger
+        );
+    }
+
     public function testAssignDelegatesToPropertyAssignerWhenPropertyIsKnown(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
 
-        $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
-        $propertyAssigner = $this->createMock(ProductPropertyValueAssignerInterface::class);
-        $mainLangCtx = $this->createMock(MainLanguageContextInterface::class);
-        $valueResolver = $this->createMock(ProductAttributeValueResolverInterface::class);
-        $attributeAssigner = $this->createMock(ProductAttributeValueAssignerInterface::class);
-        $relationStorage = $this->createMock(ProductsRelationsStorageInterface::class);
-        $apiClient = $this->createMock(ProductApiClientInterface::class);
-
         $propertyMapping = $this->createMock(ResourceRelationMappingInterface::class);
         $propertyMapping->method('getSyliusValue')->willReturn('name');
-        $mainLangCtx->method('getMainLanguageMapping')->willReturn($propertyMapping);
+        $this->mainLangCtx->method('getMainLanguageMapping')->willReturn($propertyMapping);
 
-        $resolver->method('resolveForErgonodeValue')->willReturn($propertyMapping);
-        $valueResolver->method('resolve')->willReturn(['en_US' => 'name']);
+        $this->resolver->method('resolveForErgonodeValue')->willReturn($propertyMapping);
+        $this->valueResolver->method('resolve')->willReturn(['en_US' => 'name']);
 
-        $propertyAssigner->expects($this->once())
+        $this->propertyAssigner->expects($this->once())
             ->method('assign')
             ->with($product, ProductPropertyMapping::NAME, $propertyMapping, ['en_US' => 'name']);
 
-        $assigner = new ProductValuesAssigner(
-            $resolver,
-            $propertyAssigner,
-            $mainLangCtx,
-            $valueResolver,
-            $attributeAssigner,
-            $relationStorage,
-            $apiClient
-        );
-
-        $assigner->assign([
+        $this->productValuesAssigner->assign([
             'sku' => 'cowboy_hat',
             'attributeList' => [
                 'edges' => [[
@@ -76,26 +101,16 @@ final class ProductValuesAssignerTest extends TestCase
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
 
-        $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
-        $propertyAssigner = $this->createMock(ProductPropertyValueAssignerInterface::class);
-        $mainLangCtx = $this->createMock(MainLanguageContextInterface::class);
-        $valueResolver = $this->createMock(ProductAttributeValueResolverInterface::class);
-        $attributeAssigner = $this->createMock(ProductAttributeValueAssignerInterface::class);
-        $relationStorage = $this->createMock(ProductsRelationsStorageInterface::class);
-        $apiClient = $this->createMock(ProductApiClientInterface::class);
-
         $mainLangMapping = $this->createMock(ResourceRelationMappingInterface::class);
-        $mainLangCtx->method('getMainLanguageMapping')->willReturn($mainLangMapping);
-        $resolver->method('resolveForErgonodeValue')->willReturn(null);
-        $valueResolver->method('resolve')->willReturn(['en_US' => 'Sunglasses']);
+        $this->mainLangCtx->method('getMainLanguageMapping')->willReturn($mainLangMapping);
+        $this->resolver->method('resolveForErgonodeValue')->willReturn(null);
+        $this->valueResolver->method('resolve')->willReturn(['en_US' => 'Sunglasses']);
 
-        $attributeAssigner->expects($this->once())
+        $this->attributeAssigner->expects($this->once())
             ->method('assign')
             ->with($product, ['en_US' => 'Sunglasses'], 'name');
 
-        $assigner = new ProductValuesAssigner($resolver, $propertyAssigner, $mainLangCtx, $valueResolver, $attributeAssigner, $relationStorage, $apiClient);
-
-        $assigner->assign([
+        $this->productValuesAssigner->assign([
             'sku' => 'sunglasses',
             'attributeList' => [
                 'edges' => [[
@@ -115,26 +130,16 @@ final class ProductValuesAssignerTest extends TestCase
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
 
-        $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
-        $propertyAssigner = $this->createMock(ProductPropertyValueAssignerInterface::class);
-        $mainLangCtx = $this->createMock(MainLanguageContextInterface::class);
-        $valueResolver = $this->createMock(ProductAttributeValueResolverInterface::class);
-        $attributeAssigner = $this->createMock(ProductAttributeValueAssignerInterface::class);
-        $relationStorage = $this->createMock(ProductsRelationsStorageInterface::class);
-        $apiClient = $this->createMock(ProductApiClientInterface::class);
-
         $mainLangMapping = $this->createMock(ResourceRelationMappingInterface::class);
-        $mainLangCtx->method('getMainLanguageMapping')->willReturn($mainLangMapping);
-        $resolver->method('resolveForErgonodeValue')->willReturn(null);
-        $valueResolver->method('resolve')->willReturn(['en_US' => 'product-slug']);
+        $this->mainLangCtx->method('getMainLanguageMapping')->willReturn($mainLangMapping);
+        $this->resolver->method('resolveForErgonodeValue')->willReturn(null);
+        $this->valueResolver->method('resolve')->willReturn(['en_US' => 'product-slug']);
 
-        $relationStorage->expects($this->once())
+        $this->relationStorage->expects($this->once())
             ->method('storeAssociation')
             ->with($integration, $product, 'related', ['en_US' => 'product-slug']);
 
-        $assigner = new ProductValuesAssigner($resolver, $propertyAssigner, $mainLangCtx, $valueResolver, $attributeAssigner, $relationStorage, $apiClient);
-
-        $assigner->assign([
+        $this->productValuesAssigner->assign([
             'sku' => 't-shirt-white',
             'attributeList' => [
                 'edges' => [[
@@ -156,17 +161,7 @@ final class ProductValuesAssignerTest extends TestCase
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
 
-        $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
-        $propertyAssigner = $this->createMock(ProductPropertyValueAssignerInterface::class);
-        $mainLangCtx = $this->createMock(MainLanguageContextInterface::class);
-        $valueResolver = $this->createMock(ProductAttributeValueResolverInterface::class);
-        $attributeAssigner = $this->createMock(ProductAttributeValueAssignerInterface::class);
-        $relationStorage = $this->createMock(ProductsRelationsStorageInterface::class);
-        $apiClient = $this->createMock(ProductApiClientInterface::class);
-
-        $assigner = new ProductValuesAssigner($resolver, $propertyAssigner, $mainLangCtx, $valueResolver, $attributeAssigner, $relationStorage, $apiClient);
-
-        $assigner->assign([
+        $this->productValuesAssigner->assign([
             'sku' => 'white_cap',
             'attributeList' => [
                 'edges' => [[ 'invalid_key' => [] ]],

@@ -40,6 +40,7 @@ final class ProductSynchronizationManager implements ProductSynchronizationManag
         if (null === $productStream) {
             return;
         }
+
         foreach ($productStream['edges'] as $productEdge) {
             $productNode = $productEdge['node'];
             $code = $productNode['sku'];
@@ -92,7 +93,7 @@ final class ProductSynchronizationManager implements ProductSynchronizationManag
 
     private function getProductStream(IntegrationInterface $integration): ?array
     {
-        $attributes = $this->productApiClient->getProducts($integration);
+        $attributes = $this->productApiClient->getProducts($integration, $integration->getProductStreamCursorEnd());
 
         if (
             !array_key_exists('data', $attributes) ||

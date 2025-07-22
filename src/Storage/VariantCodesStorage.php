@@ -80,7 +80,7 @@ final class VariantCodesStorage implements VariantCodesStorageInterface
         return array_key_exists($code, $this->variantPayloads);
     }
 
-    public function getVariantByCode(string $code): array
+    public function getVariantByCode(string $code): ?array
     {
         return $this->variantPayloads[$code];
     }

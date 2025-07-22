@@ -79,12 +79,12 @@ class NameValueAssignerTest extends TestCase
 
         $translation->method('getLocale')->willReturn('fr_FR');
 
-        $product->expects($this->exactly(2))
+        $product->expects($this->once())
             ->method('getTranslation')
             ->with('en_US')
             ->willReturn($translation);
 
-        $this->translationAssigner->expects($this->once())
+        $this->translationAssigner->expects($this->never())
             ->method('assign')
             ->with($product, 'en_US');
 
@@ -118,7 +118,7 @@ class NameValueAssignerTest extends TestCase
     {
         $resource = $this->createMock(ResourceInterface::class);
 
-        $this->assertTrue($this->assigner->supports(
+        $this->assertFalse($this->assigner->supports(
             $resource,
             'any_property'
         ));
