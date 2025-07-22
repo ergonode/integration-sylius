@@ -35,7 +35,7 @@ final class EncryptorTest extends TestCase
         }
     }
 
-    public function test_encrypt_and_decrypt(): void
+    public function testEncryptAndDecrypt(): void
     {
         $encryptor = new Encryptor($this->keyFilePath);
         $original = 'my secret';
@@ -49,7 +49,7 @@ final class EncryptorTest extends TestCase
         $this->assertSame($original, $decrypted);
     }
 
-    public function test_encrypt_and_decrypt_across_instances(): void
+    public function testEncryptAndDecryptAcrossInstances(): void
     {
         $encryptor1 = new Encryptor($this->keyFilePath);
         $encrypted = $encryptor1->encrypt('token123');
@@ -60,7 +60,7 @@ final class EncryptorTest extends TestCase
         $this->assertSame('token123', $decrypted);
     }
 
-    public function test_decrypt_plain_value(): void
+    public function testDecryptPlainValue(): void
     {
         $encryptor = new Encryptor($this->keyFilePath);
 
@@ -70,7 +70,7 @@ final class EncryptorTest extends TestCase
         $this->assertSame($plain, $result);
     }
 
-    public function test_decrypt_null_value_throws(): void
+    public function testDecryptNullValueThrows(): void
     {
         $this->expectException(EncryptionException::class);
 
@@ -78,7 +78,7 @@ final class EncryptorTest extends TestCase
         $encryptor->decrypt(null);
     }
 
-    public function test_decrypt_with_invalid_ciphertext_throws(): void
+    public function testDecryptWithInvalidCiphertextThrows(): void
     {
         $this->expectException(EncryptionException::class);
 
@@ -86,7 +86,7 @@ final class EncryptorTest extends TestCase
         $encryptor->decrypt('invalid-ciphertext' . Encryptor::ENCRYPTION_SUFFIX);
     }
 
-    public function test_encryption_key_is_persistent_between_instances(): void
+    public function testEncryptionKeyIsPersistentAcrossInstances(): void
     {
         $encryptor1 = new Encryptor($this->keyFilePath);
         $encrypted = $encryptor1->encrypt('persisted');
@@ -99,7 +99,7 @@ final class EncryptorTest extends TestCase
         $this->assertSame('persisted', $decrypted);
     }
 
-    public function test_decrypt_empty_string_with_suffix_throws(): void
+    public function testDecryptEmptyStringWithSuffixThrows(): void
     {
         $this->expectException(EncryptionException::class);
 

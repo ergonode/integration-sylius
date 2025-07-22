@@ -86,7 +86,7 @@ final class ListValueResolverTest extends TestCase
         ], $result);
     }
 
-    public function test_skips_if_value_or_translation_missing_or_unmapped(): void
+    public function testSkipsIfValueOrTranslationMissingOrUnmapped(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
 
@@ -105,7 +105,7 @@ final class ListValueResolverTest extends TestCase
         $this->assertSame([], $result);
     }
 
-    public function test_supports_only_select_and_multiselect(): void
+    public function testSupportsOnlySelectAndMultiselect(): void
     {
         $resolver = new ListValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
         $categoryRelation = RelationType::CATEGORY_PROPERTY;

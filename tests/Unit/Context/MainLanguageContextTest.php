@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 final class MainLanguageContextTest extends TestCase
 {
-    public function test_returns_cached_main_language_mapping(): void
+    public function testReturnsCachedMainLanguageMapping(): void
     {
         $integration = $this->createConfiguredMock(IntegrationInterface::class, [
             'getId' => 1,
@@ -45,7 +45,7 @@ final class MainLanguageContextTest extends TestCase
         $this->assertSame($mapping, $result2);
     }
 
-    public function test_throws_if_main_language_code_is_null(): void
+    public function testThrowsIfMainLanguageCodeIsNull(): void
     {
         $this->expectException(SynchronizationException::class);
         $this->expectExceptionMessage('Failed to synchronize the category tree, missing ergonode category tree code for integration with id `42`');

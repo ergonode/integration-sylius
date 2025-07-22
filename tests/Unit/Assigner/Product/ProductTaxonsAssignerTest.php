@@ -17,7 +17,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 final class ProductTaxonsAssignerTest extends TestCase
 {
-    public function test_assign_skips_if_taxon_is_missing(): void
+    public function testAssignSkipsIfTaxonIsMissing(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
@@ -43,7 +43,7 @@ final class ProductTaxonsAssignerTest extends TestCase
         ], $integration, $product);
     }
 
-    public function test_assign_skips_if_product_already_has_taxon(): void
+    public function testAssignSkipsIfProductAlreadyHasTaxon(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
@@ -71,7 +71,7 @@ final class ProductTaxonsAssignerTest extends TestCase
         ], $integration, $product);
     }
 
-    public function test_assign_adds_new_product_taxon_if_missing(): void
+    public function testAssignAddsNewProductTaxonIfMissing(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);

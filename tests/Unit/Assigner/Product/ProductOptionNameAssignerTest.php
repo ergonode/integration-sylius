@@ -17,7 +17,7 @@ use Sylius\Component\Product\Model\ProductOptionTranslationInterface;
 
 final class ProductOptionNameAssignerTest extends TestCase
 {
-    public function test_assign_sets_translated_name(): void
+    public function testAssignSetsTranslatedName(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $productOption = $this->createMock(ProductOptionInterface::class);
@@ -46,7 +46,7 @@ final class ProductOptionNameAssignerTest extends TestCase
         ]);
     }
 
-    public function test_assign_skips_if_locale_mapping_missing(): void
+    public function testAssignSkipsIfLocaleMappingMissing(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $productOption = $this->createMock(ProductOptionInterface::class);
@@ -64,7 +64,7 @@ final class ProductOptionNameAssignerTest extends TestCase
         ]);
     }
 
-    public function test_assign_skips_if_value_is_null(): void
+    public function testAssignSkipsIfBalueIsNull(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $productOption = $this->createMock(ProductOptionInterface::class);
@@ -91,7 +91,7 @@ final class ProductOptionNameAssignerTest extends TestCase
         ]);
     }
 
-    public function test_assign_triggers_translation_assigner_if_locale_mismatch(): void
+    public function testAssignTriggersTranslationAssignerIfLocaleMismatch(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $productOption = $this->createMock(ProductOptionInterface::class);

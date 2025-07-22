@@ -29,7 +29,7 @@ use Sylius\Component\Core\Model\TaxonInterface;
 
 final class TaxonValuesAssignerTest extends TestCase
 {
-    public function test_assign_invokes_all_resolvers_and_assigners(): void
+    public function testAssignInvokesAllResolversAndAssigners(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $integration->method('getId')->willReturn(123);
@@ -94,7 +94,7 @@ final class TaxonValuesAssignerTest extends TestCase
         $assigner->assign($categoryNode, $integration, $taxon);
     }
 
-    public function test_assign_logs_warning_if_mapping_missing(): void
+    public function testAssignLogsWarningIfMappingMissing(): void
     {
         $integration = $this->createConfiguredMock(IntegrationInterface::class, [
             'getId' => 456,

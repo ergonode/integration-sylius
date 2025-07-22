@@ -28,7 +28,7 @@ use Sylius\Resource\Factory\FactoryInterface;
 
 final class TaxonPropertyValueAssignerTest extends TestCase
 {
-    public function test_throws_exception_if_sylius_value_is_null(): void
+    public function testThrowsExceptionIfSyliusValueIsNull(): void
     {
         $this->expectException(SynchronizationException::class);
 
@@ -50,7 +50,7 @@ final class TaxonPropertyValueAssignerTest extends TestCase
         );
     }
 
-    public function test_assign_description_applies_translation(): void
+    public function testAssignDescriptionAppliesTranslation(): void
     {
         $attributeValue = ['en_US' => 'description'];
 
@@ -83,7 +83,7 @@ final class TaxonPropertyValueAssignerTest extends TestCase
         );
     }
 
-    public function test_assign_slug_applies_translation(): void
+    public function testAssignSlugAppliesTranslation(): void
     {
         $attributeValue = ['en_US' => 'slug'];
 
@@ -116,7 +116,7 @@ final class TaxonPropertyValueAssignerTest extends TestCase
         );
     }
 
-    public function test_assign_enabled_reads_code_boolean(): void
+    public function testAssignEnabledReadsCodeBoolean(): void
     {
         $mainLanguage = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
             'getErgonodeValue' => 'en_US'
@@ -144,7 +144,7 @@ final class TaxonPropertyValueAssignerTest extends TestCase
         );
     }
 
-    public function test_assign_media_downloads_and_adds_image(): void
+    public function testAssignMediaDownloadsAndAddsImage(): void
     {
         $mainLanguage = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
             'getSyliusValue' => 'en_US'

@@ -14,7 +14,7 @@ use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 
 final class StorageBasedProductAttributeValueAssignerTest extends TestCase
 {
-    public function test_assign_handles_text_type(): void
+    public function testAssignHandlesTextType(): void
     {
         $attribute = $this->createMock(AttributeInterface::class);
         $value = $this->createMock(ProductAttributeValueInterface::class);
@@ -38,7 +38,7 @@ final class StorageBasedProductAttributeValueAssignerTest extends TestCase
         $assigner->assign($value, 'test value');
     }
 
-    public function test_assign_logs_error_on_invalid_attribute(): void
+    public function testAssignLogsErrorOnInvalidAttribute(): void
     {
         $value = $this->createMock(ProductAttributeValueInterface::class);
         $value->method('getAttribute')->willReturn(null);

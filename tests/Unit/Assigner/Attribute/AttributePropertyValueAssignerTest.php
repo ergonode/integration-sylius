@@ -13,7 +13,7 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 
 final class AttributePropertyValueAssignerTest extends TestCase
 {
-    public function test_assign_sets_position(): void
+    public function testAssignSetsPosition(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -24,7 +24,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::POSITION, '5');
     }
 
-    public function test_assign_sets_translatable_flag(): void
+    public function testAssignSetsTranslatableFlag(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -35,7 +35,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::TRANSLATABLE, true);
     }
 
-    public function test_assign_sets_multiple_flag_in_configuration(): void
+    public function testAssignSetsMultipleFlagInConfiguration(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -47,7 +47,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::MULTIPLE, true);
     }
 
-    public function test_assign_sets_max_entries(): void
+    public function testAssignSetsMaxEntries(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -59,7 +59,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::MAX_ENTRIES, '10');
     }
 
-    public function test_assign_sets_max_length(): void
+    public function testAssignSetsMaxLength(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -71,7 +71,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::MAX_LENGTH, '15');
     }
 
-    public function test_assign_sets_min_entries(): void
+    public function testAssignSetsMinEntries(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -83,7 +83,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::MIN_ENTRIES, '1');
     }
 
-    public function test_assign_sets_min_length(): void
+    public function testAssignSetsMinLength(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -95,7 +95,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::MIN_LENGTH, '3');
     }
 
-    public function test_assign_delegates_type_assignment(): void
+    public function testAssignDelegatesTypeAssignment(): void
     {
         $typeAssigner = $this->createMock(AttributeTypeAssignerInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -108,7 +108,7 @@ final class AttributePropertyValueAssignerTest extends TestCase
         $assigner->assign($attribute, AttributePropertyMapping::TYPE, 'text');
     }
 
-    public function test_get_int_throws_exception_on_invalid_value(): void
+    public function testGetIntThrowsExceptionOnInvalidValue(): void
     {
         $this->expectException(AttributeSynchronizationException::class);
         $this->expectExceptionMessage('Position value must be an integer or be possible to transform to integer. Given value: `invalid`.');

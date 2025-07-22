@@ -15,7 +15,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class ProductAttributeValueAssignerTest extends TestCase
 {
-    public function test_assign_creates_and_assigns_attribute_value_if_not_exists(): void
+    public function testAssignCreatesAndAssignsAttributeValueIfNotExists(): void
     {
         $product = $this->createMock(ProductInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -42,7 +42,7 @@ final class ProductAttributeValueAssignerTest extends TestCase
         $assigner->assign($product, ['en_US' => 'Red'], 'color');
     }
 
-    public function test_assign_skips_if_attribute_not_found(): void
+    public function testAssignSkipsIfAttributeNotFound(): void
     {
         $product = $this->createMock(ProductInterface::class);
 
@@ -59,7 +59,7 @@ final class ProductAttributeValueAssignerTest extends TestCase
         $assigner->assign($product, ['en_US' => 'Red'], 'color');
     }
 
-    public function test_assign_uses_existing_value_if_found(): void
+    public function testAssignUsesExistingValueIfFound(): void
     {
         $product = $this->createMock(ProductInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);

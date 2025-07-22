@@ -122,7 +122,7 @@ final class TaxonNameAssignerTest extends TestCase
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
-    public function test_does_nothing_if_no_names(): void
+    public function testDoesNothingIfNoNames(): void
     {
         $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
         $integration = $this->createMock(IntegrationInterface::class);

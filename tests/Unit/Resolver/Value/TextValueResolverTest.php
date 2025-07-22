@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 
 final class TextValueResolverTest extends TestCase
 {
-    public function test_returns_value_if_stringable(): void
+    public function testReturnsValueIfStringable(): void
     {
         $stringableChecker = $this->createMock(StringableCheckerInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
@@ -32,7 +32,7 @@ final class TextValueResolverTest extends TestCase
         $this->assertSame('Hello', $result);
     }
 
-    public function test_returns_null_and_logs_if_not_stringable(): void
+    public function testReturnsNullAndLogsIfNotStringable(): void
     {
         $stringableChecker = $this->createMock(StringableCheckerInterface::class);
         $logger = $this->createMock(LoggerInterface::class);

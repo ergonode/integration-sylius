@@ -22,7 +22,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 final class ProductValuesAssignerTest extends TestCase
 {
-    public function test_assign_delegates_to_property_assigner_when_property_is_known(): void
+    public function testAssignDelegatesToPropertyAssignerWhenPropertyIsKnown(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
@@ -71,7 +71,7 @@ final class ProductValuesAssignerTest extends TestCase
         ], $integration, $product);
     }
 
-    public function test_assign_delegates_to_attribute_assigner_when_no_property_mapping(): void
+    public function testAssignDelegatesToAttributeAssignerWhenNoPropertyMapping(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
@@ -110,7 +110,7 @@ final class ProductValuesAssignerTest extends TestCase
         ], $integration, $product);
     }
 
-    public function test_assign_stores_product_relation_values(): void
+    public function testAssignStoresProductRelationValues(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $product = $this->createMock(ProductInterface::class);
@@ -149,7 +149,7 @@ final class ProductValuesAssignerTest extends TestCase
         ], $integration, $product);
     }
 
-    public function test_assign_throws_on_missing_node_key(): void
+    public function testAssignThrowsOnMissingNodeKey(): void
     {
         $this->expectException(SynchronizationException::class);
 

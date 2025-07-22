@@ -15,7 +15,7 @@ use Sylius\Component\Registry\ServiceRegistryInterface;
 
 final class AttributeTypeAssignerTest extends TestCase
 {
-    public function test_assign_by_enum_sets_type_and_storage_type(): void
+    public function testAssignByEnumSetsTypeAndStorageType(): void
     {
         $attribute = $this->createMock(AttributeInterface::class);
         $resolver = $this->createMock(AttributeTypeResolverInterface::class);
@@ -45,7 +45,7 @@ final class AttributeTypeAssignerTest extends TestCase
         $assigner->assignByEnum($attribute, AttributeType::TEXT);
     }
 
-    public function test_assign_by_metadatum_value_sets_type_and_storage_type_when_type_exists(): void
+    public function testAssignByMetadatumValueSetsTypeAndStorageTypeWhenTypeExists(): void
     {
         $attribute = $this->createMock(AttributeInterface::class);
         $resolver = $this->createMock(AttributeTypeResolverInterface::class);
@@ -75,7 +75,7 @@ final class AttributeTypeAssignerTest extends TestCase
         $assigner->assignByMetadatumValue($attribute, 'text');
     }
 
-    public function test_assign_by_metadatum_value_logs_when_type_is_not_registered(): void
+    public function testAssignByMetadatumValueLogsWhenTypeIsNotRegistered(): void
     {
         $attribute = $this->createMock(AttributeInterface::class);
         $resolver = $this->createMock(AttributeTypeResolverInterface::class);

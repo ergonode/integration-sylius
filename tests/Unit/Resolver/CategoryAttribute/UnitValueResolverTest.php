@@ -53,7 +53,7 @@ final class UnitValueResolverTest extends TestCase
         $this->assertSame(['en_US' => '100 cm'], $result);
     }
 
-    public function test_skips_if_language_unmapped(): void
+    public function testSkipsIfLanguageUnmapped(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
 
@@ -76,7 +76,7 @@ final class UnitValueResolverTest extends TestCase
         $this->assertSame([], $result);
     }
 
-    public function test_supports_unit_type_only(): void
+    public function testSupportsUnitTypeOnly(): void
     {
         $resolver = new UnitValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);

@@ -17,7 +17,7 @@ use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
 
 final class AttributeNameAssignerTest extends TestCase
 {
-    public function test_assigns_translations_to_locales(): void
+    public function testAssignsTranslationsToLocales(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -49,7 +49,7 @@ final class AttributeNameAssignerTest extends TestCase
         $assigner->assign($integration, $attribute, [$attributeName]);
     }
 
-    public function test_skips_if_locale_not_found(): void
+    public function testSkipsIfLocaleNotFound(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -67,7 +67,7 @@ final class AttributeNameAssignerTest extends TestCase
         ]);
     }
 
-    public function test_skips_if_value_is_null(): void
+    public function testSkipsIfValueIsNull(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);

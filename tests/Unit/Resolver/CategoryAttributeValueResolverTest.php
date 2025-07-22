@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CategoryAttributeValueResolverTest extends TestCase
 {
-    public function test_returns_translatable_values(): void
+    public function testReturnsTranslatableValues(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $propertyMapping = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
@@ -60,7 +60,7 @@ final class CategoryAttributeValueResolverTest extends TestCase
         ], $result);
     }
 
-    public function test_returns_main_language_only_when_not_translatable(): void
+    public function testReturnsMainLanguageOnlyWhenNotTranslatable(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $propertyMapping = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [

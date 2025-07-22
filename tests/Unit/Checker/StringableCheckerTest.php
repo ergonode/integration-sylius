@@ -23,12 +23,12 @@ final class StringableCheckerTest extends TestCase
         $this->checker = new StringableChecker();
     }
 
-    public function test_returns_true_for_null(): void
+    public function testReturnsTrueForNull(): void
     {
         $this->assertTrue($this->checker->check(null));
     }
 
-    public function test_returns_true_for_scalar_types(): void
+    public function testReturnsTrueForScalarTypes(): void
     {
         $this->assertTrue($this->checker->check(42));
         $this->assertTrue($this->checker->check(3.14));

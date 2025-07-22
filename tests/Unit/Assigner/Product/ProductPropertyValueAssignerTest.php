@@ -14,7 +14,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 final class ProductPropertyValueAssignerTest extends TestCase
 {
-    public function test_assign_skips_if_partial_and_import_once_is_false(): void
+    public function testAssignSkipsIfPartialAndImportOnceFalse(): void
     {
         $product = $this->createMock(ProductInterface::class);
         $product->method('getId')->willReturn(42);
@@ -30,7 +30,7 @@ final class ProductPropertyValueAssignerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_assign_calls_supports_and_assign_on_first_matching_assigner(): void
+    public function testAssignCallsSupportsAndAssignOnFirstMatchingAssigner(): void
     {
         $product = $this->createMock(ProductInterface::class);
         $product->method('getId')->willReturn(null);
@@ -63,7 +63,7 @@ final class ProductPropertyValueAssignerTest extends TestCase
         $assigner->assign($product, ProductPropertyMapping::SHIPPING_CATEGORY, $mapping, ['value']);
     }
 
-    public function test_assign_always_runs_on_new_product_even_if_not_full_sync(): void
+    public function testAssignAlwaysRunsOnNewProductEvenIfNotFullSync(): void
     {
         $product = $this->createMock(ProductInterface::class);
         $product->method('getId')->willReturn(null);

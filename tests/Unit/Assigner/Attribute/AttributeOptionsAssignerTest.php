@@ -16,7 +16,7 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 
 final class AttributeOptionsAssignerTest extends TestCase
 {
-    public function test_assign_in_partial_sync_calls_resolve_and_setConfiguration(): void
+    public function testAssignInPartialSyncCallsResolveAndSetConfiguration(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -75,7 +75,7 @@ final class AttributeOptionsAssignerTest extends TestCase
         $assigner->assign($integration, $attribute, 'color', $initialOptions);
     }
 
-    public function test_assign_in_full_sync_calls_setConfiguration_once(): void
+    public function testAssignInFullSyncCallsSetConfigurationOnce(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $attribute = $this->createMock(AttributeInterface::class);
@@ -127,7 +127,7 @@ final class AttributeOptionsAssignerTest extends TestCase
         $assigner->assign($integration, $attribute, 'size', []);
     }
 
-    public function test_assign_throws_when_attribute_array_empty(): void
+    public function testAssignThrowsWhenAttributeArrayEmpty(): void
     {
         $this->expectException(AttributeSynchronizationException::class);
         $this->expectExceptionMessage('Ergonode attribute `broken` does not contain options list property in response.');
@@ -151,7 +151,7 @@ final class AttributeOptionsAssignerTest extends TestCase
         $assigner->assign($integration, $attribute, 'broken', []);
     }
 
-    public function test_assign_throws_when_option_list_missing(): void
+    public function testAssignThrowsWhenOptionListMissing(): void
     {
         $this->expectException(SynchronizationException::class);
         $this->expectExceptionMessage('Invalid array structure, expected key `attribute.optionList`.');
