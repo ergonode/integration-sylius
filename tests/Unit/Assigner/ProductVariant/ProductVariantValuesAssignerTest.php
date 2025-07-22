@@ -18,6 +18,7 @@ use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterfac
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Product\Model\ProductOptionInterface;
 
 final class ProductVariantValuesAssignerTest extends TestCase
 {
@@ -51,7 +52,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
                 ]],
                 'pageInfo' => ['hasNextPage' => false],
             ],
-        ], $integration, $variant, ['color' => $this->createMock(\Sylius\Component\Product\Model\ProductOptionInterface::class)]);
+        ], $integration, $variant, ['color' => $this->createMock(ProductOptionInterface::class)]);
     }
 
     public function testAssignThrowsOnMissingNodeKey(): void
@@ -263,10 +264,9 @@ final class ProductVariantValuesAssignerTest extends TestCase
         $integration = $this->createMock(IntegrationInterface::class);
         $variant = $this->createMock(ProductVariantInterface::class);
         $variant->method('getCode')->willReturn('failing-variant');
-        $option = $this->createMock(\Sylius\Component\Product\Model\ProductOptionInterface::class);
+        $option = $this->createMock(ProductOptionInterface::class);
         $errorMessage = 'Option assignment error';
 
-        // Set up option assigner to throw an exception
         $optionAssigner = $this->createMock(ProductVariantOptionAssignerInterface::class);
         $optionAssigner->method('assign')->willThrowException(new \Exception($errorMessage));
 
