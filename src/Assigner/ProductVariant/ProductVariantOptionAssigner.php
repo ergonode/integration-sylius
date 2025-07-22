@@ -17,6 +17,7 @@ use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Locale\Provider\LocaleProviderInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
@@ -30,6 +31,8 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         private readonly FactoryInterface $productOptionValueTranslationFactory,
         private readonly FactoryInterface $productOptionValueFactory,
         private readonly EntityManagerInterface $entityManager,
+        private readonly LocaleProviderInterface $localeProvider,
+
     ) {
     }
 
@@ -39,25 +42,27 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
         ProductOptionInterface $productOption,
         array $attributeValues,
     ): void {
-        $optionValue = $productVariant->getOptionValues()->findFirst(function (int $key, ProductOptionValueInterface $optionValue) use ($productOption) {
-            return $optionValue->getOption()?->getCode() === $productOption->getCode();
-        });
-
-        if (null === $optionValue) {
-            $optionValue = $this->createOptionValue($productOption);
-        }
-
         $mainLanguageMapping = $this->mainLanguageContext->getMainLanguageMapping($integration);
+        $defaultLocaleCode = $this->localeProvider->getDefaultLocaleCode();
+
         foreach ($attributeValues as $value) {
             $language = $value['language'];
             $bindingValue = $value['value'];
+            $code = $bindingValue['code'];
 
             if ($language !== $mainLanguageMapping->getErgonodeValue()) {
                 continue;
             }
-            $optionValue->setCode($bindingValue['code']);
+            $value = sprintf('%s_%s', $productOption->getCode(), $code);
+            $optionValue = $productVariant->getOptionValues()->findFirst(function (int $key, ProductOptionValueInterface $optionValue) use ($value) {
+                return $optionValue->getValue() === $value;
+            }) ?? $this->createOptionValue($productOption);
+
+            if (null === $optionValue->getId()) {
+                $optionValue->setCode($value);
+            }
+
             $productVariant->addOptionValue($optionValue);
-            $this->entityManager->persist($optionValue);
 
             $bindingValueName = $bindingValue['name'];
 
@@ -89,6 +94,12 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
                 }
                 $translation->setValue($nameValue);
             }
+            $defaultTranslation = $optionValue->getTranslation($defaultLocaleCode);
+            if (null === $optionValue->getValue()) {
+                $defaultTranslation->setValue($code);
+            }
+
+            $this->entityManager->persist($optionValue);
         }
     }
 

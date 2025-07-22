@@ -100,6 +100,10 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
                 $value,
             );
 
+            if ([] === $attributeValue) {
+                continue;
+            }
+
             $this->taxonPropertyValueAssigner->assign(
                 $integration,
                 $taxon,
