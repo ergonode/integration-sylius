@@ -4,8 +4,8 @@ framework:
         # failure_transport: failed
 
         transports:
-#            ergonode_integration: '%env(ERGONODE_INTEGRATION_MESSENGER_TRANSPORT_DSN)%'
-            ergonode_integration: 'sync://'
+            ergonode_integration: '%env(ERGONODE_INTEGRATION_MESSENGER_TRANSPORT_DSN)%'
+#            ergonode_integration: 'sync://'
 
         routing:
             # Route your messages to the transports
