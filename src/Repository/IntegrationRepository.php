@@ -34,4 +34,14 @@ final class IntegrationRepository extends EntityRepository implements Integratio
             ->getOneOrNullResult()
         ;
     }
+
+    public function findOneEnabledByCode(string $code): ?IntegrationInterface
+    {
+        return $this->createEnabledQueryBuilder()
+            ->andWhere('i.code = :code')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

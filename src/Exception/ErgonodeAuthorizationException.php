@@ -22,4 +22,9 @@ final class ErgonodeAuthorizationException extends \Exception
     {
         return new self('Missing API URL.');
     }
+
+    public static function requestFailed(array $responseArray): self
+    {
+        return new self(sprintf('Ergonode authorization request failed: %s', json_encode($responseArray, \JSON_THROW_ON_ERROR)));
+    }
 }

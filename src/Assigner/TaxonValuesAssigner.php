@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssignerInterface;
+use BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClientInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonPropertyValueAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
@@ -33,6 +34,7 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
         private TaxonNameAssignerInterface $taxonNameAssigner,
         private MainLanguageContextInterface $mainLanguageContext,
         private CategoryAttributeValueResolverInterface $categoryAttributeValueResolver,
+        private CategoryApiClientInterface $apiClient,
         private LoggerInterface $logger,
     ) {
     }
@@ -42,10 +44,32 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
         IntegrationInterface $integration,
         TaxonInterface $taxon,
     ): void {
+        $code = $categoryNode->getCode();
         $attributeListNodes = $categoryNode->getAttributeListNodes();
-
         $this->taxonNameAssigner->assign($integration, $taxon, $categoryNode);
+        $pageInfo = $categoryNode->getPageInfo();
+        $this->assignValues($attributeListNodes, $integration, $taxon, $pageInfo, $code);
+    }
 
+    private function logMissingMapping(IntegrationInterface $integration, mixed $ergonodeAttributeCode): void
+    {
+        $this->logger->warning(
+            sprintf(
+                self::MISSING_PROPERTY_LOG_FORMAT,
+                $integration->getId(),
+                $ergonodeAttributeCode,
+                RelationType::CATEGORY_PROPERTY->value,
+            ),
+        );
+    }
+
+    public function assignValues(
+        array $attributeListNodes,
+        IntegrationInterface $integration,
+        TaxonInterface $taxon,
+        array $pageInfo,
+        string $code,
+    ): void {
         foreach ($attributeListNodes as $attributeListNode) {
             if (!array_key_exists('node', $attributeListNode)) {
                 throw CategorySynchronizationException::invalidArrayStructure($attributeListNode, 'node');
@@ -83,17 +107,13 @@ final readonly class TaxonValuesAssigner implements TaxonValuesAssignerInterface
                 $attributeValue,
             );
         }
-    }
 
-    private function logMissingMapping(IntegrationInterface $integration, mixed $ergonodeAttributeCode): void
-    {
-        $this->logger->warning(
-            sprintf(
-                self::MISSING_PROPERTY_LOG_FORMAT,
-                $integration->getId(),
-                $ergonodeAttributeCode,
-                RelationType::CATEGORY_PROPERTY->value,
-            ),
-        );
+        if ($pageInfo['hasNextPage']) {
+            $cursorEnd = $pageInfo['endCursor'];
+            $response = $this->apiClient->getCategoryAttributes($integration, $code, $cursorEnd);
+            $category = $response['data']['category'];
+            $attributeList = $category['attributeList'];
+            $this->assignValues($attributeList['edges'], $integration, $taxon, $attributeList['pageInfo'], $code);
+        }
     }
 }

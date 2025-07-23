@@ -13,9 +13,14 @@ namespace BitBag\SyliusErgonodePlugin\Synchronizer;
 
 use BitBag\SyliusErgonodePlugin\API\Client\AttributeApiClientInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\AttributeValuesAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Collector\DeletedAttributesCollectorInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
+use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\AttributeSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Provider\AttributeProviderInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
+use BitBag\SyliusErgonodePlugin\Updater\ProductAssociationTypeUpdater;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Repository\ProductAttributeRepositoryInterface;
@@ -27,25 +32,57 @@ final class AttributeSynchronizer implements SynchronizerInterface
         private readonly AttributeProviderInterface $attributeProvider,
         private readonly EntityManagerInterface $entityManager,
         private readonly ProductAttributeRepositoryInterface $productAttributeRepository,
+        private readonly ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private readonly AttributeValuesAssignerInterface $attributeValuesAssigner,
+        private readonly DeletedAttributesCollectorInterface $deletedAttributesCollector,
+        private readonly ProductAssociationTypeUpdater $productAssociationTypeUpdater,
         private readonly LoggerInterface $logger,
     ) {
     }
 
     public function synchronize(IntegrationInterface $integration): void
     {
+        $this->deletedAttributesCollector->collect($integration);
         $attributeStream = $this->getAttributeStream($integration);
         if (null === $attributeStream) {
             return;
         }
         foreach ($attributeStream['edges'] as $attributeEdge) {
             $attributeNode = $attributeEdge['node'];
-            $attribute = $this->attributeProvider->provide($integration, $attributeNode['code']);
+
+            try {
+                if (AttributeType::PRODUCT_RELATION->value === $attributeNode['typename']) {
+                    $productAssociationType = $this->productAssociationTypeUpdater->update($integration, $attributeNode);
+                    $this->entityManager->persist($productAssociationType);
+
+                    continue;
+                }
+            } catch (\Throwable $exception) {
+                $this->logger->warning(
+                    sprintf(
+                        'Unexpected exception occurred during product association synchronization, attribute code: `%s` ',
+                        $attributeNode['code'],
+                    ),
+                    ['message' => $exception->getMessage()],
+                );
+            }
+
+            if ([] === $attributeNode) {
+                continue;
+            }
+
+            $code = $attributeNode['code'];
+            if ($this->deletedAttributesCollector->isInDeletedList($code)) {
+                continue;
+            }
+
+            $attribute = $this->attributeProvider->provide($integration, $code);
 
             try {
                 $this->attributeValuesAssigner->assign($integration, $attribute, $attributeNode);
             } catch (AttributeSynchronizationException $exception) {
-                $this->logger->error($exception->getMessage());
+                $this->logger->error($exception->getMessage(), [$exception]);
+                $this->logger->info(sprintf('Attribute `%s` could not have been synchronized.', $attribute->getCode()));
 
                 continue;
             } catch (\Throwable $exception) {
@@ -54,16 +91,18 @@ final class AttributeSynchronizer implements SynchronizerInterface
                         'Unexpected exception occurred during attribute synchronization, message: %s',
                         $exception->getMessage(),
                     ),
+                    [$exception],
                 );
 
                 continue;
             }
-
+            $this->logger->info(sprintf('Attribute `%s` has been synchronized and will be persisted.', $attribute->getCode()));
             $this->entityManager->persist($attribute);
         }
 
         $this->entityManager->persist($integration);
         $this->entityManager->flush();
+        $this->logger->info(sprintf('Previously mentioned attributes have been saved.'));
 
         if (false !== $attributeStream['pageInfo']['hasNextPage'] &&
             null !== $attributeStream['pageInfo']['endCursor']
@@ -78,7 +117,6 @@ final class AttributeSynchronizer implements SynchronizerInterface
     private function getAttributeStream(IntegrationInterface $integration): ?array
     {
         $attributes = $this->attributeApiClient->getAttributes($integration);
-
         if (
             !array_key_exists('data', $attributes) ||
             !is_array($attributes['data']) ||
@@ -93,29 +131,27 @@ final class AttributeSynchronizer implements SynchronizerInterface
 
     public function synchronizeDeletedAttributes(IntegrationInterface $integration): void
     {
-        $deletedCategories = $this->attributeApiClient->getDeletedAttributes($integration);
-        $stream = $deletedCategories['data']['attributeDeletedStream'];
+        $attributeCodes = [];
 
-        $categories = $this->productAttributeRepository->findBy(['code' => $this->retrieveCodesFromResponse($stream)]);
+        foreach ($this->deletedAttributesCollector->getDeletedList() as $code) {
+            $resourceRelationMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue($integration, $code, RelationType::ATTRIBUTE_EXTERNAL_ID);
+            if (null === $resourceRelationMapping) {
+                $attributeCodes[] = $code;
 
-        foreach ($categories as $category) {
-            $this->entityManager->remove($category);
+                continue;
+            }
+
+            $attributeCodes[] = $resourceRelationMapping->getSyliusValue();
         }
 
-        if (null !== $stream['pageInfo']['endCursor']) {
-            $integration->setAttributeDeletedStreamCursorEnd($stream['pageInfo']['endCursor']);
+        $attributes = $this->productAttributeRepository->findBy(['code' => $attributeCodes]);
+        foreach ($attributes as $attribute) {
+            $this->entityManager->remove($attribute);
         }
+
+        $integration->setAttributeDeletedStreamCursorEnd($this->deletedAttributesCollector->getCursorEnd());
 
         $this->entityManager->persist($integration);
         $this->entityManager->flush();
-
-        if (false !== $stream['pageInfo']['hasNextPage']) {
-            $this->synchronizeDeletedAttributes($integration);
-        }
-    }
-
-    private function retrieveCodesFromResponse(array $stream): array
-    {
-        return array_map(fn (array $attribute) => $attribute['node'], $stream['edges']);
     }
 }

@@ -11,10 +11,11 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Assigner;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeNameAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeOptionsAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributePropertyValueAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Attribute\AttributeTypeAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeNameAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeOptionsAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributePropertyValueAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Attribute\AttributeTypeAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Context\SynchronizationContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributePropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\AttributeType;
@@ -37,6 +38,7 @@ final readonly class AttributeValuesAssigner implements AttributeValuesAssignerI
         private AttributeOptionsAssignerInterface $attributeOptionsAssigner,
         private ResourceRelationMappingResolverInterface $resourceRelationMappingResolver,
         private AttributePropertyValueAssignerInterface $attributePropertyValueAssigner,
+        private SynchronizationContextInterface $synchronizationContext,
         private LoggerInterface $logger,
     ) {
     }
@@ -55,17 +57,27 @@ final readonly class AttributeValuesAssigner implements AttributeValuesAssignerI
         $this->attributeTypeAssigner->assignByEnum($attribute, $typeEnum);
 
         foreach ($attributeNode['metadata'] as $metadatum) {
+            if (self::PREFER_CODE_OVER_NAME_METADATA_KEY === $metadatum['key']) {
+                continue;
+            }
+
             $propertyMapping = $this->resourceRelationMappingResolver->resolveForErgonodeValue(
                 $integration,
                 $metadatum['key'],
                 RelationType::ATTRIBUTE_PROPERTY,
             );
 
-            if (null !== $propertyMapping && null !== $attribute->getId() && $propertyMapping->isImportOnce()) {
+            $mappingFound = null !== $propertyMapping;
+            $isFullSynchronization = $this->synchronizationContext->isFullSynchronization();
+
+            if ($mappingFound && !$isFullSynchronization && $propertyMapping->isImportOnce()) {
                 continue;
             }
 
-            $possibleProperty = AttributePropertyMapping::tryFrom(null === $propertyMapping ? $metadatum['key'] : $propertyMapping->getSyliusValue());
+            $possibleProperty = AttributePropertyMapping::tryFrom(!$mappingFound
+                ? $metadatum['key']
+                : $propertyMapping->getSyliusValue())
+            ;
 
             if (null === $possibleProperty) {
                 $this->logMissingMapping($integration, $metadatum['key']);

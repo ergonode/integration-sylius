@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssignerInterface;
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssignerInterface;
+use BitBag\SyliusErgonodePlugin\API\Client\CategoryApiClientInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonPropertyValueAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Assigner\TaxonValuesAssigner;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
@@ -45,6 +46,8 @@ final class TaxonValuesAssignerTest extends TestCase
         $categoryNode->method('getAttributeListNodes')->willReturn([
             ['node' => $attributeNode],
         ]);
+        $categoryNode->method('getCode')->willReturn('cat-001');
+        $categoryNode->method('getPageInfo')->willReturn(['hasNextPage' => false, 'endCursor' => "XYZ"]);
 
         $propertyMapping = $this->createMock(ResourceRelationMappingInterface::class);
         $languageMapping = $this->createMock(ResourceRelationMappingInterface::class);
@@ -75,6 +78,8 @@ final class TaxonValuesAssignerTest extends TestCase
         $nameAssigner->expects(self::once())->method('assign')->with($integration, $taxon, $categoryNode);
 
         $logger = $this->createMock(LoggerInterface::class);
+        $apiClient = $this->createMock(CategoryApiClientInterface::class);
+        $apiClient->expects(self::never())->method('getCategoryAttributes');
 
         $assigner = new TaxonValuesAssigner(
             $resourceRelationResolver,
@@ -82,6 +87,7 @@ final class TaxonValuesAssignerTest extends TestCase
             $nameAssigner,
             $languageContext,
             $attributeValueResolver,
+            $apiClient,
             $logger,
         );
 
@@ -104,6 +110,8 @@ final class TaxonValuesAssignerTest extends TestCase
             ]]
         ]);
 
+        $categoryNode->method('getPageInfo')->willReturn(['hasNextPage' => false, 'endCursor' => "XYZ"]);
+
         $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
         $resolver->method('resolveForErgonodeValue')->willReturn(null);
 
@@ -119,12 +127,15 @@ final class TaxonValuesAssignerTest extends TestCase
                 RelationType::CATEGORY_PROPERTY->value,
             ));
 
+        $apiClient = $this->createMock(CategoryApiClientInterface::class);
+        $apiClient->expects(self::never())->method('getCategoryAttributes');
         $assigner = new TaxonValuesAssigner(
             $resolver,
             $this->createMock(TaxonPropertyValueAssignerInterface::class),
             $nameAssigner,
             $this->createMock(MainLanguageContextInterface::class),
             $this->createMock(CategoryAttributeValueResolverInterface::class),
+            $apiClient,
             $logger
         );
 
@@ -150,7 +161,98 @@ final class TaxonValuesAssignerTest extends TestCase
             $this->createMock(TaxonNameAssignerInterface::class),
             $this->createMock(MainLanguageContextInterface::class),
             $this->createMock(CategoryAttributeValueResolverInterface::class),
+            $this->createMock(CategoryApiClientInterface::class),
             $this->createMock(LoggerInterface::class),
+        );
+
+        $assigner->assign($categoryNode, $integration, $taxon);
+    }
+
+    public function test_assign_recursively_fetches_next_page(): void
+    {
+        $integration = $this->createMock(IntegrationInterface::class);
+        $integration->method('getId')->willReturn(789);
+
+        $taxon = $this->createMock(TaxonInterface::class);
+        $categoryNode = $this->createMock(CategoryNode::class);
+
+        $firstPageAttributeNode = [
+            'typename' => 'TextAttributeValue',
+            'attribute' => ['code' => 'description'],
+            'value' => ['en_US' => 'page1 value'],
+        ];
+
+        $secondPageAttributeNode = [
+            'typename' => 'TextAttributeValue',
+            'attribute' => ['code' => 'seo_title'],
+            'value' => ['en_US' => 'page2 value'],
+        ];
+
+        $categoryNode->method('getAttributeListNodes')->willReturn([
+            ['node' => $firstPageAttributeNode],
+        ]);
+
+        $categoryNode->method('getPageInfo')->willReturn([
+            'hasNextPage' => true,
+            'endCursor' => 'XYZ',
+        ]);
+
+        $categoryNode->method('getCode')->willReturn('cat-001');
+
+        $propertyMapping1 = $this->createMock(ResourceRelationMappingInterface::class);
+        $propertyMapping2 = $this->createMock(ResourceRelationMappingInterface::class);
+        $languageMapping = $this->createMock(ResourceRelationMappingInterface::class);
+
+        $resourceRelationResolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
+        $resourceRelationResolver->method('resolveForErgonodeValue')->willReturnMap([
+            [$integration, 'description', RelationType::CATEGORY_PROPERTY, $propertyMapping1],
+            [$integration, 'seo_title', RelationType::CATEGORY_PROPERTY, $propertyMapping2],
+        ]);
+
+        $languageContext = $this->createMock(MainLanguageContextInterface::class);
+        $languageContext->method('getMainLanguageMapping')->willReturn($languageMapping);
+
+        $attributeValueResolver = $this->createMock(CategoryAttributeValueResolverInterface::class);
+        $attributeValueResolver->method('resolve')->willReturn(['en_US' => 'value']);
+
+        $propertyValueAssigner = $this->createMock(TaxonPropertyValueAssignerInterface::class);
+        $propertyValueAssigner->expects(self::exactly(2))
+            ->method('assign')
+        ;
+
+        $nameAssigner = $this->createMock(TaxonNameAssignerInterface::class);
+        $nameAssigner->expects(self::once())->method('assign');
+
+        $logger = $this->createMock(LoggerInterface::class);
+
+        $apiClient = $this->createMock(CategoryApiClientInterface::class);
+        $apiClient->expects(self::once())
+            ->method('getCategoryAttributes')
+            ->with($integration, 'cat-001', 'XYZ')
+            ->willReturn([
+                'data' => [
+                    'category' => [
+                        'attributeList' => [
+                            'edges' => [
+                                ['node' => $secondPageAttributeNode]
+                            ],
+                            'pageInfo' => [
+                                'hasNextPage' => false,
+                                'endCursor' => "ZYX",
+                            ],
+                        ]
+                    ]
+                ]
+            ]);
+
+        $assigner = new TaxonValuesAssigner(
+            $resourceRelationResolver,
+            $propertyValueAssigner,
+            $nameAssigner,
+            $languageContext,
+            $attributeValueResolver,
+            $apiClient,
+            $logger,
         );
 
         $assigner->assign($categoryNode, $integration, $taxon);

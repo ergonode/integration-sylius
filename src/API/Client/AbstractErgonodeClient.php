@@ -28,6 +28,7 @@ abstract readonly class AbstractErgonodeClient
         private EncryptorInterface $encryptor,
         private HttpClientInterface $ergonodeClient,
         private LoggerInterface $logger,
+        private int $requestTimeout,
     ) {
     }
 
@@ -63,10 +64,19 @@ abstract readonly class AbstractErgonodeClient
         }
 
         try {
-            $responseArray = $response->toArray();
+            if (429 === $response->getStatusCode()) {
+                sleep($this->requestTimeout);
+
+                return $this->query($model, $integration);
+            }
+            $responseArray = $response->toArray(false);
 
             if ($this->isAuthorizationException($responseArray)) {
                 throw ErgonodeAuthorizationException::invalidCredentials();
+            }
+
+            if (array_key_exists('errors', $responseArray)) {
+                throw ErgonodeAuthorizationException::requestFailed($responseArray);
             }
 
             return $responseArray;

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <defaults>
+            <tag name="bitbag.sylius_ergonode_plugin.product_variant_property_assigner"/>
+        </defaults>
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant._variant.shipping_required_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\ShippingRequiredValueAssigner"/>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant._variant.price_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\PriceValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="sylius.factory.channel_pricing"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.converter.money_converter"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.tax_category_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\TaxCategoryValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.tax_category_preloader"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.shipping_category_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\ShippingCategoryValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.preloader.shipping_category_preloader"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.logger.prefixed_logger"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.width_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\WidthValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.weight_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\WeightValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.height_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\HeightValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.depth_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\DepthValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.current_stock_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\CurrentStockValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.float_value_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant.tracked_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\TrackedValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.product_variant_resolver"/>
+        </service>
+
+        <service id="bitbag.sylius_ergonode_plugin.assigner.property.product_variant._variant.name_value_assigner" class="BitBag\SyliusErgonodePlugin\Assigner\Property\Product\NameValueAssigner">
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.resolver.value.text_value_resolver"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.assigner.translation.product_variant_translation_assigner"/>
+        </service>
+    </services>
+</container>

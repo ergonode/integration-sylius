@@ -46,7 +46,7 @@ final class SelectAttributeOptions extends ErgonodeRequestModel
               }
             }
             ... on SelectAttribute {
-              optionList(first: 200, after: $after) {
+              optionList(first: 200, after: $previousCursorEnd) {
                 edges {
                   node {
                     code

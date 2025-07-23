@@ -61,4 +61,16 @@ interface IntegrationInterface extends ResourceInterface, ToggleableInterface
     public function getAttributeDeletedStreamCursorEnd(): ?string;
 
     public function setAttributeDeletedStreamCursorEnd(?string $attributeDeletedStreamCursorEnd): void;
+
+    public function getProductStreamCursorEnd(): ?string;
+
+    public function setProductStreamCursorEnd(?string $productStreamCursorEnd): void;
+
+    public function getProductDeletedStreamCursorEnd(): ?string;
+
+    public function setProductDeletedStreamCursorEnd(?string $productDeletedStreamCursorEnd): void;
+
+    public function isFirstSynchronization(): bool;
+
+    public function resetCursorProperties(): void;
 }

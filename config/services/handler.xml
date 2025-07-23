@@ -8,6 +8,7 @@
         <service id="bitbag.sylius_ergonode_plugin.handler.synchronization_handler" class="BitBag\SyliusErgonodePlugin\Handler\SynchronizationHandler">
             <argument type="tagged_iterator" tag="bitbag.sylius_ergonode_plugin.synchronizer"/>
             <argument type="service" id="bitbag_ergonode.repository.integration"/>
+            <argument type="service" id="bitbag.sylius_ergonode_plugin.context.synchronization_context"/>
             <tag name="messenger.message_handler"/>
         </service>
     </services>

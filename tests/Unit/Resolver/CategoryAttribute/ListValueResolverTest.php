@@ -14,7 +14,7 @@ use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
-use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ListValueResolver;
+use BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ListValueResolver;
 use BitBag\SyliusErgonodePlugin\Resolver\ResourceRelationMappingResolverInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -38,14 +38,15 @@ final class ListValueResolverTest extends TestCase
             'language' => 'en',
             'value' => ['code' => 'red'],
             'translatedValue' => ['name' => 'Red'],
+            'metadata' => ['key' => 'type', 'value' => 'select'],
         ]];
 
         $languageExternalId = $this->createMock(ResourceRelationMappingInterface::class);
 
-        $result = $resolver->resolve($integration, $attribute, $attributeValue, $languageExternalId);
+        $result = $resolver->resolve($integration, $attribute, $attributeValue);
 
         $this->assertSame([
-            'en_US' => ['code' => 'red', 'name' => 'Red'],
+            'en_US' => 'Red',
         ], $result);
     }
 
@@ -66,6 +67,7 @@ final class ListValueResolverTest extends TestCase
         $attributeValue = [[
             'language' => 'pl',
             'value' => ['code' => 'm'],
+            'metadata' => ['key' => 'type', 'value' => 'select'],
             'translatedValue' => [
                 ['code' => 's', 'name' => 'Mały'],
                 ['code' => 'm', 'name' => 'Średni'],
@@ -77,11 +79,10 @@ final class ListValueResolverTest extends TestCase
             $integration,
             ['code' => 'size'],
             $attributeValue,
-            $this->createMock(ResourceRelationMappingInterface::class)
         );
 
         $this->assertSame([
-            'pl_PL' => ['code' => 'm', 'name' => 'Średni'],
+            'pl_PL' => 'Średni',
         ], $result);
     }
 
@@ -100,20 +101,19 @@ final class ListValueResolverTest extends TestCase
             ['language' => 'en', 'value' => ['code' => 'c']],
         ];
 
-        $result = $resolver->resolve($integration, [], $attributeValue, $this->createMock(ResourceRelationMappingInterface::class));
+        $result = $resolver->resolve($integration, [], $attributeValue);
         $this->assertSame([], $result);
     }
 
     public function test_supports_only_select_and_multiselect(): void
     {
         $resolver = new ListValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
-        $mapping = $this->createMock(ResourceRelationMappingInterface::class);
-
-        $this->assertTrue($resolver->supports(AttributeValueType::SELECT->value, $mapping));
-        $this->assertTrue($resolver->supports(AttributeValueType::MULTISELECT->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeValueType::TEXTAREA->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeValueType::UNIT->value, $mapping));
-        $this->assertFalse($resolver->supports(AttributeValueType::DATE->value, $mapping));
-        $this->assertFalse($resolver->supports('undefined', $mapping));
+        $categoryRelation = RelationType::CATEGORY_PROPERTY;
+        $this->assertTrue($resolver->supports($categoryRelation, AttributeValueType::SELECT->value));
+        $this->assertTrue($resolver->supports($categoryRelation, AttributeValueType::MULTISELECT->value));
+        $this->assertFalse($resolver->supports($categoryRelation, AttributeValueType::TEXTAREA->value));
+        $this->assertFalse($resolver->supports($categoryRelation, AttributeValueType::UNIT->value));
+        $this->assertFalse($resolver->supports($categoryRelation, AttributeValueType::DATE->value));
+        $this->assertFalse($resolver->supports($categoryRelation, 'undefined'));
     }
 }

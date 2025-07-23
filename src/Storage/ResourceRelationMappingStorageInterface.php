@@ -27,4 +27,6 @@ interface ResourceRelationMappingStorageInterface
         IntegrationInterface $integration,
         string $ergonodeValue,
     ): ?ResourceRelationMappingInterface;
+
+    public function getMappings(IntegrationInterface $integration): array;
 }

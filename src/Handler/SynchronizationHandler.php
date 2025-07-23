@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\Handler;
 
+use BitBag\SyliusErgonodePlugin\Context\SynchronizationContextInterface;
 use BitBag\SyliusErgonodePlugin\Exception\IntegrationException;
 use BitBag\SyliusErgonodePlugin\Message\Synchronization;
 use BitBag\SyliusErgonodePlugin\Repository\IntegrationRepositoryInterface;
@@ -24,6 +25,7 @@ final readonly class SynchronizationHandler
     public function __construct(
         private iterable $synchronizers,
         private IntegrationRepositoryInterface $integrationRepository,
+        private SynchronizationContextInterface $synchronizationContext,
     ) {
     }
 
@@ -32,6 +34,11 @@ final readonly class SynchronizationHandler
         $integration = $this->integrationRepository->findOneEnabledById($synchronization->getIntegrationId());
         if (null === $integration) {
             throw IntegrationException::notFoundEnabledWithId($synchronization->getIntegrationId());
+        }
+
+        $this->synchronizationContext->initialize($integration, $synchronization->isFullSynchronization());
+        if ($this->synchronizationContext->isFullSynchronization()) {
+            $integration->resetCursorProperties();
         }
 
         foreach ($this->synchronizers as $synchronizer) {

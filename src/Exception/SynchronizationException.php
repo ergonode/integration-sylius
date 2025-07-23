@@ -13,6 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Exception;
 
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 
 class SynchronizationException extends \Exception
 {
@@ -59,6 +60,26 @@ class SynchronizationException extends \Exception
             sprintf(
                 'No Sylius value found found for mapping with id `%s`.',
                 $mapping->getId(),
+            ),
+        );
+    }
+
+    public static function invalidRelationType(?RelationType $relationType): self
+    {
+        return new self(
+            sprintf(
+                'Could not resolve property based relation type `%s`.',
+                $relationType?->value,
+            ),
+        );
+    }
+
+    public static function invalidAssociationTypeCode(mixed $code): self
+    {
+        return new self(
+            sprintf(
+                'Invalid association type code, expected string, got `%s`.',
+                $code,
             ),
         );
     }

@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonNameAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TaxonTranslationAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\RelationType;
@@ -33,7 +35,7 @@ final class TaxonNameAssignerTest extends TestCase
         $localizedText = $this->createMock(LocalizedText::class);
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);
         $translation = $this->createMock(TaxonTranslationInterface::class);
-
+        $translationAssigner = $this->createMock(TranslationAssignerInterface::class);
         $categoryNode->method('getName')->willReturn([$localizedText]);
         $localizedText->method('getLanguage')->willReturn('en_US');
         $localizedText->method('getValue')->willReturn('Laptops');
@@ -48,7 +50,7 @@ final class TaxonNameAssignerTest extends TestCase
         $taxon->method('getTranslation')->with('en_US')->willReturn($translation);
         $translation->expects(self::once())->method('setName')->with('Laptops');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver, $translationAssigner);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -59,6 +61,7 @@ final class TaxonNameAssignerTest extends TestCase
         $taxon = $this->createMock(TaxonInterface::class);
         $categoryNode = $this->createMock(CategoryNode::class);
         $localizedText = $this->createMock(LocalizedText::class);
+        $translationAssigner = $this->createMock(TranslationAssignerInterface::class);
 
         $categoryNode->method('getName')->willReturn([$localizedText]);
         $localizedText->method('getLanguage')->willReturn('fr_FR');
@@ -70,7 +73,7 @@ final class TaxonNameAssignerTest extends TestCase
 
         $taxon->expects(self::never())->method('getTranslation');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver, $translationAssigner);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -80,6 +83,7 @@ final class TaxonNameAssignerTest extends TestCase
         $integration = $this->createMock(IntegrationInterface::class);
         $taxon = $this->createMock(TaxonInterface::class);
         $categoryNode = $this->createMock(CategoryNode::class);
+        $translationAssigner = $this->createMock(TranslationAssignerInterface::class);
 
         $localizedTextEn = $this->createMock(LocalizedText::class);
         $localizedTextPl = $this->createMock(LocalizedText::class);
@@ -114,7 +118,7 @@ final class TaxonNameAssignerTest extends TestCase
         $translationEn->expects(self::once())->method('setName')->with('Laptops');
         $translationPl->expects(self::once())->method('setName')->with('Laptopy');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver, $translationAssigner);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
@@ -124,12 +128,13 @@ final class TaxonNameAssignerTest extends TestCase
         $integration = $this->createMock(IntegrationInterface::class);
         $taxon = $this->createMock(TaxonInterface::class);
         $categoryNode = $this->createMock(CategoryNode::class);
+        $translationAssigner = $this->createMock(TranslationAssignerInterface::class);
 
         $categoryNode->method('getName')->willReturn([]);
 
         $taxon->expects(self::never())->method('getTranslation');
 
-        $assigner = new TaxonNameAssigner($resolver);
+        $assigner = new TaxonNameAssigner($resolver, $translationAssigner);
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 }

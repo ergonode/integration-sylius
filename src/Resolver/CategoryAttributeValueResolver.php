@@ -15,9 +15,10 @@ use BitBag\SyliusErgonodePlugin\Checker\Category\CategoryTranslatablePropertyChe
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
+use BitBag\SyliusErgonodePlugin\Enum\RelationType;
 use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
-use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ValueResolverInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ValueResolverInterface;
 
 final readonly class CategoryAttributeValueResolver implements CategoryAttributeValueResolverInterface
 {
@@ -66,7 +67,7 @@ final readonly class CategoryAttributeValueResolver implements CategoryAttribute
     ): array {
         /** @var ValueResolverInterface $valueResolver */
         foreach ($this->valueResolvers as $valueResolver) {
-            if (!$valueResolver->supports($typename, $propertyMapping)) {
+            if (!$valueResolver->supports(RelationType::CATEGORY_PROPERTY, $typename)) {
                 continue;
             }
 
@@ -74,7 +75,6 @@ final readonly class CategoryAttributeValueResolver implements CategoryAttribute
                 $integration,
                 $categoryAttribute,
                 $categoryAttributeValue,
-                $propertyMapping,
             );
         }
 

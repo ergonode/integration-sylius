@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusErgonodePlugin\API\Client;
 
+use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryAttributesList;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryDeletedStream;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryStream;
 use BitBag\SyliusErgonodePlugin\API\RequestModel\Category\CategoryTreeLeafCodes;
@@ -19,13 +20,22 @@ use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 
 final readonly class CategoryApiClient extends AbstractErgonodeClient implements CategoryApiClientInterface
 {
-    private const LIMIT = 40;
+    private const LIMIT = 50;
 
     public function getCategories(IntegrationInterface $integration): array
     {
         return $this->query(new CategoryStream(
             self::LIMIT,
             $integration->getCategoryStreamCursorEnd(),
+        ), $integration);
+    }
+
+    public function getCategoryAttributes(IntegrationInterface $integration, string $code, ?string $endCursor = null): array
+    {
+        return $this->query(new CategoryAttributesList(
+            self::LIMIT,
+            $code,
+            $endCursor ?? $integration->getCategoryDeletedStreamCursorEnd(),
         ), $integration);
     }
 
@@ -40,11 +50,11 @@ final readonly class CategoryApiClient extends AbstractErgonodeClient implements
         ), $integration);
     }
 
-    public function getCategoryDeleted(IntegrationInterface $integration): array
+    public function getCategoryDeleted(IntegrationInterface $integration, ?string $endCursor = null): array
     {
         return $this->query(new CategoryDeletedStream(
             self::LIMIT,
-            $integration->getCategoryDeletedStreamCursorEnd(),
+            $endCursor ?? $integration->getCategoryDeletedStreamCursorEnd(),
         ), $integration);
     }
 }

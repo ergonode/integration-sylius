@@ -38,7 +38,11 @@ final class CategoryStream extends ErgonodeRequestModel
                       value
                       language
                     }
-                    attributeList {
+                    attributeList(first: 1) {
+                    pageInfo {
+                        endCursor
+                        hasNextPage
+                    }
                       edges {
                         node {
                           ...AttributeValueFields
@@ -54,6 +58,10 @@ final class CategoryStream extends ErgonodeRequestModel
               typename: __typename
               attribute {
                 code
+                metadata{
+                    key
+                    value
+                }
                 name {
                   language
                   value

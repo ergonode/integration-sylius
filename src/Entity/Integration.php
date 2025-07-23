@@ -39,6 +39,10 @@ class Integration implements IntegrationInterface
 
     protected ?string $attributeDeletedStreamCursorEnd = null;
 
+    protected ?string $productStreamCursorEnd = null;
+
+    protected ?string $productDeletedStreamCursorEnd = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -147,5 +151,44 @@ class Integration implements IntegrationInterface
     public function setAttributeDeletedStreamCursorEnd(?string $attributeDeletedStreamCursorEnd): void
     {
         $this->attributeDeletedStreamCursorEnd = $attributeDeletedStreamCursorEnd;
+    }
+
+    public function getProductStreamCursorEnd(): ?string
+    {
+        return $this->productStreamCursorEnd;
+    }
+
+    public function setProductStreamCursorEnd(?string $productStreamCursorEnd): void
+    {
+        $this->productStreamCursorEnd = $productStreamCursorEnd;
+    }
+
+    public function getProductDeletedStreamCursorEnd(): ?string
+    {
+        return $this->productDeletedStreamCursorEnd;
+    }
+
+    public function setProductDeletedStreamCursorEnd(?string $productDeletedStreamCursorEnd): void
+    {
+        $this->productDeletedStreamCursorEnd = $productDeletedStreamCursorEnd;
+    }
+
+    public function isFirstSynchronization(): bool
+    {
+        return null === $this->categoryStreamCursorEnd &&
+            null === $this->categoryDeletedStreamCursorEnd &&
+            null === $this->attributeStreamCursorEnd &&
+            null === $this->attributeDeletedStreamCursorEnd &&
+            null === $this->productStreamCursorEnd &&
+            null === $this->productDeletedStreamCursorEnd
+        ;
+    }
+
+    public function resetCursorProperties(): void
+    {
+        $this->categoryStreamCursorEnd = null;
+        $this->categoryDeletedStreamCursorEnd = null;
+        $this->attributeDeletedStreamCursorEnd = null;
+        $this->attributeStreamCursorEnd = null;
     }
 }

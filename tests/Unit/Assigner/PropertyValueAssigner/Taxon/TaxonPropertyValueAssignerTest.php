@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
 
-use BitBag\SyliusErgonodePlugin\Assigner\PropertyValueAssigner\Taxon\TaxonPropertyValueAssigner;
+use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonPropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Context\MainLanguageContextInterface;
 use BitBag\SyliusErgonodePlugin\Downloader\ErgonodeFileDownloaderInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
@@ -19,6 +19,7 @@ use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
+use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\TaxonImageInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
@@ -151,6 +152,9 @@ final class TaxonPropertyValueAssignerTest extends TestCase
 
         $context = $this->createMock(MainLanguageContextInterface::class);
         $context->method('getMainLanguageMapping')->willReturn($mainLanguage);
+        $emptyCollection = $this->createMock(Collection::class);
+        $emptyCollection->method('filter')->willReturn($emptyCollection);
+        $emptyCollection->method('first')->willReturn(null);
 
         $image = $this->createMock(TaxonImageInterface::class);
         $factory = $this->createMock(FactoryInterface::class);
@@ -161,7 +165,7 @@ final class TaxonPropertyValueAssignerTest extends TestCase
 
         $taxon = $this->createMock(TaxonInterface::class);
         $taxon->expects(self::once())->method('addImage')->with($image);
-
+        $taxon->method('getImages')->willReturn($emptyCollection);
         $assigner = new TaxonPropertyValueAssigner(
             $context,
             $downloader,

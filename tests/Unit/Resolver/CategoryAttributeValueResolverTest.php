@@ -17,7 +17,7 @@ use BitBag\SyliusErgonodePlugin\Enum\AttributeValueType;
 use BitBag\SyliusErgonodePlugin\Enum\CategoryPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Exception\CategorySynchronizationException;
 use BitBag\SyliusErgonodePlugin\Exception\SynchronizationException;
-use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttribute\ValueResolverInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\AttributeValue\ValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\CategoryAttributeValueResolver;
 use PHPUnit\Framework\TestCase;
 
