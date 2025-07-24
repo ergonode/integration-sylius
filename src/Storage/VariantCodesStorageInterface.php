@@ -17,7 +17,7 @@ interface VariantCodesStorageInterface
 {
     public function initialize(IntegrationInterface $integration): void;
 
-    public function getVariantByCode(string $code): ?array;
+    public function getVariantByCode(string $code): array;
 
     public function hasVariantByCode(string $code): bool;
 
