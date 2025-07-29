@@ -13,7 +13,6 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\HeightValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Resolver\FloatValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
@@ -28,7 +27,9 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 final class HeightValueAssignerTest extends TestCase
 {
     private FloatValueResolverInterface $floatValueResolver;
+
     private ProductVariantResolverInterface $productVariantResolver;
+
     private HeightValueAssigner $heightValueAssigner;
 
     protected function setUp(): void
@@ -37,7 +38,7 @@ final class HeightValueAssignerTest extends TestCase
         $this->productVariantResolver = $this->createMock(ProductVariantResolverInterface::class);
         $this->heightValueAssigner = new HeightValueAssigner(
             $this->productVariantResolver,
-            $this->floatValueResolver
+            $this->floatValueResolver,
         );
     }
 
@@ -120,7 +121,7 @@ final class HeightValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectResourceAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(ProductInterface::class);
         $resource
@@ -138,7 +139,7 @@ final class HeightValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectVariantAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(ProductVariantInterface::class);
         $result = $this->heightValueAssigner->supports($resource, $property);

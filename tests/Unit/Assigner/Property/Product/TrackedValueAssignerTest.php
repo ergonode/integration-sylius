@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -18,6 +25,7 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 final class TrackedValueAssignerTest extends TestCase
 {
     private ProductVariantResolverInterface $productVariantResolver;
+
     private TrackedValueAssigner $assigner;
 
     protected function setUp(): void
@@ -25,7 +33,7 @@ final class TrackedValueAssignerTest extends TestCase
         $this->productVariantResolver = $this->createMock(ProductVariantResolverInterface::class);
 
         $this->assigner = new TrackedValueAssigner(
-            $this->productVariantResolver
+            $this->productVariantResolver,
         );
     }
 
@@ -72,7 +80,7 @@ final class TrackedValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $variant,
-            ProductVariantPropertyMapping::TRACKED->value
+            ProductVariantPropertyMapping::TRACKED->value,
         ));
     }
 
@@ -91,7 +99,7 @@ final class TrackedValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::TRACKED->value
+            ProductPropertyMapping::TRACKED->value,
         ));
     }
 
@@ -110,7 +118,7 @@ final class TrackedValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            ProductPropertyMapping::TRACKED->value
+            ProductPropertyMapping::TRACKED->value,
         ));
     }
 
@@ -120,7 +128,7 @@ final class TrackedValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $resource,
-            ProductPropertyMapping::TRACKED->value
+            ProductPropertyMapping::TRACKED->value,
         ));
     }
 
@@ -130,7 +138,7 @@ final class TrackedValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $variant,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 }

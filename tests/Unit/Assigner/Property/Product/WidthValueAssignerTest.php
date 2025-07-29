@@ -13,7 +13,6 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\WidthValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Resolver\FloatValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
@@ -21,14 +20,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 
 final class WidthValueAssignerTest extends TestCase
 {
     private FloatValueResolverInterface $floatValueResolver;
+
     private ProductVariantResolverInterface $productVariantResolver;
+
     private WidthValueAssigner $widthValueAssigner;
 
     protected function setUp(): void
@@ -37,7 +37,7 @@ final class WidthValueAssignerTest extends TestCase
         $this->productVariantResolver = $this->createMock(ProductVariantResolverInterface::class);
         $this->widthValueAssigner = new WidthValueAssigner(
             $this->productVariantResolver,
-            $this->floatValueResolver
+            $this->floatValueResolver,
         );
     }
 
@@ -101,7 +101,7 @@ final class WidthValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectResourceAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(ProductInterface::class);
         $resource
@@ -119,7 +119,7 @@ final class WidthValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectVariantAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(VariantResourceInterface::class);
         $result = $this->widthValueAssigner->supports($resource, $property);

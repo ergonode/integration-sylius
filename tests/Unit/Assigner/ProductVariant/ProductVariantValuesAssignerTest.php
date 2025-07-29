@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\ProductVariant;
@@ -37,7 +44,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
             $this->createMock(ProductVariantPropertyValueAssignerInterface::class),
             $optionAssigner,
             $this->createMock(ProductApiClientInterface::class),
-            $this->createMock(LoggerInterface::class)
+            $this->createMock(LoggerInterface::class),
         );
 
         $assigner->assign([
@@ -66,7 +73,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
             $this->createMock(ProductVariantPropertyValueAssignerInterface::class),
             $this->createMock(ProductVariantOptionAssignerInterface::class),
             $this->createMock(ProductApiClientInterface::class),
-            $this->createMock(LoggerInterface::class)
+            $this->createMock(LoggerInterface::class),
         );
 
         $assigner->assign([
@@ -99,7 +106,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
             $valueAssigner,
             $this->createMock(ProductVariantOptionAssignerInterface::class),
             $this->createMock(ProductApiClientInterface::class),
-            $logger
+            $logger,
         );
 
         $assigner->assign([
@@ -111,12 +118,12 @@ final class ProductVariantValuesAssignerTest extends TestCase
                         'attribute' => ['code' => 'missing'],
                         'value' => [
                             'language' => 'en_US',
-                            'value' =>'text'
+                            'value' => 'text',
                         ],
                     ],
                 ]],
                 'pageInfo' => ['hasNextPage' => false],
-            ]
+            ],
         ], $integration, $variant, []);
     }
 
@@ -158,12 +165,12 @@ final class ProductVariantValuesAssignerTest extends TestCase
                         'attribute' => ['code' => 'product_width'],
                         'value' => [
                             'language' => 'en_SY',
-                            'value' => 15
+                            'value' => 15,
                         ],
-                    ]
+                    ],
                 ]],
                 'pageInfo' => ['hasNextPage' => false],
-            ]
+            ],
         ], $integration, $variant, []);
     }
 
@@ -197,7 +204,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
             $this->createMock(ProductVariantPropertyValueAssignerInterface::class),
             $this->createMock(ProductVariantOptionAssignerInterface::class),
             $this->createMock(ProductApiClientInterface::class),
-            $logger
+            $logger,
         );
 
         $assigner->assign([
@@ -209,12 +216,12 @@ final class ProductVariantValuesAssignerTest extends TestCase
                         'attribute' => ['code' => 'unknown_attribute'],
                         'value' => [
                             'language' => 'en_US',
-                            'value' => 'some_value'
+                            'value' => 'some_value',
                         ],
-                    ]
+                    ],
                 ]],
                 'pageInfo' => ['hasNextPage' => false],
-            ]
+            ],
         ], $integration, $variant, []);
     }
 
@@ -234,7 +241,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
                       'attributeList' => [
                           'edges' => [],
                           'pageInfo' => ['hasNextPage' => false],
-                      ]
+                      ],
                   ]);
 
         $assigner = new ProductVariantValuesAssigner(
@@ -244,7 +251,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
             $this->createMock(ProductVariantPropertyValueAssignerInterface::class),
             $this->createMock(ProductVariantOptionAssignerInterface::class),
             $apiClient,
-            $this->createMock(LoggerInterface::class)
+            $this->createMock(LoggerInterface::class),
         );
 
         $assigner->assign([
@@ -253,9 +260,9 @@ final class ProductVariantValuesAssignerTest extends TestCase
                 'edges' => [],
                 'pageInfo' => [
                     'hasNextPage' => true,
-                    'endCursor' => $endCursor
+                    'endCursor' => $endCursor,
                 ],
-            ]
+            ],
         ], $integration, $variant, []);
     }
 
@@ -282,7 +289,7 @@ final class ProductVariantValuesAssignerTest extends TestCase
             $this->createMock(ProductVariantPropertyValueAssignerInterface::class),
             $optionAssigner,
             $this->createMock(ProductApiClientInterface::class),
-            $logger
+            $logger,
         );
 
         $assigner->assign([
@@ -293,10 +300,10 @@ final class ProductVariantValuesAssignerTest extends TestCase
                         '__typename' => 'TextValue',
                         'attribute' => ['code' => 'color'],
                         'value' => ['value' => 'red'],
-                    ]
+                    ],
                 ]],
                 'pageInfo' => ['hasNextPage' => false],
-            ]
+            ],
         ], $integration, $variant, ['color' => $option]);
     }
 }

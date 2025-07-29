@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Attribute;
@@ -63,7 +70,7 @@ final class AttributeNameAssignerTest extends TestCase
         $logger->expects($this->once())->method('info')->with('Locale with code "fr" not found.');
 
         $assigner->assign($integration, $attribute, [
-            ['language' => 'fr', 'value' => 'Matière']
+            ['language' => 'fr', 'value' => 'Matière'],
         ]);
     }
 
@@ -78,7 +85,7 @@ final class AttributeNameAssignerTest extends TestCase
         $assigner = new AttributeNameAssigner($resolver, $translationAssigner, $logger);
 
         $assigner->assign($integration, $attribute, [
-            ['language' => 'en', 'value' => null]
+            ['language' => 'en', 'value' => null],
         ]);
 
         $attribute->expects($this->never())->method('getTranslation');

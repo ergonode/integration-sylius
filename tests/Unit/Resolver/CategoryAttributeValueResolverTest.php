@@ -10,6 +10,7 @@
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Resolver;
+
 use BitBag\SyliusErgonodePlugin\Checker\Category\CategoryTranslatablePropertyCheckerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;

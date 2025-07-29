@@ -25,7 +25,9 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 final class ChannelsValueAssignerTest extends TestCase
 {
     private ChannelPreloaderInterface $channelPreloader;
+
     private LoggerInterface $logger;
+
     private ChannelsValueAssigner $channelsValueAssigner;
 
     protected function setUp(): void
@@ -34,7 +36,7 @@ final class ChannelsValueAssignerTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->channelsValueAssigner = new ChannelsValueAssigner(
             $this->channelPreloader,
-            $this->logger
+            $this->logger,
         );
     }
 
@@ -188,7 +190,7 @@ final class ChannelsValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectProductAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $product = $this->createMock(ProductResourceInterface::class);
         $result = $this->channelsValueAssigner->supports($product, $property);
@@ -201,7 +203,7 @@ final class ChannelsValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectVariantAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(VariantResourceInterface::class);
         $result = $this->channelsValueAssigner->supports($resource, $property);
@@ -211,7 +213,6 @@ final class ChannelsValueAssignerTest extends TestCase
 
     public static function supportProductDataProvider(): array
     {
-
         return [
             'product with channels property' => [
                 ProductPropertyMapping::CHANNELS->value,
@@ -226,7 +227,6 @@ final class ChannelsValueAssignerTest extends TestCase
 
     public static function supportVariantDataProvider(): array
     {
-
         return [
             'variant with channels property' => [
                 ProductPropertyMapping::CHANNELS->value,

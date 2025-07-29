@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Product;
@@ -61,7 +68,7 @@ final class ProductValuesAssignerTest extends TestCase
             $this->attributeAssigner,
             $this->relationStorage,
             $this->apiClient,
-            $this->logger
+            $this->logger,
         );
     }
 
@@ -121,7 +128,7 @@ final class ProductValuesAssignerTest extends TestCase
                     ],
                 ]],
                 'pageInfo' => ['hasNextPage' => false],
-            ]
+            ],
         ], $integration, $product);
     }
 
@@ -164,9 +171,9 @@ final class ProductValuesAssignerTest extends TestCase
         $this->productValuesAssigner->assign([
             'sku' => 'white_cap',
             'attributeList' => [
-                'edges' => [[ 'invalid_key' => [] ]],
+                'edges' => [['invalid_key' => []]],
                 'pageInfo' => ['hasNextPage' => false],
-            ]
+            ],
         ], $integration, $product);
     }
 }

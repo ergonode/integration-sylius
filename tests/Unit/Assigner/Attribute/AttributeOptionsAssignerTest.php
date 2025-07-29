@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Attribute;
@@ -47,9 +54,9 @@ final class AttributeOptionsAssignerTest extends TestCase
                             ['node' => ['code' => 'GREEN', 'name' => [['language' => 'en', 'value' => 'Green']]]],
                         ],
                         'pageInfo' => ['endCursor' => 'cursor2', 'hasNextPage' => false],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         $client->expects($this->once())
@@ -99,9 +106,9 @@ final class AttributeOptionsAssignerTest extends TestCase
                             ['node' => ['code' => 'CLEAR', 'name' => [['language' => 'en', 'value' => 'Cleared']]]],
                         ],
                         'pageInfo' => ['endCursor' => 'final', 'hasNextPage' => false],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         $client->expects($this->once())
@@ -144,7 +151,7 @@ final class AttributeOptionsAssignerTest extends TestCase
         $client->expects($this->once())
             ->method('getSelectAttributeOptions')
             ->willReturn([
-                'data' => ['attribute' => []]
+                'data' => ['attribute' => []],
             ]);
 
         $assigner = new AttributeOptionsAssigner($client, $resolver, $context);
@@ -168,7 +175,7 @@ final class AttributeOptionsAssignerTest extends TestCase
         $client->expects($this->once())
             ->method('getSelectAttributeOptions')
             ->willReturn([
-                'data' => ['attribute' => ['notOptionList' => []]]
+                'data' => ['attribute' => ['notOptionList' => []]],
             ]);
 
         $assigner = new AttributeOptionsAssigner($client, $resolver, $context);

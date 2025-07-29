@@ -1,19 +1,25 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\NameValueAssigner;
-use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
-use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
@@ -21,7 +27,9 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 class NameValueAssignerTest extends TestCase
 {
     private TextValueResolverInterface $textValueResolver;
+
     private TranslationAssignerInterface $translationAssigner;
+
     private NameValueAssigner $assigner;
 
     protected function setUp(): void
@@ -31,7 +39,7 @@ class NameValueAssignerTest extends TestCase
 
         $this->assigner = new NameValueAssigner(
             $this->textValueResolver,
-            $this->translationAssigner
+            $this->translationAssigner,
         );
     }
 
@@ -100,7 +108,7 @@ class NameValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::NAME->value
+            ProductPropertyMapping::NAME->value,
         ));
     }
 
@@ -110,7 +118,7 @@ class NameValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $variant,
-            ProductVariantPropertyMapping::NAME->value
+            ProductVariantPropertyMapping::NAME->value,
         ));
     }
 
@@ -120,7 +128,7 @@ class NameValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $resource,
-            'any_property'
+            'any_property',
         ));
     }
 
@@ -130,7 +138,7 @@ class NameValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 }

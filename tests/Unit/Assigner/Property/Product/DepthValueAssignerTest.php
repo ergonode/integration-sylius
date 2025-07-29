@@ -13,21 +13,21 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\DepthValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
-use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Resolver\FloatValueResolverInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 
 final class DepthValueAssignerTest extends TestCase
 {
     private FloatValueResolverInterface $floatValueResolver;
+
     private ProductVariantResolverInterface $productVariantResolver;
+
     private DepthValueAssigner $depthValueAssigner;
 
     protected function setUp(): void
@@ -36,7 +36,7 @@ final class DepthValueAssignerTest extends TestCase
         $this->productVariantResolver = $this->createMock(ProductVariantResolverInterface::class);
         $this->depthValueAssigner = new DepthValueAssigner(
             $this->productVariantResolver,
-            $this->floatValueResolver
+            $this->floatValueResolver,
         );
     }
 
@@ -100,7 +100,7 @@ final class DepthValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectVariantAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(VariantResourceInterface::class);
         $result = $this->depthValueAssigner->supports($resource, $property);
@@ -113,15 +113,16 @@ final class DepthValueAssignerTest extends TestCase
      */
     public function testItSupportsCorrectProductAndProperty(
         string $property,
-        bool $expected
+        bool $expected,
     ): void {
         $resource = $this->createMock(ProductResourceInterface::class);
         $resource
             ->method('getVariants')
-            ->willReturn(new ArrayCollection([
+            ->willReturn(
+                new ArrayCollection([
                 $this->createMock(ProductVariantInterface::class),
-            ])
-        );
+            ]),
+            );
 
         $result = $this->depthValueAssigner->supports($resource, $property);
 

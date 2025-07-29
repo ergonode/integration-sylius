@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -9,7 +16,6 @@ use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Preloader\TaxonPreloaderInterface;
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
@@ -17,6 +23,7 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 class MainTaxonValueAssignerTest extends TestCase
 {
     private TaxonPreloaderInterface $taxonPreloader;
+
     private MainTaxonValueAssigner $assigner;
 
     protected function setUp(): void
@@ -69,7 +76,7 @@ class MainTaxonValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::MAIN_TAXON->value
+            ProductPropertyMapping::MAIN_TAXON->value,
         ));
     }
 
@@ -79,7 +86,7 @@ class MainTaxonValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $resource,
-            ProductPropertyMapping::MAIN_TAXON->value
+            ProductPropertyMapping::MAIN_TAXON->value,
         ));
     }
 
@@ -89,7 +96,7 @@ class MainTaxonValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            'other_property'
+            'other_property',
         ));
     }
 }

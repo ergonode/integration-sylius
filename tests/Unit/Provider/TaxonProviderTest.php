@@ -77,13 +77,15 @@ final class TaxonProviderTest extends TestCase
 
         $repository = $this->createMock(TaxonRepositoryInterface::class);
         $repository->method('findOneBy')->willReturnCallback(function ($criteria) {
-            if ($criteria['code'] === 'mapped-code') {
+            if ('mapped-code' === $criteria['code']) {
                 return null;
             }
-            if ($criteria['code'] === 'cat-2') {
+            if ('cat-2' === $criteria['code']) {
                 $taxon = $this->createMock(TaxonInterface::class);
+
                 return $taxon;
             }
+
             return null;
         });
 

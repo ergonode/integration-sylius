@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -10,18 +17,18 @@ use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Exception\ProductSynchronizationException;
 use BitBag\SyliusErgonodePlugin\Resolver\FloatValueResolverInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 
 final class CurrentStockValueAssignerTest extends TestCase
 {
     private FloatValueResolverInterface $floatValueResolver;
+
     private CurrentStockValueAssigner $assigner;
 
     protected function setUp(): void
@@ -29,7 +36,7 @@ final class CurrentStockValueAssignerTest extends TestCase
         $this->floatValueResolver = $this->createMock(FloatValueResolverInterface::class);
 
         $this->assigner = new CurrentStockValueAssigner(
-            $this->floatValueResolver
+            $this->floatValueResolver,
         );
     }
 
@@ -107,7 +114,7 @@ final class CurrentStockValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $variant,
-            ProductVariantPropertyMapping::CURRENT_STOCK->value
+            ProductVariantPropertyMapping::CURRENT_STOCK->value,
         ));
     }
 
@@ -126,7 +133,7 @@ final class CurrentStockValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::CURRENT_STOCK->value
+            ProductPropertyMapping::CURRENT_STOCK->value,
         ));
     }
 
@@ -145,7 +152,7 @@ final class CurrentStockValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            ProductPropertyMapping::CURRENT_STOCK->value
+            ProductPropertyMapping::CURRENT_STOCK->value,
         ));
     }
 
@@ -155,7 +162,7 @@ final class CurrentStockValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $resource,
-            ProductPropertyMapping::CURRENT_STOCK->value
+            ProductPropertyMapping::CURRENT_STOCK->value,
         ));
     }
 
@@ -165,7 +172,7 @@ final class CurrentStockValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $variant,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 }

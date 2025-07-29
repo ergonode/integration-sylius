@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\PriceValueAssigner;
-use BitBag\SyliusErgonodePlugin\Converter\MoneyConverter;
 use BitBag\SyliusErgonodePlugin\Converter\MoneyConverterInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
@@ -19,9 +25,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
-use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
@@ -29,10 +33,15 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 class PriceValueAssignerTest extends TestCase
 {
     private ProductVariantResolverInterface $productVariantResolver;
+
     private ChannelRepositoryInterface $channelRepository;
+
     private FactoryInterface $channelPricingFactory;
+
     private MoneyConverterInterface $moneyConverter;
+
     private LoggerInterface $logger;
+
     private PriceValueAssigner $assigner;
 
     private ProductResourceInterface $resource;
@@ -51,7 +60,7 @@ class PriceValueAssignerTest extends TestCase
             $this->channelRepository,
             $this->channelPricingFactory,
             $this->moneyConverter,
-            $this->logger
+            $this->logger,
         );
     }
 
@@ -195,12 +204,12 @@ class PriceValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $variant,
-            ProductVariantPropertyMapping::PRICE->value
+            ProductVariantPropertyMapping::PRICE->value,
         ));
 
         $this->assertTrue($this->assigner->supports(
             $variant,
-            ProductPropertyMapping::ORIGINAL_PRICE->value
+            ProductPropertyMapping::ORIGINAL_PRICE->value,
         ));
     }
 
@@ -212,7 +221,7 @@ class PriceValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $this->resource,
-            ProductPropertyMapping::PRICE->value
+            ProductPropertyMapping::PRICE->value,
         ));
     }
 
@@ -220,7 +229,7 @@ class PriceValueAssignerTest extends TestCase
     {
         $this->assertFalse($this->assigner->supports(
             $this->resource,
-            ProductPropertyMapping::PRICE->value
+            ProductPropertyMapping::PRICE->value,
         ));
     }
 
@@ -232,7 +241,7 @@ class PriceValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $this->resource,
-            ProductPropertyMapping::PRICE->value
+            ProductPropertyMapping::PRICE->value,
         ));
     }
 }

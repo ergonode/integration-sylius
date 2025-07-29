@@ -73,7 +73,7 @@ final class CategoryTreeLeafsCodesProviderTest extends TestCase
                 'categoryTree' => [
                     'code' => 'mismatched-tree',
                     'categoryTreeLeafList' => [
-                        'edges' => []
+                        'edges' => [],
                     ],
                 ],
             ],

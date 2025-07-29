@@ -1,14 +1,21 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\ShortDescriptionValueAssigner;
-use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
+use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
-use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
+use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
@@ -17,7 +24,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class ShortDescriptionValueAssignerTest extends TestCase
 {
     private TextValueResolverInterface $textValueResolver;
+
     private TranslationAssignerInterface $translationAssigner;
+
     private ShortDescriptionValueAssigner $assigner;
 
     protected function setUp(): void
@@ -27,7 +36,7 @@ class ShortDescriptionValueAssignerTest extends TestCase
 
         $this->assigner = new ShortDescriptionValueAssigner(
             $this->textValueResolver,
-            $this->translationAssigner
+            $this->translationAssigner,
         );
     }
 
@@ -97,7 +106,7 @@ class ShortDescriptionValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::SHORT_DESCRIPTION->value
+            ProductPropertyMapping::SHORT_DESCRIPTION->value,
         ));
     }
 
@@ -107,7 +116,7 @@ class ShortDescriptionValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 
@@ -117,7 +126,7 @@ class ShortDescriptionValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $resource,
-            'any_property'
+            'any_property',
         ));
     }
 }

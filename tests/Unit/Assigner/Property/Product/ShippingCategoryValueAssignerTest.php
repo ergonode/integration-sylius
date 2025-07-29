@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -7,13 +14,11 @@ namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
 use BitBag\SyliusErgonodePlugin\Assigner\Property\Product\ShippingCategoryValueAssigner;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
-use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Preloader\ShippingCategoryPreloaderInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\ProductVariantResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Shipping\Model\ShippingCategoryInterface;
@@ -23,8 +28,11 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\VariantResourceInterface;
 class ShippingCategoryValueAssignerTest extends TestCase
 {
     private ShippingCategoryPreloaderInterface $shippingCategoryPreloader;
+
     private ProductVariantResolverInterface $productVariantResolver;
+
     private LoggerInterface $logger;
+
     private ShippingCategoryValueAssigner $assigner;
 
     private ProductResourceInterface $resource;
@@ -39,7 +47,7 @@ class ShippingCategoryValueAssignerTest extends TestCase
         $this->assigner = new ShippingCategoryValueAssigner(
             $this->shippingCategoryPreloader,
             $this->productVariantResolver,
-            $this->logger
+            $this->logger,
         );
     }
 
@@ -88,7 +96,7 @@ class ShippingCategoryValueAssignerTest extends TestCase
     {
         $this->assertTrue($this->assigner->supports(
             $this->createMock(VariantResourceInterface::class),
-            ProductPropertyMapping::SHIPPING_CATEGORY->value
+            ProductPropertyMapping::SHIPPING_CATEGORY->value,
         ));
     }
 
@@ -99,7 +107,7 @@ class ShippingCategoryValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $this->resource,
-            ProductPropertyMapping::SHIPPING_CATEGORY->value
+            ProductPropertyMapping::SHIPPING_CATEGORY->value,
         ));
     }
 
@@ -112,7 +120,7 @@ class ShippingCategoryValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $this->resource,
-            ProductPropertyMapping::SHIPPING_CATEGORY->value
+            ProductPropertyMapping::SHIPPING_CATEGORY->value,
         ));
     }
 
@@ -120,7 +128,7 @@ class ShippingCategoryValueAssignerTest extends TestCase
     {
         $this->assertFalse($this->assigner->supports(
             $this->createMock(ResourceInterface::class),
-            ProductPropertyMapping::SHIPPING_CATEGORY->value
+            ProductPropertyMapping::SHIPPING_CATEGORY->value,
         ));
     }
 }

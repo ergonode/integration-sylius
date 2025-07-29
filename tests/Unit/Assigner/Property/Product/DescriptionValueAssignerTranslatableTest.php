@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -16,7 +23,9 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 class DescriptionValueAssignerTranslatableTest extends TestCase
 {
     private TextValueResolverInterface $textValueResolver;
+
     private TranslationAssignerInterface $translationAssigner;
+
     private DescriptionValueAssignerTranslatable $assigner;
 
     protected function setUp(): void
@@ -26,7 +35,7 @@ class DescriptionValueAssignerTranslatableTest extends TestCase
 
         $this->assigner = new DescriptionValueAssignerTranslatable(
             $this->textValueResolver,
-            $this->translationAssigner
+            $this->translationAssigner,
         );
     }
 
@@ -66,7 +75,7 @@ class DescriptionValueAssignerTranslatableTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::DESCRIPTION->value
+            ProductPropertyMapping::DESCRIPTION->value,
         ));
     }
 
@@ -76,7 +85,7 @@ class DescriptionValueAssignerTranslatableTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 
@@ -86,7 +95,7 @@ class DescriptionValueAssignerTranslatableTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $resource,
-            'description'
+            'description',
         ));
     }
 }

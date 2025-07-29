@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -17,7 +24,9 @@ use Tests\BitBag\SyliusErgonodePlugin\Unit\ProductResourceInterface;
 class SlugValueAssignerTest extends TestCase
 {
     private TextValueResolverInterface $textValueResolver;
+
     private TranslationAssignerInterface $translationAssigner;
+
     private SlugValueAssigner $assigner;
 
     protected function setUp(): void
@@ -27,7 +36,7 @@ class SlugValueAssignerTest extends TestCase
 
         $this->assigner = new SlugValueAssigner(
             $this->textValueResolver,
-            $this->translationAssigner
+            $this->translationAssigner,
         );
     }
 

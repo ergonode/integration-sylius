@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -18,7 +25,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 final class WeightValueAssignerTest extends TestCase
 {
     private ProductVariantResolverInterface $productVariantResolver;
+
     private FloatValueResolverInterface $floatValueResolver;
+
     private WeightValueAssigner $assigner;
 
     protected function setUp(): void
@@ -28,7 +37,7 @@ final class WeightValueAssignerTest extends TestCase
 
         $this->assigner = new WeightValueAssigner(
             $this->productVariantResolver,
-            $this->floatValueResolver
+            $this->floatValueResolver,
         );
     }
 
@@ -85,7 +94,7 @@ final class WeightValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $variant,
-            ProductVariantPropertyMapping::WEIGHT->value
+            ProductVariantPropertyMapping::WEIGHT->value,
         ));
     }
 
@@ -104,7 +113,7 @@ final class WeightValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::WEIGHT->value
+            ProductPropertyMapping::WEIGHT->value,
         ));
     }
 
@@ -123,7 +132,7 @@ final class WeightValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            ProductPropertyMapping::WEIGHT->value
+            ProductPropertyMapping::WEIGHT->value,
         ));
     }
 
@@ -133,7 +142,7 @@ final class WeightValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $resource,
-            ProductPropertyMapping::WEIGHT->value
+            ProductPropertyMapping::WEIGHT->value,
         ));
     }
 
@@ -143,7 +152,7 @@ final class WeightValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $variant,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 }

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\Property\Product;
@@ -17,7 +24,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class MetaDescriptionValueAssignerTest extends TestCase
 {
     private TextValueResolverInterface $textValueResolver;
+
     private TranslationAssignerInterface $translationAssigner;
+
     private MetaDescriptionValueAssigner $assigner;
 
     protected function setUp(): void
@@ -27,7 +36,7 @@ class MetaDescriptionValueAssignerTest extends TestCase
 
         $this->assigner = new MetaDescriptionValueAssigner(
             $this->textValueResolver,
-            $this->translationAssigner
+            $this->translationAssigner,
         );
     }
 
@@ -96,7 +105,7 @@ class MetaDescriptionValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $product,
-            ProductPropertyMapping::META_DESCRIPTION->value
+            ProductPropertyMapping::META_DESCRIPTION->value,
         ));
     }
 
@@ -106,7 +115,7 @@ class MetaDescriptionValueAssignerTest extends TestCase
 
         $this->assertFalse($this->assigner->supports(
             $product,
-            'invalid_property'
+            'invalid_property',
         ));
     }
 
@@ -116,7 +125,7 @@ class MetaDescriptionValueAssignerTest extends TestCase
 
         $this->assertTrue($this->assigner->supports(
             $resource,
-            'any_property'
+            'any_property',
         ));
     }
 }
