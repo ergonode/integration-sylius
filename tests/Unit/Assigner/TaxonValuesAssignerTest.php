@@ -29,7 +29,7 @@ use Sylius\Component\Core\Model\TaxonInterface;
 
 final class TaxonValuesAssignerTest extends TestCase
 {
-    public function test_assign_invokes_all_resolvers_and_assigners(): void
+    public function testAssignInvokesAllResolversAndAssigners(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $integration->method('getId')->willReturn(123);
@@ -47,7 +47,7 @@ final class TaxonValuesAssignerTest extends TestCase
             ['node' => $attributeNode],
         ]);
         $categoryNode->method('getCode')->willReturn('cat-001');
-        $categoryNode->method('getPageInfo')->willReturn(['hasNextPage' => false, 'endCursor' => "XYZ"]);
+        $categoryNode->method('getPageInfo')->willReturn(['hasNextPage' => false, 'endCursor' => 'XYZ']);
 
         $propertyMapping = $this->createMock(ResourceRelationMappingInterface::class);
         $languageMapping = $this->createMock(ResourceRelationMappingInterface::class);
@@ -94,7 +94,7 @@ final class TaxonValuesAssignerTest extends TestCase
         $assigner->assign($categoryNode, $integration, $taxon);
     }
 
-    public function test_assign_logs_warning_if_mapping_missing(): void
+    public function testAssignLogsWarningIfMappingMissing(): void
     {
         $integration = $this->createConfiguredMock(IntegrationInterface::class, [
             'getId' => 456,
@@ -107,10 +107,10 @@ final class TaxonValuesAssignerTest extends TestCase
                 'typename' => 'TextAttributeValue',
                 'attribute' => ['code' => 'missing_attribute'],
                 'value' => 'irrelevant',
-            ]]
+            ]],
         ]);
 
-        $categoryNode->method('getPageInfo')->willReturn(['hasNextPage' => false, 'endCursor' => "XYZ"]);
+        $categoryNode->method('getPageInfo')->willReturn(['hasNextPage' => false, 'endCursor' => 'XYZ']);
 
         $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
         $resolver->method('resolveForErgonodeValue')->willReturn(null);
@@ -136,7 +136,7 @@ final class TaxonValuesAssignerTest extends TestCase
             $this->createMock(MainLanguageContextInterface::class),
             $this->createMock(CategoryAttributeValueResolverInterface::class),
             $apiClient,
-            $logger
+            $logger,
         );
 
         $assigner->assign($categoryNode, $integration, $taxon);
@@ -152,7 +152,7 @@ final class TaxonValuesAssignerTest extends TestCase
         $taxon = $this->createMock(TaxonInterface::class);
 
         $categoryNode->method('getAttributeListNodes')->willReturn([
-            ['invalid_key' => 'value']
+            ['invalid_key' => 'value'],
         ]);
 
         $assigner = new TaxonValuesAssigner(
@@ -234,15 +234,15 @@ final class TaxonValuesAssignerTest extends TestCase
                     'category' => [
                         'attributeList' => [
                             'edges' => [
-                                ['node' => $secondPageAttributeNode]
+                                ['node' => $secondPageAttributeNode],
                             ],
                             'pageInfo' => [
                                 'hasNextPage' => false,
-                                'endCursor' => "ZYX",
+                                'endCursor' => 'ZYX',
                             ],
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ]);
 
         $assigner = new TaxonValuesAssigner(

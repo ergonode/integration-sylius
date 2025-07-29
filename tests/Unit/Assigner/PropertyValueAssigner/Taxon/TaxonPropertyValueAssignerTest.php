@@ -28,7 +28,7 @@ use Sylius\Resource\Factory\FactoryInterface;
 
 final class TaxonPropertyValueAssignerTest extends TestCase
 {
-    public function test_throws_exception_if_sylius_value_is_null(): void
+    public function testThrowsExceptionIfSyliusValueIsNull(): void
     {
         $this->expectException(SynchronizationException::class);
 
@@ -46,16 +46,16 @@ final class TaxonPropertyValueAssignerTest extends TestCase
             $this->createMock(IntegrationInterface::class),
             $this->createMock(TaxonInterface::class),
             $mapping,
-            []
+            [],
         );
     }
 
-    public function test_assign_description_applies_translation(): void
+    public function testAssignDescriptionAppliesTranslation(): void
     {
         $attributeValue = ['en_US' => 'description'];
 
         $mapping = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
-            'getSyliusValue' => CategoryPropertyMapping::DESCRIPTION->value
+            'getSyliusValue' => CategoryPropertyMapping::DESCRIPTION->value,
         ]);
 
         $translation = $this->createMock(TaxonTranslationInterface::class);
@@ -72,18 +72,18 @@ final class TaxonPropertyValueAssignerTest extends TestCase
             $this->createMock(MainLanguageContextInterface::class),
             $this->createMock(ErgonodeFileDownloaderInterface::class),
             $this->createMock(FactoryInterface::class),
-            $resolver
+            $resolver,
         );
 
         $assigner->assign(
             $this->createMock(IntegrationInterface::class),
             $taxon,
             $mapping,
-            $attributeValue
+            $attributeValue,
         );
     }
 
-    public function test_assign_slug_applies_translation(): void
+    public function testAssignSlugAppliesTranslation(): void
     {
         $attributeValue = ['en_US' => 'slug'];
 
@@ -101,25 +101,25 @@ final class TaxonPropertyValueAssignerTest extends TestCase
             $this->createMock(MainLanguageContextInterface::class),
             $this->createMock(ErgonodeFileDownloaderInterface::class),
             $this->createMock(FactoryInterface::class),
-            $resolver
+            $resolver,
         );
 
         $mapping = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
-            'getSyliusValue' => CategoryPropertyMapping::SLUG->value
+            'getSyliusValue' => CategoryPropertyMapping::SLUG->value,
         ]);
 
         $assigner->assign(
             $this->createMock(IntegrationInterface::class),
             $taxon,
             $mapping,
-            $attributeValue
+            $attributeValue,
         );
     }
 
-    public function test_assign_enabled_reads_code_boolean(): void
+    public function testAssignEnabledReadsCodeBoolean(): void
     {
         $mainLanguage = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
-            'getErgonodeValue' => 'en_US'
+            'getErgonodeValue' => 'en_US',
         ]);
 
         $context = $this->createMock(MainLanguageContextInterface::class);
@@ -129,25 +129,25 @@ final class TaxonPropertyValueAssignerTest extends TestCase
             $context,
             $this->createMock(ErgonodeFileDownloaderInterface::class),
             $this->createMock(FactoryInterface::class),
-            $this->createMock(TextValueResolverInterface::class)
+            $this->createMock(TextValueResolverInterface::class),
         );
 
         $mapping = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
-            'getSyliusValue' => CategoryPropertyMapping::ENABLED->value
+            'getSyliusValue' => CategoryPropertyMapping::ENABLED->value,
         ]);
 
         $assigner->assign(
             $this->createMock(IntegrationInterface::class),
             $this->createMock(TaxonInterface::class),
             $mapping,
-            ['en_US' => ['code' => true]]
+            ['en_US' => ['code' => true]],
         );
     }
 
-    public function test_assign_media_downloads_and_adds_image(): void
+    public function testAssignMediaDownloadsAndAddsImage(): void
     {
         $mainLanguage = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
-            'getSyliusValue' => 'en_US'
+            'getSyliusValue' => 'en_US',
         ]);
 
         $context = $this->createMock(MainLanguageContextInterface::class);
@@ -170,18 +170,18 @@ final class TaxonPropertyValueAssignerTest extends TestCase
             $context,
             $downloader,
             $factory,
-            $this->createMock(TextValueResolverInterface::class)
+            $this->createMock(TextValueResolverInterface::class),
         );
 
         $mapping = $this->createConfiguredMock(ResourceRelationMappingInterface::class, [
-            'getSyliusValue' => CategoryPropertyMapping::MEDIA->value
+            'getSyliusValue' => CategoryPropertyMapping::MEDIA->value,
         ]);
 
         $assigner->assign(
             $this->createMock(IntegrationInterface::class),
             $taxon,
             $mapping,
-            ['en_US' => [['url' => 'http://img']]]
+            ['en_US' => [['url' => 'http://img']]],
         );
     }
 }

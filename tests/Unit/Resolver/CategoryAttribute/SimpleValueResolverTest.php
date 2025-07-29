@@ -69,7 +69,7 @@ final class SimpleValueResolverTest extends TestCase
         $this->assertSame([], $result);
     }
 
-    public function test_supports_expected_attribute_types(): void
+    public function testSupportsExpectedAttributeTypes(): void
     {
         $resolver = new SimpleValueResolver($this->createMock(ResourceRelationMappingResolverInterface::class));
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);

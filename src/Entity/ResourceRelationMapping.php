@@ -23,7 +23,7 @@ class ResourceRelationMapping implements ResourceRelationMappingInterface
 
     private ?string $syliusValue = null;
 
-    private bool $importOnce = false;
+    private bool $importOnce;
 
     private ?IntegrationInterface $integration = null;
 

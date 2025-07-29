@@ -21,7 +21,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class ErgonodeFileDownloaderTest extends TestCase
 {
-    public function test_successful_download_and_write(): void
+    public function testSuccessfulDownloadAndWrite(): void
     {
         $fileInfo = [
             'url' => 'https://cdn.example.com/image.jpg',
@@ -54,7 +54,7 @@ final class ErgonodeFileDownloaderTest extends TestCase
         $downloader->download($fileInfo, $image);
     }
 
-    public function test_throws_exception_on_failed_http_response(): void
+    public function testThrowsExceptionOnRequestFailed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Failed to download file: 404');

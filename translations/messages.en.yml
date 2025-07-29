@@ -68,7 +68,8 @@ bitbag_ergonode:
                 shipping_category: Shipping category
                 width: Width
                 height: Height
-                length: Length
+                depth: Depth
+                weight: Weight
                 current_stock: Current stock
                 tracked: Tracked
                 main_taxon: Main taxon
@@ -89,7 +90,8 @@ bitbag_ergonode:
                 shipping_category: Shipping category
                 width: Width
                 height: Height
-                length: Length
+                depth: Depth
+                weight: Weight
                 current_stock: Current stock
                 tracked: Tracked
                 description: Description

@@ -34,8 +34,8 @@ readonly class ProductPropertyValueAssigner implements ProductPropertyValueAssig
         array $productValue,
     ): void {
         Assert::isInstanceOf($product, ResourceInterface::class);
-        $existingProduct = null !== $product->getId();
-        $skipForExistingProduct = null !== $resourceRelationMapping && $resourceRelationMapping->isImportOnce();
+        $existingProduct = null !== $product->getId();//true
+        $skipForExistingProduct = $resourceRelationMapping?->isImportOnce() ?? false;
         $shouldSkipInPartialSync = $existingProduct && $skipForExistingProduct;
 
         if ($shouldSkipInPartialSync && !$this->synchronizationContext->isFullSynchronization()) {

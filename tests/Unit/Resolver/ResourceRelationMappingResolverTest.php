@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ResourceRelationMappingResolverTest extends TestCase
 {
-    public function test_returns_null_if_storage_not_found(): void
+    public function testReturnsNullIfStorageNotFound(): void
     {
         $registry = $this->createMock(ResourceRelationMappingStorageRegistryInterface::class);
         $integration = $this->createMock(IntegrationInterface::class);
@@ -40,7 +40,7 @@ final class ResourceRelationMappingResolverTest extends TestCase
         $this->assertNull($resolver->resolveForErgonodeValue($integration, 'color', $relationType));
     }
 
-    public function test_resolves_sylius_value(): void
+    public function testResolvesSyliusValue(): void
     {
         $registry = $this->createMock(ResourceRelationMappingStorageRegistryInterface::class);
         $storage = $this->createMock(ResourceRelationMappingStorageInterface::class);

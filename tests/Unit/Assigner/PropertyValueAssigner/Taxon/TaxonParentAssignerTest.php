@@ -18,7 +18,7 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
 final class TaxonParentAssignerTest extends TestCase
 {
-    public function test_assign_sets_parent_when_found(): void
+    public function testAssignSetsParentWhenFound(): void
     {
         $taxonRepository = $this->createMock(TaxonRepositoryInterface::class);
         $childTaxon = $this->createMock(TaxonInterface::class);
@@ -39,7 +39,7 @@ final class TaxonParentAssignerTest extends TestCase
         $assigner->assign($childTaxon, 'parent_code');
     }
 
-    public function test_assign_does_nothing_if_parent_not_found(): void
+    public function testAssignDoesNothingIfParentNotFound(): void
     {
         $taxonRepository = $this->createMock(TaxonRepositoryInterface::class);
         $childTaxon = $this->createMock(TaxonInterface::class);
@@ -58,7 +58,7 @@ final class TaxonParentAssignerTest extends TestCase
         $assigner->assign($childTaxon, 'nonexistent_parent');
     }
 
-    public function test_assign_does_nothing_if_result_is_not_a_taxon(): void
+    public function testAssignDoesNothingIfResultIsNotATaxon(): void
     {
         $taxonRepository = $this->createMock(TaxonRepositoryInterface::class);
         $childTaxon = $this->createMock(TaxonInterface::class);

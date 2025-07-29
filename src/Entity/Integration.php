@@ -190,5 +190,7 @@ class Integration implements IntegrationInterface
         $this->categoryDeletedStreamCursorEnd = null;
         $this->attributeDeletedStreamCursorEnd = null;
         $this->attributeStreamCursorEnd = null;
+        $this->productDeletedStreamCursorEnd = null;
+        $this->productStreamCursorEnd = null;
     }
 }

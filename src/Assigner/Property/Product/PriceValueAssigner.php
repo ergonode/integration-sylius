@@ -13,6 +13,7 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Property\Product;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Property\PropertyValueAssigner;
 use BitBag\SyliusErgonodePlugin\Converter\MoneyConverter;
+use BitBag\SyliusErgonodePlugin\Converter\MoneyConverterInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
 use BitBag\SyliusErgonodePlugin\Enum\ProductPropertyMapping;
 use BitBag\SyliusErgonodePlugin\Enum\ProductVariantPropertyMapping;
@@ -35,7 +36,7 @@ final class PriceValueAssigner extends PropertyValueAssigner
         private readonly ProductVariantResolverInterface $productVariantResolver,
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly FactoryInterface $channelPricingFactory,
-        private readonly  MoneyConverter $moneyConverter,
+        private readonly  MoneyConverterInterface $moneyConverter,
         private readonly LoggerInterface $logger,
     ) {
     }

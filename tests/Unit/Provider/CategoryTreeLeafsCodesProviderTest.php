@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CategoryTreeLeafsCodesProviderTest extends TestCase
 {
-    public function test_provide_returns_category_codes_and_parents(): void
+    public function testProvideReturnsCategoryCodesAndParents(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $integration->method('getCategoryTreeCode')->willReturn('default');
@@ -59,7 +59,7 @@ final class CategoryTreeLeafsCodesProviderTest extends TestCase
         $this->assertSame(['cat-1' => 'parent-1'], $result['parents']);
     }
 
-    public function test_provide_throws_if_category_tree_code_mismatch(): void
+    public function testProvideThrowsIfCategoryTreeCodeMismatch(): void
     {
         $this->expectException(CategorySynchronizationException::class);
         $this->expectExceptionMessage('Invalid category tree found. Expected: `expected-tree`, actual: `mismatched-tree`.');
@@ -73,7 +73,7 @@ final class CategoryTreeLeafsCodesProviderTest extends TestCase
                 'categoryTree' => [
                     'code' => 'mismatched-tree',
                     'categoryTreeLeafList' => [
-                        'edges' => []
+                        'edges' => [],
                     ],
                 ],
             ],

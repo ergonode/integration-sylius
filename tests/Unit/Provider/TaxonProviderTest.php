@@ -23,7 +23,7 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
 final class TaxonProviderTest extends TestCase
 {
-    public function test_provides_existing_taxon_from_mapping(): void
+    public function testProvidesExistingTaxonFromMapping(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $mapping = $this->createMock(ResourceRelationMappingInterface::class);
@@ -47,7 +47,7 @@ final class TaxonProviderTest extends TestCase
         $this->assertSame($resolvedTaxon, $result);
     }
 
-    public function test_creates_new_taxon_when_mapping_is_null(): void
+    public function testCreatesNewTaxonWhenMappingIsNull(): void
     {
         $integration = $this->createMock(IntegrationInterface::class);
         $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
@@ -77,13 +77,15 @@ final class TaxonProviderTest extends TestCase
 
         $repository = $this->createMock(TaxonRepositoryInterface::class);
         $repository->method('findOneBy')->willReturnCallback(function ($criteria) {
-            if ($criteria['code'] === 'mapped-code') {
+            if ('mapped-code' === $criteria['code']) {
                 return null;
             }
-            if ($criteria['code'] === 'cat-2') {
+            if ('cat-2' === $criteria['code']) {
                 $taxon = $this->createMock(TaxonInterface::class);
+
                 return $taxon;
             }
+
             return null;
         });
 

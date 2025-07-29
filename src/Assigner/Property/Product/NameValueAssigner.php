@@ -26,7 +26,7 @@ final class NameValueAssigner extends TranslatableTextValueAssigner
         array $values,
         ?ResourceRelationMappingInterface $mapping,
     ): void {
-        $this->assignValue($resource, $values, function (ProductInterface $resource, string $value, string $locale) {
+        $this->assignValue($resource, $values, function (ProductInterface|ProductVariantInterface $resource, string $value, string $locale) {
             $translation = $resource->getTranslation($locale);
 
             if ($locale !== $translation->getLocale()) {
@@ -39,7 +39,7 @@ final class NameValueAssigner extends TranslatableTextValueAssigner
     public function supports(ResourceInterface $resource, string $property): bool
     {
         if (!$resource instanceof ProductInterface && !$resource instanceof ProductVariantInterface) {
-            return true;
+            return false;
         }
 
         return ProductPropertyMapping::NAME === ProductPropertyMapping::tryFrom($property) ||

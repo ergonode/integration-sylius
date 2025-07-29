@@ -44,7 +44,7 @@ final class TaxCategoryValueAssigner extends PropertyValueAssigner
             return;
         }
 
-        $this->logger->warning(sprintf('Tax category with code "%s" not found.', $value));
+        $this->logger->warning(sprintf('Tax category with code "%s" not found.', $value[0]));
     }
 
     public function supports(ResourceInterface $resource, string $property): bool

@@ -14,6 +14,7 @@ namespace BitBag\SyliusErgonodePlugin\Assigner\Property;
 use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Resolver\Value\TextValueResolverInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 abstract class TranslatableTextValueAssigner extends PropertyValueAssigner
@@ -26,7 +27,7 @@ abstract class TranslatableTextValueAssigner extends PropertyValueAssigner
 
     protected function assignValue(ResourceInterface $resource, array $values, callable $callback): void
     {
-        if (!$resource instanceof ProductInterface) {
+        if (!$resource instanceof ProductInterface && !$resource instanceof ProductVariantInterface) {
             return;
         }
 

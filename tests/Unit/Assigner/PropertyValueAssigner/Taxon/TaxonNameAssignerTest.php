@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Tests\BitBag\SyliusErgonodePlugin\Unit\Assigner\PropertyValueAssigner\Taxon;
 
 use BitBag\SyliusErgonodePlugin\Assigner\Taxon\TaxonNameAssigner;
-use BitBag\SyliusErgonodePlugin\Assigner\Translation\TaxonTranslationAssigner;
 use BitBag\SyliusErgonodePlugin\Assigner\Translation\TranslationAssignerInterface;
 use BitBag\SyliusErgonodePlugin\Entity\IntegrationInterface;
 use BitBag\SyliusErgonodePlugin\Entity\ResourceRelationMappingInterface;
@@ -122,7 +121,7 @@ final class TaxonNameAssignerTest extends TestCase
         $assigner->assign($integration, $taxon, $categoryNode);
     }
 
-    public function test_does_nothing_if_no_names(): void
+    public function testDoesNothingIfNoNames(): void
     {
         $resolver = $this->createMock(ResourceRelationMappingResolverInterface::class);
         $integration = $this->createMock(IntegrationInterface::class);

@@ -55,7 +55,7 @@ final class ProductVariantOptionAssigner implements ProductVariantOptionAssigner
             }
             $value = sprintf('%s_%s', $productOption->getCode(), $code);
             $optionValue = $productVariant->getOptionValues()->findFirst(function (int $key, ProductOptionValueInterface $optionValue) use ($value) {
-                return $optionValue->getValue() === $value;
+                return $optionValue->getCode() === $value;
             }) ?? $this->createOptionValue($productOption);
 
             if (null === $optionValue->getId()) {
