@@ -71,7 +71,7 @@ readonly class AttributePropertyValueAssigner implements AttributePropertyValueA
         $attribute->setPosition($this->getInt($attributeValue));
     }
 
-    private function getInt(mixed $value): int
+    protected function getInt(mixed $value): int
     {
         if (!(is_string($value) && ctype_digit($value))) {
             throw new AttributeSynchronizationException(

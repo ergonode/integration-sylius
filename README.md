@@ -1,133 +1,124 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://media.sylius.com/sylius-logo-800-dark.png">
-          <source media="(prefers-color-scheme: light)" srcset="https://media.sylius.com/sylius-logo-800.png">
-          <img alt="Sylius Logo." src="https://media.sylius.com/sylius-logo-800.png">
-        </picture>
-    </a>
-</p>
 
-<h1 align="center">Plugin Skeleton</h1>
+# BitBag SyliusUserComPlugin
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+----
 
-## Documentation
+We want to impact many unique eCommerce projects and build our brand recognition worldwide, so we are heavily involved in creating open-source solutions, especially for Sylius. We have already created over **35 extensions, which have been downloaded almost 2 million times.**
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+You can find more information about our eCommerce services and technologies on our website: https://bitbag.io/. We have also created a unique service dedicated to creating plugins: https://bitbag.io/services/sylius-plugin-development.
 
-## Quickstart Installation
+Do you like our work? Would you like to join us? Check out the **“Career” tab:** https://bitbag.io/pl/kariera.
 
-Run `composer create-project sylius/plugin-skeleton ProjectName`.
+# About Us
 
-### Traditional
+---
 
-1. From the plugin skeleton root directory, run the following commands:
+BitBag is a software house that implements tailor-made eCommerce platforms with the entire infrastructure—from creating eCommerce platforms to implementing PIM and CMS systems to developing custom eCommerce applications, specialist B2B solutions, and migrations from other platforms.
 
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
+We actively participate in Sylius's development. We have already completed **over 150 projects**, cooperating with clients worldwide, including smaller enterprises and large international companies. We have completed projects for such important brands as **Mytheresa, Foodspring, Planeta Huerto (Carrefour Group), Albeco, Mollie, and ArtNight.**
 
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
-    # Optionally load data fixtures
-    $ (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load --no-interaction)
-    ```
+We have a 70-person team of experts: business analysts and consultants, eCommerce developers, project managers, and QA testers.
 
-To be able to set up a plugin's database, remember to configure your database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+**Our services:**
+* B2B and B2C eCommerce platform implementations
+* Multi-vendor marketplace platform implementations
+* eCommerce migrations
+* Sylius plugin development
+* Sylius consulting
+* Project maintenance and long-term support
+* PIM and CMS implementations
 
-2. Run your local server:
+**Some numbers from BitBag regarding Sylius:**
+* 70 experts on board
+* +150 projects delivered on top of Sylius
+* 30 countries of BitBag’s customers
+* 7 years in the Sylius ecosystem
+* +35 plugins created for Sylius
 
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --dir=tests/Application/public --daemon
-      ```
+---
+[![](https://bitbag.io/wp-content/uploads/2024/09/badges-sylius.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_productbandle)
 
-3. Open your browser and navigate to `https://localhost:8000`.
+---
 
-### Docker
 
-1. Execute `make init` to initialize the container and install the dependencies.
 
-2. Execute `make database-init` to create the database and run migrations.
+## Table of Content
 
-3. (Optional) Execute `make load-fixtures` to load the fixtures.
+***
 
-4. Your app is available at `http://localhost`.
+* [Overview](#overview)
+* [Important documents](#important-documents)
+* [Functionalities](#functionalities)
+* [Demo](#demo)
+* [License](#license)
+* [Contact](#contact)
+* [Community](#community)
 
-## Usage
+# Overview
 
-### Running plugin tests
+----
+The **SyliusErgonodePlugin** is a robust integration layer that connects any [Sylius](https://sylius.com) e-commerce platform with an [Ergonode](https://ergonode.com). It allows businesses to manage, enrich, and structure all product data centrally within Ergonode and synchronize it directly to their Sylius storefront in a clean, efficient, and scalable way.
 
-  - PHPUnit
+This plugin serves as a communication bridge between your product data and your storefront experience — reducing redundancy, improving accuracy, and enabling faster go-to-market for product changes across multiple sales channels.
+# Important documents
 
-    ```bash
-    vendor/bin/phpunit
-    ```
+---
 
-  - PHPSpec
+- [Installation](doc/installation.md)
+- [Adjustments](doc/adjustments.md)
 
-    ```bash
-    vendor/bin/phpspec run
-    ```
+# Functionalities
 
-  - Behat (non-JS scenarios)
+- **Two Sync Modes**: Choose between incremental `Sync` or full `Full sync` for flexible import workflows.
+- **GraphQL Integration**: Leverages Ergonode’s GraphQL API to fetch products, categories, attributes, and variants in batches.
+- **Resource Relation Mapping**: Map flexible Ergonode attributes to structured Sylius resource properties like product name, slug, price, stock, etc.
+- **Localized Product Content**: Supports multi-language setups with proper translation of product names, descriptions, slugs, and more.
+- **Customizable Sync Pipelines**: Decoupled services allow easy extension or customization of sync logic per business needs.
+- **Integration Security**: Authenticated access to Ergonode API using secure API keys scoped to product segments.
 
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
-    ```
 
-  - Behat (JS scenarios)
- 
-    1. [Install Symfony CLI command](https://symfony.com/download).
- 
-    2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-      ```
-    
-    4. Run Behat:
-    
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript,@mink:chromedriver"
-      ```
-    
-  - Static Analysis
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
+---
 
-  - Coding Standard
-  
-    ```bash
-    vendor/bin/ecs check
-    ```
+If you need some help with Sylius development, don't be hesitated to contact us directly. You can fill the form on [this site](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_productbundle) or send us an e-mail at hello@bitbag.io!
 
-### Opening Sylius with your plugin
+---
 
-- Using `test` environment:
+# Demo
 
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test bin/console server:run -d public)
-    ```
-    
-- Using `dev` environment:
+---
+We created a demo app with some useful use-cases of plugins! Visit http://demo.sylius.com/ to take a look at it.
 
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
-    ```
+**If you need an overview of Sylius' capabilities, schedule a consultation with our expert.**
+
+[![](https://bitbag.io/wp-content/uploads/2020/10/button_free_consulatation-1.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_productbundle)
+
+
+# Additional resources for developers
+
+---
+To learn more about our contribution workflow and more, we encourage you to use the following resources:
+* [Sylius Documentation](https://docs.sylius.com/en/latest/)
+* [Sylius Contribution Guide](https://docs.sylius.com/en/latest/contributing/)
+* [Sylius Online Course](https://sylius.com/online-course/)
+* [Sylius Product Bundle Plugin Blog](https://bitbag.io/blog/product-bundling-sylius)
+
+# License
+
+---
+
+This plugin's source code is completely free and released under the terms of the MIT license.
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen.)
+
+# Contact
+
+---
+This open-source plugin was developed to help the Sylius community. If you have any additional questions, would like help with installing or configuring the plugin, or need any assistance with your Sylius project - let us know! **Contact us** or send us an **e-mail to hello@bitbag.io** with your question(s).
+
+# Community
+
+---- 
+
+For online communication, we invite you to chat with us & other users on **[Sylius Slack](https://sylius-devs.slack.com/).**
+
+[![](https://bitbag.io/wp-content/uploads/2024/09/badges-partners.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_productbundle)

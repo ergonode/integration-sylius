@@ -1,6 +1,6 @@
 sylius_fixtures:
     suites:
-        ergonode:
+        bitbag_sylius_ergonode_plugin:
             listeners:
                 logger: ~
             fixtures:
@@ -34,40 +34,40 @@ sylius_fixtures:
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'min_length'
-                                ergonode_value: 'min-length'
+                                ergonode_value: 'length_min'
 
                             -   
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'max_length'
-                                ergonode_value: 'max-length'
+                                ergonode_value: 'length_max'
 
                             -   
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'datetime_format'
-                                ergonode_value: 'datetime-format'
+                                ergonode_value: 'format_datetime'
 
                             -   
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'date_format'
-                                ergonode_value: 'date-format'
+                                ergonode_value: 'format_date'
 
                             -   
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'min_entries'
-                                ergonode_value: 'min-entries'
+                                ergonode_value: 'entries_min'
 
                             -   
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'max_entries'
-                                ergonode_value: 'max-entries'
+                                ergonode_value: 'entries_max'
 
                             -   
                                 type: 'attribute_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'multiple'
-                                ergonode_value: 'multiple'
+                                ergonode_value: 'many'

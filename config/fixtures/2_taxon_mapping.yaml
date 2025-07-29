@@ -1,6 +1,6 @@
 sylius_fixtures:
     suites:
-        ergonode:
+        bitbag_sylius_ergonode_plugin:
             listeners:
                 logger: ~
             fixtures:
@@ -12,25 +12,25 @@ sylius_fixtures:
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'MENU_CATEGORY'
-                                ergonode_value: 'menu-category'
+                                ergonode_value: 'menu_category'
                                 
                             -   
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 't_shirts'
-                                ergonode_value: 't-shirts'
+                                ergonode_value: 't_shirts'
 
                             -   
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'mens_t_shirts'
-                                ergonode_value: 'mens-t-shirts'
+                                ergonode_value: 'mens_t_shirts'
 
                             -   
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'womens_t_shirts'
-                                ergonode_value: 'womens-t-shirts'
+                                ergonode_value: 'womens_t_shirts'
 
                             -   
                                 type: 'category_external_identifier'
@@ -42,13 +42,13 @@ sylius_fixtures:
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'simple_caps'
-                                ergonode_value: 'simple-caps'
+                                ergonode_value: 'simple_caps'
 
                             -   
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'caps_with_pompons'
-                                ergonode_value: 'caps-with-pompons'
+                                ergonode_value: 'caps_with_pompons'
 
                             -   
                                 type: 'category_external_identifier'
@@ -66,10 +66,10 @@ sylius_fixtures:
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'mens_jeans'
-                                ergonode_value: 'mens-jeans'
+                                ergonode_value: 'mens_jeans'
                             
                             -   
                                 type: 'category_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'womens_jeans'
-                                ergonode_value: 'womens-jeans'
+                                ergonode_value: 'womens_jeans'

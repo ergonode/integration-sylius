@@ -1,6 +1,6 @@
 sylius_fixtures:
     suites:
-        ergonode:
+        bitbag_sylius_ergonode_plugin:
             listeners:
                 logger: ~
             fixtures:
@@ -24,4 +24,4 @@ sylius_fixtures:
                                 type: 'locale_external_identifier'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'de_DE'
-                                ergonode_value: '_SY'
+                                ergonode_value: 'de_SY'

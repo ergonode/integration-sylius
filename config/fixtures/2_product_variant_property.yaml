@@ -1,6 +1,6 @@
 sylius_fixtures:
     suites:
-        ergonode:
+        bitbag_sylius_ergonode_plugin:
             listeners:
                 logger: ~
             fixtures:
@@ -18,7 +18,7 @@ sylius_fixtures:
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'shipping_required'
-                                ergonode_value: 'shipping-required'
+                                ergonode_value: 'shipping_required'
 
                             -   
                                 type: 'variant_property'
@@ -31,27 +31,27 @@ sylius_fixtures:
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'original_price'
-                                ergonode_value: 'original-price'
+                                ergonode_value: 'original_price'
                                 channel_code: 'FASHION_WEB'
 
                             -   
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'minimum_price'
-                                ergonode_value: 'minimum-price'
+                                ergonode_value: 'minimum_price'
                                 channel_code: 'FASHION_WEB'
 
                             -   
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'tax_category'
-                                ergonode_value: 'tax-category'
+                                ergonode_value: 'tax_category'
 
                             -   
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'shipping_category'
-                                ergonode_value: 'shipping-category'
+                                ergonode_value: 'shipping_category'
 
                             -   
                                 type: 'variant_property'
@@ -68,14 +68,20 @@ sylius_fixtures:
                             -   
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
-                                sylius_value: 'length'
-                                ergonode_value: 'length'
-
+                                sylius_value: 'depth'
+                                ergonode_value: 'depth'
+                            
+                            -
+                                type: 'variant_property'
+                                integration: 'ergonode_integration'
+                                sylius_value: 'weight'
+                                ergonode_value: 'weight'
+                                
                             -   
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'current_stock'
-                                ergonode_value: 'current-stock'
+                                ergonode_value: 'current_stock'
 
                             -   
                                 type: 'variant_property'
@@ -93,7 +99,7 @@ sylius_fixtures:
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'main_taxon'
-                                ergonode_value: 'main-taxon'
+                                ergonode_value: 'main_taxon'
 
                             -   
                                 type: 'variant_property'
@@ -111,4 +117,4 @@ sylius_fixtures:
                                 type: 'variant_property'
                                 integration: 'ergonode_integration'
                                 sylius_value: 'variant_selection_method'
-                                ergonode_value: 'variant-selection-method'
+                                ergonode_value: 'variant_selection_method'

@@ -1,6 +1,6 @@
 sylius_fixtures:
     suites:
-        ergonode:
+        bitbag_sylius_ergonode_plugin:
             listeners:
                 logger: ~
             fixtures:

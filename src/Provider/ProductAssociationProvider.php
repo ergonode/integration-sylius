@@ -34,7 +34,6 @@ final class ProductAssociationProvider implements ProductAssociationProviderInte
     ): ProductAssociationInterface {
         $association = $this->findFirstAssociationInProduct(
             $product,
-            $associatedProduct,
             $associationTypeCode,
         );
         if (null === $association) {
@@ -61,16 +60,13 @@ final class ProductAssociationProvider implements ProductAssociationProviderInte
         return $productAssociation;
     }
 
-    private function findFirstAssociationInProduct(ProductInterface $product, ProductInterface $associatedProduct, string $associationTypeCode): ?ProductAssociationInterface
+    private function findFirstAssociationInProduct(ProductInterface $product, string $associationTypeCode): ?ProductAssociationInterface
     {
         return $product->getAssociations()->findFirst(
             function (int|string $key, ProductAssociationInterface $productAssociation) use (
-                $associatedProduct,
                 $associationTypeCode
             ): bool {
-                return $associationTypeCode === $productAssociation->getType()?->getCode() && $productAssociation->hasAssociatedProduct(
-                    $associatedProduct,
-                );
+                return $associationTypeCode === $productAssociation->getType()?->getCode();
             },
         );
     }
